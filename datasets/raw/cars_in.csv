@@ -1,0 +1,50 @@
+Brand,Model,Body_Type,Price_Min_Lakh,Price_Max_Lakh,Price_Avg_Lakh,Price_INR,Mileage_Min_kmpl,Mileage_Max_kmpl,Mileage_Avg_kmpl,Engine_Min_CC,Engine_Max_CC,Engine_Avg_CC,Safety_Rating,Safety_Rating_Available,NCAP_Body,Fuel_Type_Primary,Fuel_Type_Full,Transmission_Primary,Transmission_Full,Seating_Min,Seating_Max
+Maruti,Alto K10,Hatchback,3.99,5.96,4.975,497500.0,24.39,33.85,29.12,998.0,998.0,998.0,2.0,True,Global NCAP,Petrol,Petrol & CNG,Manual,Manual & Automatic,5.0,5.0
+Maruti,S-Presso,Hatchback,4.26,6.11,5.1850000000000005,518500.0,24.44,32.73,28.585,998.0,998.0,998.0,0.0,True,Global NCAP,Petrol,Petrol & CNG,Manual,Manual & Automatic,4.0,5.0
+Renault,Kwid,Hatchback,4.7,6.45,5.575,557500.0,21.7,22.0,21.85,999.0,999.0,999.0,1.0,True,Global NCAP,Petrol,Petrol,Manual,Manual & Automatic,5.0,5.0
+Maruti,Ignis,Hatchback,5.84,8.3,7.07,707000.0,20.89,20.89,20.89,1197.0,1197.0,1197.0,5.0,False,,Petrol,Petrol,Manual,Manual & Automatic,5.0,5.0
+Maruti,Eeco,Van,5.32,6.58,5.95,595000.0,19.6,19.6,19.6,1197.0,1197.0,1197.0,5.0,False,,Petrol,Petrol & CNG,Manual,Manual,5.0,7.0
+Renault,Kiger,SUV,6.0,11.23,8.615,861500.0,19.6,19.6,19.6,1489.5,1489.5,1489.5,5.0,False,,Petrol,Petrol,Manual,Manual,5.0,5.0
+Maruti,Celerio,Hatchback,5.36,7.1,6.23,623000.0,19.6,19.6,19.6,1489.5,1489.5,1489.5,5.0,False,,Petrol,Petrol,Manual,Manual,5.0,5.0
+Citroen,C3,Hatchback,6.16,9.08,7.62,762000.0,19.3,19.3,19.3,1198.0,1199.0,1198.5,5.0,False,,Petrol,Petrol,Manual,Manual,5.0,5.0
+Renault,Triber,MPV,6.0,8.98,7.49,749000.0,18.2,19.0,18.6,999.0,999.0,999.0,4.0,True,Global NCAP,Petrol,Petrol,Manual,Manual & Automatic,7.0,7.0
+Maruti,Brezza,SUV,8.34,14.14,11.24,1124000.0,19.05,25.51,22.28,1462.0,1462.0,1462.0,5.0,False,,Petrol,Petrol & CNG,Manual,Manual & Automatic,5.0,5.0
+Tata,Nexon,SUV,8.1,15.5,11.8,1180000.0,17.01,24.08,20.545,1199.0,1497.0,1348.0,5.0,True,Global NCAP,Petrol,Petrol & Diesel,Manual,Manual & Automatic,5.0,5.0
+Force Motors,Trax Cruiser,Van,13.83,15.23,14.530000000000001,1453000.0,19.6,19.6,19.6,2596.0,2596.0,2596.0,5.0,False,,Diesel,Diesel,Manual,Manual,10.0,13.0
+Tata,Tigor EV,Sedan,12.49,13.75,13.120000000000001,1312000.0,19.6,19.6,19.6,1489.5,1489.5,1489.5,4.0,True,Global NCAP,Electric,Electric,Automatic,Automatic,5.0,5.0
+Mahindra,Marazzo,MPV,14.39,16.8,15.595,1559500.0,19.6,19.6,19.6,1497.0,1497.0,1497.0,4.0,True,Global NCAP,Diesel,Diesel,Manual,Manual,7.0,8.0
+Citroen,eC3,Hatchback,11.61,13.5,12.555,1255500.0,19.6,19.6,19.6,1489.5,1489.5,1489.5,5.0,False,,Electric,Electric,Automatic,Automatic,5.0,5.0
+Hyundai,Venue N Line,SUV,12.08,13.9,12.99,1299000.0,19.6,19.6,19.6,998.0,998.0,998.0,5.0,False,,Petrol,Petrol,Manual,Manual & Automatic,5.0,5.0
+Volkswagen,Taigun,SUV,11.7,21.1,16.4,1640000.0,18.15,19.87,19.009999999999998,999.0,1498.0,1248.5,5.0,True,Global NCAP,Petrol,Petrol,Manual,Manual & Automatic,5.0,5.0
+Maruti,XL6,MPV,11.56,14.82,13.190000000000001,1319000.0,19.6,19.6,19.6,1489.5,1489.5,1489.5,5.0,False,,Petrol,Petrol,Manual,Manual,5.0,5.0
+Honda,City,Sedan,11.74,16.22,13.98,1398000.0,19.6,19.6,19.6,1489.5,1489.5,1489.5,5.0,False,,Petrol,Petrol,Manual,Manual,5.0,5.0
+Skoda,Slavia,Sedan,11.53,19.12,15.325,1532500.0,18.73,20.32,19.525,999.0,1498.0,1248.5,5.0,True,Global NCAP,Petrol,Petrol,Manual,Manual & Automatic,5.0,5.0
+Tata,Nexon EV,SUV,14.74,19.94,17.34,1734000.0,19.6,19.6,19.6,1489.5,1489.5,1489.5,5.0,False,,Electric,Electric,Automatic,Automatic,5.0,5.0
+Maruti,Jimny,SUV,10.74,15.05,12.895,1289500.0,16.39,16.94,16.665,1462.0,1462.0,1462.0,5.0,False,,Petrol,Petrol,Manual,Manual & Automatic,4.0,4.0
+Skoda,Kushaq,SUV,11.89,20.49,16.189999999999998,1619000.0,19.6,19.6,19.6,1489.5,1489.5,1489.5,5.0,False,,Petrol,Petrol,Manual,Manual,5.0,5.0
+Kia,Carens,MPV,10.45,19.45,14.95,1495000.0,19.6,19.6,19.6,1482.0,1497.0,1489.5,3.0,True,Global NCAP,Petrol,Petrol & Diesel,Manual,"Manual, Clutchless Manual (IMT) & Automatic",6.0,7.0
+Volkswagen,Virtus,Sedan,11.56,19.41,15.485,1548500.0,18.45,20.66,19.555,999.0,1498.0,1248.5,5.0,True,Global NCAP,Petrol,Petrol,Manual,Manual & Automatic,5.0,5.0
+Honda,Elevate,SUV,11.68,16.5,14.09,1409000.0,15.31,16.92,16.115000000000002,1498.0,1498.0,1498.0,5.0,False,,Petrol,Petrol,Manual,Manual & Automatic,5.0,5.0
+Toyota,Rumion,MPV,10.29,13.68,11.985,1198500.0,20.11,26.11,23.11,1462.0,1462.0,1462.0,5.0,False,,Petrol,Petrol & CNG,Manual,Manual & Automatic,7.0,7.0
+Hyundai,Verna,Sedan,11.0,17.42,14.21,1421000.0,18.6,20.6,19.6,1482.0,1497.0,1489.5,5.0,True,Global NCAP,Petrol,Petrol,Manual,Manual & Automatic,5.0,5.0
+MG,Hector,SUV,15.0,22.2,18.6,1860000.0,19.6,19.6,19.6,1451.0,1956.0,1703.5,5.0,False,,Petrol,Petrol & Diesel,Manual,Manual & Automatic,5.0,5.0
+Toyota,Urban Cruiser Hyryder,SUV,11.14,20.19,15.665000000000001,1566500.0,20.58,27.97,24.275,1462.0,1490.0,1476.0,5.0,False,,Hybrid,Hybrid & CNG,Manual,Manual & Automatic,5.0,5.0
+Kia,Seltos,SUV,10.9,20.3,15.600000000000001,1560000.0,19.6,19.6,19.6,1489.5,1489.5,1489.5,5.0,False,,Petrol,Petrol,Manual,Manual,5.0,5.0
+Mahindra,Scorpio,SUV,13.59,17.35,15.47,1547000.0,19.6,19.6,19.6,2184.0,2184.0,2184.0,5.0,False,,Diesel,Diesel,Manual,Manual,7.0,9.0
+Maruti,Grand Vitara,SUV,10.7,19.92,15.31,1531000.0,20.58,27.97,24.275,1462.0,1490.0,1476.0,5.0,False,,Hybrid,Hybrid & CNG,Manual,Manual & Automatic,5.0,5.0
+Mahindra,Thar,SUV,11.25,17.2,14.225,1422500.0,19.6,19.6,19.6,1489.5,1489.5,1489.5,5.0,False,,Petrol,Petrol,Manual,Manual,5.0,5.0
+Mahindra,XUV700,SUV,13.99,26.99,20.49,2049000.0,19.6,19.6,19.6,1997.0,2184.0,2090.5,5.0,True,Global NCAP,Petrol,Petrol & Diesel,Manual,Manual & Automatic,5.0,7.0
+Mahindra,Scorpio N,SUV,13.6,24.54,19.07,1907000.0,19.6,19.6,19.6,1997.0,2184.0,2090.5,5.0,True,Global NCAP,Petrol,Petrol & Diesel,Manual,Manual & Automatic,6.0,7.0
+Tata,Punch EV,SUV,10.99,15.49,13.24,1324000.0,19.6,19.6,19.6,1489.5,1489.5,1489.5,5.0,False,,Electric,Electric,Automatic,Automatic,5.0,5.0
+Hyundai,Creta,SUV,11.0,20.15,15.575,1557500.0,19.6,19.6,19.6,1482.0,1497.0,1489.5,5.0,False,,Petrol,Petrol & Diesel,Manual,Manual & Automatic,5.0,5.0
+Honda,City Hybrid eHEV,Sedan,18.93,20.43,19.68,1968000.0,27.1,27.1,27.1,1498.0,1498.0,1498.0,5.0,False,,Hybrid,Hybrid,Automatic,Automatic,5.0,5.0
+Force Motors,Gurkha,SUV,15.1,15.1,15.1,1510000.0,19.6,19.6,19.6,2596.0,2596.0,2596.0,5.0,False,,Diesel,Diesel,Manual,Manual,4.0,4.0
+Isuzu,D-Max,Pickup,19.5,27.0,23.25,2325000.0,19.6,19.6,19.6,1898.0,1898.0,1898.0,5.0,True,ASEAN NCAP,Diesel,Diesel,Manual,Manual & Automatic,5.0,5.0
+Hyundai,Alcazar,SUV,16.77,21.28,19.025,1902500.0,18.1,20.4,19.25,1482.0,1493.0,1487.5,5.0,False,,Petrol,Petrol & Diesel,Manual,Manual & Automatic,6.0,7.0
+MG,Hector Plus,SUV,17.8,22.98,20.39,2039000.0,19.6,19.6,19.6,1451.0,1956.0,1703.5,5.0,False,,Petrol,Petrol & Diesel,Manual,Manual & Automatic,6.0,7.0
+Jeep,Compass,SUV,20.69,32.27,26.480000000000004,2648000.0,16.2,17.1,16.65,1956.0,1956.0,1956.0,5.0,True,Euro NCAP,Diesel,Diesel,Manual,Manual & Automatic,5.0,5.0
+Mahindra,XUV400,SUV,15.49,19.19,17.34,1734000.0,19.6,19.6,19.6,1489.5,1489.5,1489.5,5.0,False,,Electric,Electric,Automatic,Automatic,5.0,5.0
+Toyota,Innova Hycross,MPV,19.77,30.68,25.225,2522500.0,16.13,23.24,19.685,1987.0,1987.0,1987.0,5.0,False,,Petrol,Petrol & Hybrid,Automatic,Automatic,7.0,8.0
+Tata,Safari,SUV,16.19,27.34,21.765,2176500.0,14.5,16.3,15.4,1956.0,1956.0,1956.0,5.0,True,Bharat NCAP,Diesel,Diesel,Manual,Manual & Automatic,6.0,7.0
+Toyota,Innova Crysta,MPV,18.65,19.99,19.32,1932000.0,19.6,19.6,19.6,2393.0,2393.0,2393.0,5.0,True,ASEAN NCAP,Diesel,Diesel,Manual,Manual,7.0,8.0
+Tata,Harrier,SUV,15.49,26.44,20.965,2096500.0,14.6,16.8,15.7,1956.0,1956.0,1956.0,5.0,True,Bharat NCAP,Diesel,Diesel,Manual,Manual & Automatic,5.0,5.0
