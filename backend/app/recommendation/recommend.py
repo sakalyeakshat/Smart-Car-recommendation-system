@@ -1,15 +1,7 @@
-"""
-recommend.py
-
-Core recommendation engine for DriveMatch AI.
-"""
-
 import pandas as pd
-from pathlib import Path
-
 
 # -----------------------------
-# WEIGHTS (no change)
+# SCORING WEIGHTS
 # -----------------------------
 SCORE_WEIGHTS = {
     'budget': 0.30,
@@ -23,47 +15,41 @@ SCORE_WEIGHTS = {
 
 
 # -----------------------------
-# DATA LOADING (FIXED FOR DOCKER)
+# LOAD DATA (FROM CSV)
 # -----------------------------
-def load_car_data(csv_file_path=None):
-    """
-    Loads dataset safely in both local + Docker environments.
-    """
-
-    # If path is given, use it
-    if csv_file_path is not None:
-        return pd.read_csv(csv_file_path)
-
-    # Docker-safe fallback path
-    base_path = Path("/app")  # WORKDIR in Docker
-    csv_path = base_path / "datasets" / "raw" / "cars_in.csv"
-
-    return pd.read_csv(csv_path)
+def load_car_data(file_path):
+    return pd.read_csv(file_path)
 
 
 # -----------------------------
-# SCORING FUNCTIONS (UNCHANGED)
+# SCORING FUNCTIONS
 # -----------------------------
-def calculate_budget_score(user_budget_lakh, car_min_price, car_max_price):
-    if pd.isna(car_min_price) or pd.isna(car_max_price):
+def calculate_budget_score(user_budget, min_price, max_price):
+    if pd.isna(min_price) or pd.isna(max_price):
         return 0
-    if car_min_price <= user_budget_lakh <= car_max_price:
+
+    if min_price <= user_budget <= max_price:
         return 1.0
-    gap = min(abs(user_budget_lakh - car_min_price), abs(user_budget_lakh - car_max_price))
-    penalty = gap / max(user_budget_lakh, 1)
+
+    gap = min(
+        abs(user_budget - min_price),
+        abs(user_budget - max_price)
+    )
+
+    penalty = gap / max(user_budget, 1)
     return max(0, 1 - penalty)
 
 
-def calculate_match_score(user_choice, car_options_text):
-    if pd.isna(car_options_text) or pd.isna(user_choice):
+def calculate_match_score(user_choice, car_text):
+    if pd.isna(car_text) or pd.isna(user_choice):
         return 0
-    return 1.0 if user_choice.lower() in str(car_options_text).lower() else 0.0
+    return 1.0 if user_choice.lower() in str(car_text).lower() else 0.0
 
 
-def calculate_body_type_score(user_body_type, car_body_type):
-    if pd.isna(car_body_type) or pd.isna(user_body_type):
+def calculate_body_type_score(user_body, car_body):
+    if pd.isna(car_body) or pd.isna(user_body):
         return 0
-    return 1.0 if user_body_type.lower() == str(car_body_type).lower() else 0.0
+    return 1.0 if user_body.lower() == str(car_body).lower() else 0.0
 
 
 def calculate_mileage_score(user_min_mileage, car_avg_mileage):
@@ -71,58 +57,87 @@ def calculate_mileage_score(user_min_mileage, car_avg_mileage):
         return 0
     if car_avg_mileage >= user_min_mileage:
         return 1.0
-    return max(0, car_avg_mileage / user_min_mileage)
+    return max(0, car_avg_mileage / max(user_min_mileage, 1))
 
 
-def calculate_seating_score(user_seats_needed, car_min_seats, car_max_seats):
-    if pd.isna(car_min_seats) or pd.isna(car_max_seats):
+def calculate_seating_score(user_seats, min_seats, max_seats):
+    if pd.isna(min_seats) or pd.isna(max_seats):
         return 0
-    if car_min_seats <= user_seats_needed <= car_max_seats:
+    if min_seats <= user_seats <= max_seats:
         return 1.0
-    return 0.5 if abs(user_seats_needed - car_max_seats) <= 2 else 0.0
+    return 0.5 if abs(user_seats - max_seats) <= 2 else 0.0
 
 
-def calculate_safety_score(user_min_safety_stars, car_safety_rating):
-    if pd.isna(car_safety_rating):
+def calculate_safety_score(user_safety, car_safety):
+    if pd.isna(car_safety):
         return 0.5
-    if car_safety_rating >= user_min_safety_stars:
+    if car_safety >= user_safety:
         return 1.0
-    return max(0, car_safety_rating / max(user_min_safety_stars, 1))
+    return max(0, car_safety / max(user_safety, 1))
 
 
 # -----------------------------
-# REASONS (UNCHANGED)
+# MATCH REASONS
 # -----------------------------
 def build_match_reasons(user_preferences, car, scores):
     reasons = []
-    REASON_THRESHOLD = 0.7
+    THRESHOLD = 0.7
 
-    if scores['budget'] >= REASON_THRESHOLD:
-        reasons.append("Within Budget")
-    if scores['fuel_type'] >= REASON_THRESHOLD:
-        reasons.append(user_preferences['fuel_type'])
-    if scores['transmission'] >= REASON_THRESHOLD:
-        reasons.append(user_preferences['transmission'])
-    if scores['body_type'] >= REASON_THRESHOLD:
-        reasons.append(f"{car['Body_Type']} Body Type")
-    if scores['seating'] >= REASON_THRESHOLD:
-        reasons.append(f"{user_preferences['seating']} Seater")
-    if scores['safety'] >= REASON_THRESHOLD and not pd.isna(car['Safety_Rating']):
-        reasons.append(f"{int(car['Safety_Rating'])} Star Safety")
-    if scores['mileage'] >= REASON_THRESHOLD:
+    if scores['budget'] >= THRESHOLD:
+        reasons.append("Fits Your Budget")
+
+    if scores['fuel_type'] >= THRESHOLD:
+        reasons.append(f"Fuel: {user_preferences['fuel_type']}")
+
+    if scores['transmission'] >= THRESHOLD:
+        reasons.append(f"Transmission: {user_preferences['transmission']}")
+
+    if scores['body_type'] >= THRESHOLD:
+        reasons.append(f"{car['Body_Type']} Body Style")
+
+    if scores['seating'] >= THRESHOLD:
+        reasons.append(f"{user_preferences['seating']} Seater Comfort")
+
+    if scores['safety'] >= THRESHOLD:
+        reasons.append(f"{car['Safety_Rating']} Star Safety Rated")
+
+    if scores['mileage'] >= THRESHOLD:
         reasons.append("Good Mileage")
 
     return reasons
 
 
 # -----------------------------
-# MAIN FUNCTION
+# MAIN FUNCTION (API SAFE)
 # -----------------------------
 def get_top_recommendations(user_preferences, car_dataframe, number_of_results=5):
 
-    scored_cars = []
+    cars = car_dataframe.copy()
 
-    for _, car in car_dataframe.iterrows():
+    # ---------------- FILTERS ----------------
+    filtered = cars[
+        (cars['Price_Min_Lakh'] <= user_preferences['budget']) &
+        (cars['Body_Type'].str.lower() == user_preferences['body_type'].lower()) &
+        (cars['Fuel_Type_Full'].str.lower().str.contains(user_preferences['fuel_type'].lower()))
+    ]
+
+    if filtered.empty:
+        return pd.DataFrame(columns=[
+            "brand",
+            "model",
+            "body_type",
+            "price_range_lakh",
+            "fuel_type",
+            "transmission",
+            "safety_rating",
+            "match_percent",
+            "match_reasons"
+        ])
+
+    results = []
+
+    # ---------------- SCORING ----------------
+    for _, car in filtered.iterrows():
 
         scores = {
             'budget': calculate_budget_score(
@@ -157,24 +172,27 @@ def get_top_recommendations(user_preferences, car_dataframe, number_of_results=5
             ),
         }
 
-        final_score = sum(scores[k] * SCORE_WEIGHTS[k] for k in SCORE_WEIGHTS)
-        match_reasons = build_match_reasons(user_preferences, car, scores)
+        final_score = sum(
+            scores[key] * SCORE_WEIGHTS[key]
+            for key in SCORE_WEIGHTS
+        )
 
-        scored_cars.append({
-            'Brand': car['Brand'],
-            'Model': car['Model'],
-            'Body_Type': car['Body_Type'],
-            'Price_Range_Lakh': f"{car['Price_Min_Lakh']}-{car['Price_Max_Lakh']}",
-            'Match_Percent': round(final_score * 100, 1),
-            'Fuel_Type': car['Fuel_Type_Full'],
-            'Transmission': car['Transmission_Full'],
-            'Safety_Rating': car['Safety_Rating'],
-            'Match_Reasons': match_reasons,
+        # ✅ FINAL API RESPONSE FORMAT (IMPORTANT FIX)
+        results.append({
+            "brand": car["Brand"],
+            "model": car["Model"],
+            "body_type": car["Body_Type"],
+            "price_range_lakh": f"{car['Price_Min_Lakh']} - {car['Price_Max_Lakh']}",
+            "fuel_type": car["Fuel_Type_Full"],
+            "transmission": car["Transmission_Full"],
+            "safety_rating": car["Safety_Rating"],
+            "match_percent": round(final_score * 100, 1),
+            "match_reasons": build_match_reasons(user_preferences, car, scores)
         })
 
-    results = pd.DataFrame(scored_cars).sort_values(
-        'Match_Percent',
-        ascending=False
-    )
+    output = pd.DataFrame(results)
 
-    return results.head(number_of_results)
+    return output.sort_values(
+        by="match_percent",
+        ascending=False
+    ).head(number_of_results)
