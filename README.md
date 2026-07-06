@@ -1,81 +1,83 @@
-🚗 DriveMatch AI
-Python FastAPI React MySQL Docker
+# 🚗 DriveMatch AI
 
-📖 Project Overview
-DriveMatch AI is a Smart Car Recommendation System that generates personalized car recommendations based on a user's preferences.
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green.svg)
+![React](https://img.shields.io/badge/React-Frontend-61DAFB.svg)
+![MySQL](https://img.shields.io/badge/MySQL-Database-orange.svg)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED.svg)
+---
+
+# 📖 Project Overview
+
+DriveMatch AI is a **Smart Car Recommendation System** that generates personalized vehicle recommendations based on a user's profile and preferences.
 
 Users provide information such as:
 
-Budget
-Fuel Type
-Transmission
-Body Type
-Seating Capacity
-Minimum Mileage
-Minimum Safety Rating
-Based on these inputs, the application recommends the best-matching cars using a weighted recommendation engine backed by a MySQL database.
+* Budget (in Lakhs)
+* Fuel Type Preference (Petrol, Diesel, CNG, Electric)
+* Transmission Preference (Manual, Automatic)
+* Seating Capacity
+* Minimum Safety Rating (NCAP Stars)
+* Body Type (Hatchback, Sedan, SUV, MUV)
+* Minimum Mileage (kmpl)
 
-The project demonstrates the use of modern full-stack development technologies by combining a React frontend, FastAPI backend, MySQL database, and Docker containerization into a scalable recommendation system.
+Based on these inputs, the application recommends an optimized vehicle selection using a weighted multi-criteria recommendation engine backed by a MySQL database.
 
-🎯 Why I Chose This Project
-I chose to develop a Smart Car Recommendation System because buying a car is a decision most people struggle with, comparing endless options across budget, fuel type, safety, and seating without any clear way to weigh them together.
+---
 
-This application acts as a personal car advisor, scoring every car in the database against a user's preferences and showing the best matches instead of a generic list.
+# ✨ Features
 
-This project allowed me to build a practical recommendation system while applying concepts from full-stack development, REST API development, database management, and Docker containerization. It also provided an opportunity to integrate multiple technologies into a complete production-like application.
+* Personalized car recommendations with explanation badges
+* Brand diversity filtering to ensure a variety of choices
+* "Explore More" details listing key strengths and trade-offs
+* FastAPI backend
+* React frontend
+* MySQL database
+* Dockerized architecture
+* Docker Compose support
+* Responsive user interface
+* Input validation using Pydantic
 
-⭐ What Makes This Project Special
-Unlike simple filter-based car search tools that just list every match, DriveMatch AI generates ranked recommendations based on multiple user-specific parameters that actually have significance in determining the right car.
+---
 
-DriveMatch AI considers:
+# 🛠 Technology Stack
 
-Budget
-Fuel Type
-Transmission
-Body Type
-Seating Capacity
-Mileage
-Safety Rating
-✨ Features
-Personalized car recommendations
-FastAPI REST API
-React frontend
-MySQL database
-Dockerized architecture
-Docker Compose support
-Responsive user interface
-Input validation using Pydantic
-Automatic API documentation
-Weighted scoring recommendation engine
-Brand diversity pass on results
-🛠 Technology Stack
-Backend
-Python
-FastAPI
-SQLAlchemy
-Pydantic
-Uvicorn
-PyMySQL
-Pandas
-Frontend
-React
-CSS
-Database
-MySQL
-DevOps
-Docker
-Docker Compose
-Development Tools
-Visual Studio Code
-Git
-GitHub
-🏗 Project Architecture
+## Backend
+
+* Python
+* FastAPI
+* SQLAlchemy
+* Pydantic
+* Uvicorn
+* PyMySQL
+* Pandas
+
+## Frontend
+
+* React
+* Axios
+* CSS
+
+## Database
+
+* MySQL
+
+## DevOps
+
+* Docker
+* Docker Compose
+
+---
+
+# 🏗 Project Architecture
+
+```text
                     User
                       │
                       ▼
                React Frontend
                       │
-             REST API Requests
+              FAST API Requests
                       │
                       ▼
               FastAPI Backend
@@ -84,289 +86,341 @@ GitHub
                       │
                       ▼
                MySQL Database
-📂 Project Structure
+```
+
+---
+
+# 📂 Project Structure
+
+```text
 Smart-Car-recommendation-system/
 │
 ├── backend/
 │   ├── app/
-│   │     ├── main.py
-│   │     ├── config.py
-│   │     ├── recommendation/
-│   │     │        └── recommend.py
-│   │     ├── routers/
-│   │     ├── schemas/
-│   │     └── services/
+│   │   ├── recommendation/
+│   │   │   └── recommend.py               # Weighted scoring and brand diversity logic
+│   │   ├── routers/
+│   │   │   ├── recommendation.py          # /recommend endpoint
+│   │   │   └── explore.py                 # /explore endpoint
+│   │   ├── schemas/
+│   │   │   ├── request.py                 # Pydantic input models
+│   │   │   ├── response.py                # Pydantic response models
+│   │   │   └── explore.py                 # Pydantic explore models
+│   │   ├── services/
+│   │   │   └── recommendation_service.py  # Seeding & DB queries
+│   │   ├── config.py                      # Weight coefficients and configurations
+│   │   └── main.py                        # FastAPI entrypoint & CORS setup
 │   ├── database/
+│   │   └── database.py                    # Database connection setup
 │   ├── datasets/
-│   ├── dockerfile
-│   ├── requirements.txt
-│   └── start.sh
+│   │   ├── raw/
+│   │   │   └── cars_in.csv                # Source Indian Cars dataset
+│   │   └── explore_and_clean.ipynb        # Jupyter Notebook for cleaning steps
+│   ├── dockerfile                         # Backend container config
+│   ├── requirements.txt                   # Backend dependencies
+│   └── start.sh                           # Startup shell script waiting for MySQL
 │
 ├── frontend/
-│   ├── src/
-│   │     ├── App.js
-│   │     ├── components/
-│   │     └── styles/
 │   ├── public/
-│   ├── dockerfile
-│   └── package.json
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── CarCard.jsx                # Render single recommended car
+│   │   │   ├── ExploreModal.jsx           # Strengths/trade-offs detail modal
+│   │   │   ├── Hero.jsx                   # Hero landing element
+│   │   │   ├── RecommendationPage.jsx     # Input questionnaire form
+│   │   │   ├── ResultsPage.jsx            # Display recommended cars grid
+│   │   │   └── Services.jsx               # Feature highlights section
+│   │   ├── styles/                        # Custom stylesheet components
+│   │   ├── App.css                        # Global styling definitions
+│   │   ├── App.js                         # React main router & view controller
+│   │   ├── index.css
+│   │   └── index.js
+│   ├── dockerfile                         # Frontend container config
+│   └── package.json                       # Node dependencies & run scripts
 │
 ├── mysql/
-│   └── init.sql
+│   └── init.sql                           # Database initialization schema
 │
-├── screenshort/
+├── docker-compose.yml                     # Orchestration configuration
 │
-└── docker-compose.yml
-⚙️ How To Install
-Prerequisites
-Install the following software:
+└── README.md                              # Project Documentation
+```
 
-Git
-Docker Desktop (includes Docker Compose)
-Verify installation:
+---
 
-docker --version
-docker compose version
-Clone the Repository
-git clone https://github.com/sakalyeakshat/Smart-Car-recommendation-system.git
+# ⚙️ Installation
+
+## Prerequisites
+
+Install the following software before running the project:
+
+* Docker
+
+---
+
+# Clone the Repository
+
+```bash
+git clone https://github.com/akshats24/Smart-Car-recommendation-system.git
 
 cd Smart-Car-recommendation-system
-🚀 Running with Docker (Recommended)
-Build and start all services:
+```
 
+---
+
+# Run Using Docker (Recommended)
+
+Build and start all containers:
+
+```bash
 docker compose up
-To rebuild after changes:
+```
 
-docker compose up --build
-Run in detached mode:
-
-docker compose up -d
 Stop containers:
 
+```bash
 docker compose down
-Remove containers and volumes:
+```
 
+Remove volumes:
+
+```bash
 docker compose down -v
-🌐 Application URLs
+```
+
+---
+
+# Application URLs
+
 Frontend
 
+```
 http://localhost:3000
-Backend API
+```
 
+Backend
+
+```
 http://localhost:8000
+```
+
 Swagger Documentation
 
+```
 http://localhost:8000/docs
+```
+
 ReDoc Documentation
 
+```
 http://localhost:8000/redoc
-💻 Running Without Docker
-Backend
-Create a virtual environment
+```
 
+---
+
+# Running Without Docker
+
+## Backend
+
+Create virtual environment
+
+```bash
 python -m venv venv
-Activate it
+```
+
+Activate virtual environment
 
 Windows
 
+```bash
 venv\Scripts\activate
+```
+
 Linux/macOS
 
+```bash
 source venv/bin/activate
+```
+
 Install dependencies
 
+```bash
 pip install -r requirements.txt
-Run the backend
+```
 
+Run FastAPI
+
+```bash
 uvicorn app.main:app --reload
-Frontend
+```
+
+---
+
+## Frontend
+
 Install dependencies
 
+```bash
 npm install
-Run React
+```
 
+Run development server
+
+```bash
 npm start
-🗄 Database Setup
+```
+
+---
+
+# Database Setup
+
 The application uses MySQL.
 
-When Docker Compose is executed:
+If using Docker, the database is automatically created during startup.
 
-MySQL container starts automatically.
-Database and cars table are created automatically.
-Backend waits for MySQL to be healthy, then starts.
-Dataset is auto-seeded into MySQL on first run.
-No manual database setup is required.
+The initialization script creates:
 
-🚀 How To Use
-Start the application using Docker Compose.
+* Database
+* Required tables
+* Seeds initial car data from `cars_in.csv`
 
-Open your browser.
+---
 
-http://localhost:3000
-Fill in the vehicle preferences form.
-Enter:
+# How the Recommendation Engine Works
 
-Budget
-Fuel Type
-Transmission
-Body Type
-Seating Capacity
-Minimum Mileage
-Minimum Safety Rating
-Click the Find Best Matches button.
+1. User enters car preferences.
+2. Frontend validates the form.
+3. Data is sent to the FastAPI backend.
+4. Backend validates the request using Pydantic.
+5. Recommendation engine queries the MySQL database.
+6. Cars are filtered and scored based on budget and seating constraints.
+7. Matching vehicles are evaluated using a weighted multi-criteria scoring algorithm.
+8. A brand diversity pass ensures recommendations span different manufacturers.
+9. Personalized car recommendation list is generated.
+10. Results are returned as JSON.
+11. Frontend displays the recommended cars.
 
-The React frontend sends your preferences to the FastAPI backend.
+---
 
-The backend validates the request using Pydantic.
+# User Inputs
 
-The recommendation engine scores cars from the MySQL database according to the user's preferences.
+The recommendation engine considers factors such as:
 
-The top matching cars are ranked, with a brand diversity pass applied.
+* Budget (in Lakhs)
+* Fuel Type
+* Transmission Type
+* Seating Capacity
+* Safety Rating
+* Body Type
+* Minimum Mileage
 
-The personalized car recommendations are displayed on the screen.
+These inputs help generate recommendations that are more relevant than generic car listings.
 
-To test the backend directly, open:
+---
 
-http://localhost:8000/docs
-Swagger UI allows testing every endpoint without using the frontend.
+# Validation
 
-⚙️ How the Recommendation Engine Works
-User submits vehicle preferences.
-FastAPI validates incoming data.
-Recommendation engine loads car data from MySQL.
-Cars are filtered according to:
-Budget Range
-Seating Requirement
-Remaining cars are scored according to:
-Budget
-Fuel Type
-Transmission
-Safety Rating
-Body Type
-Seating
-Mileage
-Results are ranked and passed through a brand diversity pass.
-Results are returned as JSON.
-React displays the car recommendations.
-👤 User Inputs
-The recommendation engine considers:
-
-Budget
-Fuel Type
-Transmission
-Body Type
-Seating Capacity
-Mileage
-Safety Rating
-These inputs allow the system to generate personalized car recommendations instead of displaying a generic, unranked list.
-
-🗄 Dataset Preparation & Preprocessing
-The application uses an Indian Cars Dataset obtained from Kaggle.
-
-Before importing the dataset into MySQL, several preprocessing steps were performed to improve consistency and usability.
-
-Data Cleaning
-Removed duplicate records.
-Removed incomplete or invalid entries.
-Removed unnecessary columns.
-Cleaned whitespace and null values.
-Data Structuring
-Organized the cleaned data into a relational MySQL table.
-Verified data integrity before importing.
-Documented exploration and cleaning steps in a notebook.
-Since this project uses a rule-based weighted recommendation system rather than machine learning, no feature engineering or model training was required.
-
-✔ Validation
-The backend validates all requests using Pydantic.
+The backend validates all incoming requests using Pydantic.
 
 Examples include:
 
-Missing fields
-Invalid values
-Incorrect data types
-Empty requests
-Appropriate HTTP status codes are returned whenever validation fails.
+* Missing fields
+* Invalid values
+* Incorrect data types
+* Empty requests
 
-🐳 Docker Architecture
-The project consists of three independent containers.
+Appropriate HTTP status codes are returned when validation fails.
 
-Frontend
-React
-Backend
-FastAPI
-Recommendation Engine
-Database
-MySQL
-Docker Compose automatically creates the network and allows communication between all containers.
+---
 
-📊 Dataset Source
-Dataset used:
+# Docker Containers
 
-Indian Cars Dataset
+The application consists of three independent containers:
 
-Source:
+## Frontend
 
-https://www.kaggle.com
+* React
 
-The dataset was cleaned and transformed before being imported into MySQL.
+## Backend
 
-📸 Screenshots
-Home Page
-![Home Page](screenshort/HomePage.png)
+* FastAPI
+* Recommendation Engine
 
-Vehicle Preferences Form
-![Form](screenshort/Form.png)
+## Database
 
-Car Recommendations
-![Recommendation](screenshort/RecommendationPage.png)
+* MySQL
 
-Explore More
-![Explore More](screenshort/ExploreMore.png)
+These communicate over a Docker network managed by Docker Compose.
 
-🔮 Future Improvements
-User authentication
-Saved searches
-AI-powered recommendations
-EMI calculator
-Comparison view
-Dealer locator
-Cloud deployment
-Mobile application
-🛠 Troubleshooting
-Docker won't start
+---
+
+# Dataset Source
+
+The Indian Cars dataset is based on publicly available specifications from Kaggle.
+
+---
+
+# Screenshots
+
+![Form Screenshot](Screenshots/1.png)
+![Results Screenshot](Screenshots/2.png)
+![Results Screenshot](Screenshots/3.png)
+
+---
+
+# Troubleshooting
+
+## Docker won't start
+
+```bash
 docker compose down
 
 docker compose up --build
-Port already in use
-Modify the ports inside:
+```
 
+---
+
+## Port already in use
+
+Change ports inside:
+
+```
 docker-compose.yml
-or stop the application using the conflicting port.
+```
 
-Database connection error
+or stop the application currently using that port.
+
+---
+
+## Database connection error
+
 Ensure:
 
-MySQL container is running
-Docker network is created successfully
-Database credentials are correct
-Backend starts after MySQL initialization
-👨‍💻 Author
-Akshat Sakalye
+* MySQL container is running
+* Environment variables are correct
+* Docker network is created successfully
 
-GitHub:
+---
 
-https://github.com/sakalyeakshat
+# Author
 
-🙏 Acknowledgements
-This project was developed as part of a technical recruitment assessment.
+**Akshat**
+
+GitHub
+
+https://github.com/akshats24
+
+---
+
+# Acknowledgements
 
 Open-source technologies used:
 
-FastAPI
-React
-Docker
-MySQL
-SQLAlchemy
-Pydantic
-Pandas
-Special thanks to the open-source community and Kaggle for providing the dataset used in this project.
+* FastAPI
+* React
+* Docker
+* MySQL
+* SQLAlchemy
+* Pydantic
+* Pandas
+* Axios
