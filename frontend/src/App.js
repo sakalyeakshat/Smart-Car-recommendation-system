@@ -33,9 +33,9 @@ const bodyOptions = [
 function App() {
   const [preferences, setPreferences] = useState({
     budget: "",
-    fuel_type: "Petrol",
-    transmission: "Manual",
-    body_type: "SUV",
+    fuel_type: "",
+    transmission: "",
+    body_type: "",
     seating: 5,
     min_mileage: "",
     min_safety: 3,
@@ -55,6 +55,15 @@ function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentView]);
 
+  // Make the browser ← back button navigate back to home
+  useEffect(() => {
+    function handlePopState() {
+      setCurrentView("home");
+    }
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
   function handleChange(e) {
     const { name, value } = e.target;
     setPreferences((prev) => ({
@@ -66,9 +75,9 @@ function App() {
   function resetForm() {
     setPreferences({
       budget: "",
-      fuel_type: "Petrol",
-      transmission: "Manual",
-      body_type: "SUV",
+      fuel_type: "",
+      transmission: "",
+      body_type: "",
       seating: 5,
       min_mileage: "",
       min_safety: 3,
@@ -138,6 +147,8 @@ function App() {
 
       const data = await response.json();
       setRecommendations(data.recommendations || []);
+      // Push a history entry so the browser's ← button can come back
+      window.history.pushState({ view: "results" }, "", window.location.href);
       setCurrentView("results");
 
     } catch {
@@ -165,59 +176,6 @@ function App() {
         <span className="navbar-logo">Smart Car Recommendation System</span>
       </nav>
 
-      <div className="background-glow glow1"></div>
-      <div className="background-glow glow2"></div>
-
-      <svg className="bg-car car-one" viewBox="0 0 500 200">
-        <path
-          d="M80 130 L150 80 L330 80 L390 120 L450 120 L450 150 L80 150 Z"
-          fill="none"
-          stroke="#32d3ff"
-          strokeWidth="4"
-        />
-        <circle
-          cx="150"
-          cy="150"
-          r="20"
-          fill="none"
-          stroke="#32d3ff"
-          strokeWidth="4"
-        />
-        <circle
-          cx="360"
-          cy="150"
-          r="20"
-          fill="none"
-          stroke="#32d3ff"
-          strokeWidth="4"
-        />
-      </svg>
-
-      <svg className="bg-car car-two" viewBox="0 0 500 200">
-        <path
-          d="M100 130 L170 90 L310 90 L370 120 L430 120 L430 150 L100 150 Z"
-          fill="none"
-          stroke="#9b5cff"
-          strokeWidth="4"
-        />
-        <circle
-          cx="170"
-          cy="150"
-          r="18"
-          fill="none"
-          stroke="#9b5cff"
-          strokeWidth="4"
-        />
-        <circle
-          cx="350"
-          cy="150"
-          r="18"
-          fill="none"
-          stroke="#9b5cff"
-          strokeWidth="4"
-        />
-      </svg>
-
       <>
         {currentView === "home" && (
           <>
@@ -229,14 +187,7 @@ function App() {
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
                 loading={loading}
-                searched={searched}
-                error={error}
-                recommendations={recommendations}
-                bestCar={bestCar}
-                remainingCars={remainingCars}
                 compareList={compareList}
-                toggleCompare={toggleCompare}
-                openExploreModal={openExploreModal}
                 setShowCompare={setShowCompare}
                 resetForm={resetForm}
                 fuelTypeChoices={fuelOptions}

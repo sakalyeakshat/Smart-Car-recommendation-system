@@ -1,4 +1,3 @@
-import React from "react";
 import "../styles/ResultPage.css";
 import CarCard from "./CarCard";
 
@@ -33,6 +32,7 @@ function ResultsPage({
           Change Preferences
         </button>
       </div>
+
 
       {error && (
         <div className="error-box">

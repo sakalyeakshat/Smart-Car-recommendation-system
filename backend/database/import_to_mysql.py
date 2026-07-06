@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from pathlib import Path
 
 DB_USERNAME = os.getenv("DB_USER", "root")
@@ -28,4 +28,10 @@ df.to_sql(
     index=False
 )
 
-print("✅ Cars imported successfully!")
+print("[OK] Cars imported successfully!")
+
+# Confirm row count in MySQL
+with engine.connect() as conn:
+    result = conn.execute(text("SELECT COUNT(*) FROM cars"))
+    count = result.scalar()
+    print(f"[DB] Row count in MySQL 'cars' table: {count}")

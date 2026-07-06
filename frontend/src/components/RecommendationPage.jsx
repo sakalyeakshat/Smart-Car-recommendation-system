@@ -1,4 +1,3 @@
-import React from "react";
 import "../styles/RecommendationPage.css";
 
 function RecommendationPage({
@@ -6,18 +5,11 @@ function RecommendationPage({
   handleChange,
   handleSubmit,
   loading,
-  searched,
-  error,
   fuelTypeChoices,
   transmissionChoices,
   bodyTypeChoices,
   resetForm,
-  bestCar,
-  remainingCars,
-  recommendations,
   compareList,
-  toggleCompare,
-  openExploreModal,
   setShowCompare,
 }) {
   return (
@@ -50,8 +42,9 @@ function RecommendationPage({
               value={preferences.fuel_type}
               onChange={handleChange}
             >
+              <option value="">Select Fuel Type</option>
               {fuelTypeChoices.map((opt) => (
-                <option key={opt}>{opt}</option>
+                <option key={opt} value={opt}>{opt}</option>
               ))}
             </select>
           </div>
@@ -63,8 +56,9 @@ function RecommendationPage({
               value={preferences.transmission}
               onChange={handleChange}
             >
+              <option value="">Select Transmission</option>
               {transmissionChoices.map((opt) => (
-                <option key={opt}>{opt}</option>
+                <option key={opt} value={opt}>{opt}</option>
               ))}
             </select>
           </div>
@@ -76,8 +70,9 @@ function RecommendationPage({
               value={preferences.body_type}
               onChange={handleChange}
             >
+              <option value="">Select Body Type</option>
               {bodyTypeChoices.map((opt) => (
-                <option key={opt}>{opt}</option>
+                <option key={opt} value={opt}>{opt}</option>
               ))}
             </select>
           </div>
@@ -99,11 +94,13 @@ function RecommendationPage({
             <input
               type="number"
               name="min_mileage"
+              placeholder="Ex. 15"
               min="5"
-              max="40"
+              max="30"
               step="0.5"
               value={preferences.min_mileage}
               onChange={handleChange}
+              required
             />
           </div>
 
@@ -139,38 +136,7 @@ function RecommendationPage({
 
         </form>
 
-        <section className="results-panel">
-          <div className="empty-state">
-            <h2>Welcome To Our System</h2>
-            <p>Discover the most suitable vehicle based on your budget.</p>
-            <div className="feature-grid">
-              <div className="feature-box">
-                <h3>Vehicle Suggestions</h3>
-                <p>Get cars that best fit your selected criteria.</p>
-              </div>
-              <div className="feature-box">
-                <h3>Budget Friendly</h3>
-                <p>Discover vehicles that match your budget without compromising on quality.</p>
-              </div>
-              <div className="feature-box">
-                <h3>Easy Comparisions</h3>
-                <p>Compare your favorite cars before making a decision.</p>
-              </div>
-              <div className="feature-box">
-                <h3>150+ Cars Available</h3>
-                <p>SUVs, Sedans, Hatchbacks, EVs and more across multiple price ranges.</p>
-              </div>
-              <div className="feature-box">
-                <h3>Top Brands</h3>
-                <p>Maruti • Tata • Hyundai • Mahindra • Honda • Toyota</p>
-              </div>
-              <div className="feature-box">
-                <h3>Car Details</h3>
-                <p>View specifications, pricing and safety information.</p>
-              </div>
-            </div>
-          </div>
-        </section>
+
 
         {compareList.length === 2 && (
           <div className="compare-bar">

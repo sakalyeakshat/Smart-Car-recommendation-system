@@ -1,111 +1,119 @@
 
 /* ---------- Compare Feature ---------- */
- 
+
 .compare-checkbox {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-top: 16px;
-  font-size: 13px;
-  color: #b7c3d7;
+  font-size: 15px;
+  font-weight: 600;
+  color: #5A6A85;
   cursor: pointer;
 }
- 
+
 .compare-checkbox input {
   width: 16px;
   height: 16px;
   cursor: pointer;
 }
- 
+
 .compare-bar {
   position: fixed;
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  background: #182235;
-  border: 1px solid #3ecbff;
+  background: #FFFFFF;
+  border: 1px solid #E8E4F5;
   border-radius: 999px;
   padding: 12px 24px;
   display: flex;
   align-items: center;
   gap: 16px;
   z-index: 500;
-  box-shadow: 0 0 30px rgba(62, 203, 255, 0.25);
+  box-shadow: 0 4px 20px rgba(123,92,231,0.15);
 }
- 
+
 .compare-bar span {
-  color: white;
+  color: #1A1A2E;
   font-size: 14px;
   font-weight: 600;
 }
- 
+
 .compare-bar button {
-  background: linear-gradient(90deg, #32d3ff, #9b5cff);
-  color: #0b0e14;
+  background: #7B5CE7;
+  color: #FFFFFF;
   border: none;
   padding: 8px 20px;
   border-radius: 999px;
   font-weight: 700;
   font-size: 13px;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(123,92,231,0.35);
+  transition: background 0.2s ease;
 }
- 
+
+.compare-bar button:hover {
+  background: #6A4DD6;
+}
+
 .compare-modal-content {
   position: relative;
-  background: #12151e;
-  border: 1px solid rgba(155, 92, 255, 0.35);
-  border-radius: 14px;
-  padding: 32px;
-  max-width: 640px;
+  background: #FFFFFF;
+  border: 1px solid #E8E4F5;
+  border-radius: 28px;
+  padding: 44px 48px;
+  max-width: 960px;
   width: 100%;
-  max-height: 85vh;
+  max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 0 40px rgba(50, 211, 255, 0.15);
+  box-shadow: 0 20px 60px rgba(123,92,231,0.18);
 }
- 
+
 .compare-modal-content h2 {
-  color: white;
+  color: #1A1A2E;
   margin: 0 0 24px;
   text-align: center;
 }
- 
+
 .compare-table {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
- 
+
 .compare-row {
   display: grid;
   grid-template-columns: 130px 1fr 1fr;
   gap: 10px;
   padding: 12px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  color: #d5dae3;
+  border-bottom: 1px solid #E8E4F5;
+  color: #1A1A2E;
   font-size: 13px;
   align-items: center;
 }
- 
+
 .compare-header-row {
-  border-bottom: 2px solid rgba(62, 203, 255, 0.4);
+  border-bottom: 2px solid #C4B5FD;
 }
- 
+
 .compare-label {
-  color: #7c8798;
+  color: #6B7280;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
- 
+
 .compare-col-title {
-  color: white;
+  color: #1A1A2E;
   font-weight: 700;
   font-size: 14px;
 }
+
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(5, 7, 12, 0.75);
+  background: rgba(15, 25, 50, 0.40);
   backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
@@ -118,14 +126,27 @@
   position: absolute;
   top: 16px;
   right: 16px;
-  background: none;
+
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #F1F0F8;
   border: none;
-  color: #aab2c5;
+  border-radius: 50%;
+
   font-size: 28px;
   line-height: 1;
+  color: #4B5563;
   cursor: pointer;
+
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .modal-close:hover {
-  color: #ffffff;
+  background: #E8E4F5;
+  color: #1A2232;
+  transform: rotate(90deg);
 }

@@ -10,7 +10,7 @@
   box-sizing: border-box;
   overflow: hidden;
 }
- 
+
 .services-container {
   position: relative;
   z-index: 2;
@@ -18,40 +18,40 @@
   max-width: 1080px;
   text-align: center;
 }
- 
+
 .services-tag {
   display: inline-block;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #3ecbff;
+  color: #1D6FE8;
   margin-bottom: 18px;
 }
- 
+
 .services-page h2 {
-  color: white;
+  color: #1A2232;
   font-size: 36px;
   line-height: 1.25;
   max-width: 720px;
   margin: 0 auto 18px;
 }
- 
+
 .services-description {
-  color: #b7c3d7;
+  color: #5A6A85;
   max-width: 620px;
   margin: 0 auto 60px;
   font-size: 15px;
   line-height: 1.75;
 }
- 
+
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 22px;
   text-align: left;
 }
- 
+
 @media (max-width: 900px) {
   .services-grid {
     grid-template-columns: 1fr;
@@ -60,51 +60,52 @@
     font-size: 28px;
   }
 }
- 
+
 .service-card {
-  background: #182235;
+  background: #FFFFFF;
   padding: 28px 24px;
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
 }
- 
+
 .service-card:hover {
   transform: translateY(-5px);
-  border-color: rgba(62, 203, 255, 0.5);
-  background: #1c2740;
+  border-color: #93C5FD;
+  background: #F8FAFC;
 }
- 
+
 .service-icon {
   font-size: 22px;
   margin-bottom: 14px;
   display: inline-block;
 }
- 
+
 .service-card h3 {
-  color: white;
+  color: #1A2232;
   margin: 0 0 10px;
   font-size: 15px;
   font-weight: 600;
   line-height: 1.4;
 }
- 
+
 .service-card p {
-  color: #9aa5b8;
+  color: #5A6A85;
   line-height: 1.65;
   font-size: 13px;
   margin: 0;
 }
- 
+
 .services-bg-car {
   position: absolute;
   width: 280px;
-  opacity: 0.1;
+  opacity: 0.06;
   z-index: 1;
   bottom: 6%;
   right: 4%;
 }
- 
+
 @media (max-width: 900px) {
   .services-bg-car {
     display: none;

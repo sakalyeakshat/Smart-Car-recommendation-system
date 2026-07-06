@@ -1,4 +1,3 @@
-import React from "react";
 import "../styles/CompareModal.css";
 function CompareModal({ cars, onClose }) {
   return (

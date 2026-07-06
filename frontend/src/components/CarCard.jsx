@@ -1,9 +1,9 @@
-import React from "react";
 
 function CarCard({ car, featured, compareList, onToggleCompare, onExplore }) {
   const isSelected = compareList.some(
     (c) => c.brand === car.brand && c.model === car.model
   );
+  const isDisabled = compareList.length >= 2 && !isSelected;
 
   return (
     <div className={featured ? "car-card featured-card" : "car-card"}>
@@ -53,14 +53,20 @@ function CarCard({ car, featured, compareList, onToggleCompare, onExplore }) {
         </div>
       )}
 
-      <label className="compare-checkbox">
-        <input
-          type="checkbox"
-          checked={isSelected}
-          onChange={() => onToggleCompare(car)}
-        />
-        Compare
-      </label>
+      <div className="compare-row">
+        <label className={`compare-checkbox${isDisabled ? " compare-disabled" : ""}`} title={isDisabled ? "Deselect a car first to choose this one" : ""}>
+          <input
+            type="checkbox"
+            checked={isSelected}
+            disabled={isDisabled}
+            onChange={() => !isDisabled && onToggleCompare(car)}
+          />
+        </label>
+
+        {isSelected && compareList.length === 1 && (
+          <span className="compare-inline-hint">Select one more car to compare</span>
+        )}
+      </div>
 
       <button className="explore-button" onClick={() => onExplore(car)}>
         Explore More
