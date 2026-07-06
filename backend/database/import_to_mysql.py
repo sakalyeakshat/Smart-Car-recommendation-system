@@ -6,7 +6,7 @@ from pathlib import Path
 DB_USERNAME = os.getenv("DB_USER", "root")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "root")
 DB_HOST = os.getenv("DB_HOST", "localhost")  # docker-compose overrides this
-DB_PORT = os.getenv("DB_PORT", "3307")
+DB_PORT = os.getenv("DB_PORT", "3306")
 DB_NAME = os.getenv("DB_NAME", "smart_car_recommendation_system")
 
 engine = create_engine(

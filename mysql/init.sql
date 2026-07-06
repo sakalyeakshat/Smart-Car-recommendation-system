@@ -1,0 +1,16 @@
+-- ==========================================================
+-- Smart Car Recommendation System
+-- MySQL Initialization Script
+-- ==========================================================
+--
+-- NOTE: Table creation and CSV data seeding is handled
+-- automatically by the FastAPI backend on startup via:
+--   backend/database/import_to_mysql.py
+--
+-- The backend reads cars_in.csv from:
+--   backend/datasets/raw/cars_in.csv
+-- and imports it into the 'cars' table using SQLAlchemy.
+--
+-- No manual SQL setup is required.
+-- Simply run: docker compose up
+-- ==========================================================
