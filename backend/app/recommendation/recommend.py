@@ -1,8 +1,6 @@
 import pandas as pd
 
-# -----------------------------
-# SCORING WEIGHTS
-# -----------------------------
+# weights tuned after a few test runs — budget matters most
 SCORE_WEIGHTS = {
     'budget': 0.30,
     'fuel_type': 0.20,
@@ -14,28 +12,19 @@ SCORE_WEIGHTS = {
 }
 
 
-# -----------------------------
-# LOAD DATA (FROM CSV)
-# -----------------------------
-def load_car_data(file_path):
+def load_car_data(file_path):  # unused — data comes from MySQL now
     return pd.read_csv(file_path)
 
 
-# -----------------------------
-# SCORING FUNCTIONS
-# -----------------------------
 def calculate_budget_score(user_budget, min_price, max_price):
     if pd.isna(min_price) or pd.isna(max_price):
         return 0
-
     if min_price <= user_budget <= max_price:
         return 1.0
-
     gap = min(
         abs(user_budget - min_price),
         abs(user_budget - max_price)
     )
-
     penalty = gap / max(user_budget, 1)
     return max(0, 1 - penalty)
 
@@ -76,10 +65,7 @@ def calculate_safety_score(user_safety, car_safety):
     return max(0, car_safety / max(user_safety, 1))
 
 
-# -----------------------------
-# MATCH REASONS
-# -----------------------------
-def build_match_reasons(user_preferences, car, scores):
+def build_match_reasons(prefs, car, scores):
     reasons = []
     THRESHOLD = 0.7
 
@@ -87,16 +73,16 @@ def build_match_reasons(user_preferences, car, scores):
         reasons.append("Fits Your Budget")
 
     if scores['fuel_type'] >= THRESHOLD:
-        reasons.append(f"Fuel: {user_preferences['fuel_type']}")
+        reasons.append(f"Fuel: {prefs['fuel_type']}")
 
     if scores['transmission'] >= THRESHOLD:
-        reasons.append(f"Transmission: {user_preferences['transmission']}")
+        reasons.append(f"Transmission: {prefs['transmission']}")
 
     if scores['body_type'] >= THRESHOLD:
         reasons.append(f"{car['Body_Type']} Body Style")
 
     if scores['seating'] >= THRESHOLD:
-        reasons.append(f"{user_preferences['seating']} Seater Comfort")
+        reasons.append(f"{prefs['seating']} Seater Comfort")
 
     if scores['safety'] >= THRESHOLD:
         reasons.append(f"{car['Safety_Rating']} Star Safety Rated")
@@ -107,77 +93,63 @@ def build_match_reasons(user_preferences, car, scores):
     return reasons
 
 
-# -----------------------------
-# MAIN FUNCTION (API SAFE)
-# -----------------------------
-def get_top_recommendations(user_preferences, car_dataframe, number_of_results=5):
+def get_top_recommendations(prefs, df, top_n=5):
+    cars = df.copy()
 
-    cars = car_dataframe.copy()
-
-    # ---------------- FILTERS ----------------
     filtered = cars[
-        (cars['Price_Min_Lakh'] <= user_preferences['budget']) &
-        (cars['Body_Type'].str.lower() == user_preferences['body_type'].lower()) &
-        (cars['Fuel_Type_Full'].str.lower().str.contains(user_preferences['fuel_type'].lower()))
+        (cars['Price_Min_Lakh'] <= prefs['budget']) &
+        (cars['Body_Type'].str.lower() == prefs['body_type'].lower()) &
+        (cars['Fuel_Type_Full'].str.lower().str.contains(prefs['fuel_type'].lower()))
     ]
 
     if filtered.empty:
         return pd.DataFrame(columns=[
-            "brand",
-            "model",
-            "body_type",
-            "price_range_lakh",
-            "fuel_type",
-            "transmission",
-            "safety_rating",
-            "match_percent",
-            "match_reasons"
+            "brand", "model", "body_type", "price_range_lakh",
+            "fuel_type", "transmission", "safety_rating",
+            "match_percent", "match_reasons"
         ])
 
     results = []
 
-    # ---------------- SCORING ----------------
     for _, car in filtered.iterrows():
-
         scores = {
             'budget': calculate_budget_score(
-                user_preferences['budget'],
+                prefs['budget'],
                 car['Price_Min_Lakh'],
                 car['Price_Max_Lakh']
             ),
             'fuel_type': calculate_match_score(
-                user_preferences['fuel_type'],
+                prefs['fuel_type'],
                 car['Fuel_Type_Full']
             ),
             'transmission': calculate_match_score(
-                user_preferences['transmission'],
+                prefs['transmission'],
                 car['Transmission_Full']
             ),
             'body_type': calculate_body_type_score(
-                user_preferences['body_type'],
+                prefs['body_type'],
                 car['Body_Type']
             ),
             'seating': calculate_seating_score(
-                user_preferences['seating'],
+                prefs['seating'],
                 car['Seating_Min'],
                 car['Seating_Max']
             ),
             'mileage': calculate_mileage_score(
-                user_preferences['min_mileage'],
+                prefs['min_mileage'],
                 car['Mileage_Avg_kmpl']
             ),
             'safety': calculate_safety_score(
-                user_preferences['min_safety'],
+                prefs['min_safety'],
                 car['Safety_Rating']
             ),
         }
 
-        final_score = sum(
+        score = sum(
             scores[key] * SCORE_WEIGHTS[key]
             for key in SCORE_WEIGHTS
         )
 
-        # ✅ FINAL API RESPONSE FORMAT (IMPORTANT FIX)
         results.append({
             "brand": car["Brand"],
             "model": car["Model"],
@@ -186,13 +158,12 @@ def get_top_recommendations(user_preferences, car_dataframe, number_of_results=5
             "fuel_type": car["Fuel_Type_Full"],
             "transmission": car["Transmission_Full"],
             "safety_rating": car["Safety_Rating"],
-            "match_percent": round(final_score * 100, 1),
-            "match_reasons": build_match_reasons(user_preferences, car, scores)
+            "match_percent": round(score * 100, 1),
+            "match_reasons": build_match_reasons(prefs, car, scores)
         })
 
-    output = pd.DataFrame(results)
-
-    return output.sort_values(
+    ranked = pd.DataFrame(results)
+    return ranked.sort_values(
         by="match_percent",
         ascending=False
-    ).head(number_of_results)
+    ).head(top_n)

@@ -1,0 +1,253 @@
+
+.car-card {
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+
+  padding: 28px;
+
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto;
+
+  transition: all 0.3s ease;
+}
+.top-match-card .car-card {
+  border-color: rgba(248, 177, 51, 0.35);
+}
+
+.car-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 40px rgba(76,201,255,0.18);
+}
+
+.car-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.car-card-header h3 {
+  margin: 0;
+  font-size: 50px;
+}
+.match-score{
+    width:60px;
+    height:60px;
+
+    border-radius:50%;
+
+    background: black;
+
+    color:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:20px;
+    font-weight:700;
+
+    box-shadow:0 0 18px rgba(44,109,242,.25);
+}
+
+.progress-bar{
+    height:10px;
+    background:#1e293b;
+    border-radius:20px;
+    margin:20px 0;
+    overflow:hidden;
+}
+.match-reasons {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+}
+.match-reasons li {
+  background: #232b38;
+  color: #d8dee9;
+
+  border: 1px solid #394454;
+
+  padding: 8px 14px;
+  border-radius: 8px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  transition: all 0.25s ease;
+}
+
+.match-reasons li:hover {
+  background: #2d3748;
+}
+.explore-button {
+  display: block;
+  width: 220px;
+  margin: 18px auto 0;
+  padding: 12px 20px;
+
+  background: #2b3442;
+  color: #f3f4f6;
+
+  border: 1px solid #465162;
+  border-radius: 10px;
+
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.explore-button:hover {
+  background: #374151;
+  border-color: #5b6678;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.explore-button:active {
+  transform: translateY(0);
+}
+/* ---------- Compact Card Override (correct class names) ---------- */
+
+.car-card {
+  padding: 16px 20px;
+}
+
+.car-header h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+
+.car-price{
+    font-size:16px;
+    color:#aab4c5;
+    margin-top:6px;
+}
+
+.match-score {
+  font-size: 15px;
+  width: 48px;
+  height: 48px;
+}
+
+.progress-bar{
+    height:6px;
+    border-radius:20px;
+
+    background:#2c3442;
+
+    margin:16px 0;
+
+    overflow:hidden;
+}
+
+.car-details {
+  gap: 6px;
+  margin: 10px 0;
+  font-size: 20px;
+}
+
+.detail-box {
+  padding: 6px 4px;
+}
+
+.detail-box span {
+  font-size: 20px;
+}
+
+.detail-box strong {
+  font-size: 12px;
+}
+
+/* This is the big one - turns 7 stacked full-width bars into small wrapped pills */
+.reason-section ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 8px 0;
+}
+
+.reason-section li {
+  
+  
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  
+  white-space: nowrap;
+  width: auto;
+}
+.explore-button{
+
+    width:220px;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    background:gray;
+
+    border:none;
+
+    color:white;
+
+    font-size:15px;
+    font-weight:600;
+
+    transition:.25s;
+}
+
+.explore-button:hover{
+
+    background:black;
+
+    transform:translateY(-2px);
+}
+.compare-checkbox {
+  font-size: 24px;
+  margin-top: 10px;
+}
+.change-preference-btn {
+  display: inline-block;
+  width: 220px;
+  margin: 18px 0 0;
+  padding: 11px 20px;
+
+  background: transparent;
+  color: gray;
+
+  border: 1px solid #f5a623;
+  border-radius: 10px;
+
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.change-preference-btn:hover {
+  background: rgba(245, 166, 35, 0.12);
+  transform: translateY(-2px);
+}
+
+.change-preference-btn:active {
+  transform: translateY(0);
+}
+
+
+
+

@@ -1,0 +1,113 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.explore-modal {
+  position: relative;
+  background: #161c27;        /* new background — deep slate instead of pure navy-black */
+  border: 1px solid #2a3242;
+  border-radius: 18px;
+  padding: 40px 48px 36px;
+  width: 100%;
+  max-width: 640px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Close button — pinned top-right */
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  left: auto;
+
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border: none;
+
+  font-size: 22px;
+  line-height: 1;
+  color: #8b95a5;
+  cursor: pointer;
+
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.modal-close:hover {
+  color: #f5a623;
+  transform: rotate(90deg);
+}
+
+.explore-modal h2 {
+  margin: 0 0 32px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.explore-section {
+  margin-bottom: 28px;
+}
+
+.explore-section h3 {
+  margin: 0 0 14px;
+  font-size: 18px;
+  font-weight: 700;
+  color: grey   /* amber accent, matches your card theme instead of blue */
+}
+
+.explore-section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.explore-section li {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #d3d8e0;
+}
+
+.review-button {
+  display: block;
+  width: fit-content;
+  margin: 24px auto 0;
+  padding: 12px 28px;
+
+  background: #232b38;
+  color: #ffffff;
+  border: 1px solid #394454;
+  border-radius: 30px;
+
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.review-button:hover {
+  background: #2d3748;
+  transform: translateY(-2px);
+}
+
+.review-button:active {
+  transform: translateY(0);
+}
