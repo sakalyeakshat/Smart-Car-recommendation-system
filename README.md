@@ -161,7 +161,7 @@ Install the following software before running the project:
 # Clone the Repository
 
 ```bash
-git clone https://github.com/akshats24/Smart-Car-recommendation-system.git
+git clone https://github.com/sakalyeakshat/Smart-Car-recommendation-system.git
 
 cd Smart-Car-recommendation-system
 ```
@@ -349,8 +349,10 @@ These communicate over a Docker network managed by Docker Compose.
 
 # Dataset Source
 
-The Indian Cars dataset is based on the publicly available specifications of Indian Cars on Kaggle:
-* https://www.kaggle.com/datasets/abineshsaravanan/indian-cars-dataset
+The dataset is taken from Kaggle, preprocessed, structured, and more data has been added.
+
+Original dataset:
+* https://www.kaggle.com/datasets/shiivvvaam/indian-cars-under-20-lakhs
 
 ---
 
@@ -394,11 +396,11 @@ Ensure:
 
 # Author
 
-**Akshat**
+**sakalyeakshat**
 
 GitHub
 
-https://github.com/akshats24
+https://github.com/sakalyeakshat
 
 ---
 
