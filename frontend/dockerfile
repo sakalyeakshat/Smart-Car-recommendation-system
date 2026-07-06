@@ -3,10 +3,12 @@ FROM node:20-alpine
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+RUN NODE_OPTIONS="--max-old-space-size=1024" npm install --legacy-peer-deps
 
 COPY . .
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+ENV NODE_ENV=development
+
+CMD ["npm", "start"]

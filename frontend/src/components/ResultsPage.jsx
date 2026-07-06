@@ -8,11 +8,8 @@ function ResultsPage({
   searched,
   error,
   recommendations,
-  compareList,
-  toggleCompare,
   openExploreModal,
   setCurrentView,
-  setShowCompare,
 }) {
   return (
     <div className="results-page">
@@ -61,8 +58,6 @@ function ResultsPage({
           <CarCard
             car={bestCar}
             featured={true}
-            compareList={compareList}
-            onToggleCompare={toggleCompare}
             onExplore={openExploreModal}
           />
         </div>
@@ -77,21 +72,10 @@ function ResultsPage({
                 key={index}
                 car={car}
                 featured={false}
-                compareList={compareList}
-                onToggleCompare={toggleCompare}
                 onExplore={openExploreModal}
               />
             ))}
           </div>
-        </div>
-      )}
-
-      {compareList.length === 2 && (
-        <div className="compare-bar">
-          <p>2 cars selected for comparison</p>
-          <button onClick={() => setShowCompare(true)}>
-            Compare Now
-          </button>
         </div>
       )}
 

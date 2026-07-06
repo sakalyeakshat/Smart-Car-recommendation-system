@@ -9,8 +9,6 @@ function RecommendationPage({
   transmissionChoices,
   bodyTypeChoices,
   resetForm,
-  compareList,
-  setShowCompare,
 }) {
   return (
     <>
@@ -41,6 +39,7 @@ function RecommendationPage({
               name="fuel_type"
               value={preferences.fuel_type}
               onChange={handleChange}
+              required
             >
               <option value="">Select Fuel Type</option>
               {fuelTypeChoices.map((opt) => (
@@ -55,6 +54,7 @@ function RecommendationPage({
               name="transmission"
               value={preferences.transmission}
               onChange={handleChange}
+              required
             >
               <option value="">Select Transmission</option>
               {transmissionChoices.map((opt) => (
@@ -69,6 +69,7 @@ function RecommendationPage({
               name="body_type"
               value={preferences.body_type}
               onChange={handleChange}
+              required
             >
               <option value="">Select Body Type</option>
               {bodyTypeChoices.map((opt) => (
@@ -136,14 +137,6 @@ function RecommendationPage({
 
         </form>
 
-
-
-        {compareList.length === 2 && (
-          <div className="compare-bar">
-            <span>{compareList.length} cars selected</span>
-            <button onClick={() => setShowCompare(true)}>Compare Now</button>
-          </div>
-        )}
 
       </div>
     </>

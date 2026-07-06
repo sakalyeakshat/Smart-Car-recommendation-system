@@ -1,21 +1,19 @@
-
 .car-card {
+  position: relative;
   background: #FFFFFF;
   border: 1px solid #E8E4F5;
   box-shadow: 0 4px 24px rgba(123,92,231,0.08), 0 1px 4px rgba(0,0,0,0.04);
   border-radius: 24px;
-
-  padding: 28px;
-
+  padding: 16px 20px;
   width: 100%;
   max-width: 900px;
   margin: 20px auto;
-
   transition: all 0.3s ease;
 }
 
-.top-match-card .car-card {
-  border-color: rgba(248, 177, 51, 0.5);
+.featured-card {
+  border-color: rgba(248, 177, 51, 0.6);
+  box-shadow: 0 4px 24px rgba(248, 177, 51, 0.15), 0 1px 4px rgba(0,0,0,0.04);
 }
 
 .car-card:hover {
@@ -23,121 +21,8 @@
   box-shadow: 0 8px 32px rgba(123,92,231,0.14);
 }
 
-.car-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.car-card-header h3 {
-  margin: 0;
-  font-size: 50px;
-}
-
-/* Black circle — mirrors the reference's solid selected state */
-.match-score {
-  width: 60px;
-  height: 60px;
-
-  border-radius: 50%;
-
-  background: #7B5CE7;
-
-  color: white;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 20px;
-  font-weight: 800;
-
-  box-shadow: 0 4px 12px rgba(123,92,231,0.35);
-}
-
-.progress-fill {
-  height: 100%;
-  background: #7B5CE7;
-  border-radius: 20px;
-  transition: width .8s ease;
-}
-
-.progress-bar {
-  height: 10px;
-  background: #E5E5E5;
-  border-radius: 20px;
-  margin: 20px 0;
-  overflow: hidden;
-}
-
-.match-reasons {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  padding: 0;
-  margin: 0;
-}
-
-.match-reasons li {
-  background: #F0EEFF;
-  color: #1A1A2E;
-  border: 1px solid #E8E4F5;
-
-  padding: 8px 14px;
-  border-radius: 999px;
-
-  font-size: 13px;
-  font-weight: 600;
-
-  transition: all 0.25s ease;
-}
-
-.match-reasons li:hover {
-  background: #7B5CE7;
-  color: #FFFFFF;
-  border-color: #7B5CE7;
-}
-
-.explore-button {
-  display: block;
-  width: 220px;
-  margin: 18px auto 0;
-  padding: 12px 20px;
-
-  background: #1A1A2E;
-  color: #FFFFFF;
-
-  border: none;
-  border-radius: 999px;
-
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  letter-spacing: 0.2px;
-
-  box-shadow: 0 4px 14px rgba(26,26,46,0.25);
-  transition: box-shadow 0.25s ease;
-}
-
-.explore-button:hover {
-  animation: pulse-blink 0.9s ease-in-out infinite;
-}
-
-@keyframes pulse-blink {
-  0%   { opacity: 1; }
-  50%  { opacity: 0.55; }
-  100% { opacity: 1; }
-}
-
-.explore-button:active {
-  transform: scale(0.97);
-}
-
-/* ---------- Compact Card Override ---------- */
-
-.car-card {
-  padding: 16px 20px;
+.car-header {
+  padding-right: 58px;
 }
 
 .car-header h2 {
@@ -155,32 +40,58 @@
 }
 
 .match-score {
-  font-size: 15px;
+  position: absolute;
+  top: 14px;
+  right: 16px;
   width: 48px;
   height: 48px;
+  border-radius: 50%;
+  background: #7B5CE7;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(123,92,231,0.35);
 }
 
 .progress-bar {
   height: 6px;
-  border-radius: 20px;
   background: #E5E5E5;
-  margin: 16px 0;
+  border-radius: 20px;
+  margin: 10px 0 8px;
   overflow: hidden;
 }
 
+.progress-fill {
+  height: 100%;
+  background: #9CA3AF;
+  border-radius: 20px;
+  transition: width .8s ease;
+}
+
 .car-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 6px;
   margin: 10px 0;
   font-size: 20px;
 }
 
 .detail-box {
+  background: #F5F5F5;
+  border: 1px solid #E0E0E0;
+  border-radius: 15px;
   padding: 6px 4px;
+  text-align: center;
 }
 
 .detail-box span {
+  display: block;
   font-size: 20px;
   color: #4B5563;
+  margin-bottom: 8px;
 }
 
 .detail-box strong {
@@ -189,7 +100,6 @@
   font-weight: 700;
 }
 
-/* Reason pills */
 .reason-section ul {
   display: flex;
   flex-wrap: wrap;
@@ -205,21 +115,23 @@
   padding: 5px 12px;
   border-radius: 999px;
   white-space: nowrap;
-  width: auto;
   background: #F0EEFF;
   color: #1A1A2E;
   border: 1px solid #E8E4F5;
 }
 
 .explore-button {
+  display: block;
   width: 220px;
-  padding: 12px;
-  border-radius: 999px;
+  margin: 18px auto 0;
+  padding: 12px 20px;
   background: #1A1A2E;
-  border: none;
   color: #FFFFFF;
+  border: none;
+  border-radius: 999px;
   font-size: 15px;
   font-weight: 700;
+  cursor: pointer;
   letter-spacing: 0.2px;
   box-shadow: 0 4px 14px rgba(26,26,46,0.25);
   transition: box-shadow 0.25s ease;
@@ -229,85 +141,14 @@
   animation: pulse-blink 0.9s ease-in-out infinite;
 }
 
-/* Compare pill-toggle */
-.compare-checkbox {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-  cursor: pointer;
-  user-select: none;
+.explore-button:active {
+  transform: scale(0.97);
 }
 
-/* Hide the native browser checkbox */
-.compare-checkbox input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-  pointer-events: none;
-}
-
-/* The pill track */
-.compare-checkbox::before {
-  content: "Compare";
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 14px;
-  border-radius: 999px;
-  border: 1.5px solid #C4B5FD;
-  background: #FFFFFF;
-  color: #6B7280;
-  font-size: 13px;
-  font-weight: 600;
-  transition: background 0.2s ease, color 0.2s ease,
-              border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* Checked state — pill fills with accent colour */
-.compare-checkbox:has(input:checked)::before {
-  background: #7B5CE7;
-  color: #FFFFFF;
-  border-color: #7B5CE7;
-  box-shadow: 0 2px 8px rgba(123,92,231,0.30);
-  content: "✓ Comparing";
-}
-
-.compare-checkbox:hover::before {
-  border-color: #7B5CE7;
-  color: #7B5CE7;
-}
-
-.compare-checkbox:has(input:checked):hover::before {
-  background: #6A4ED4;
-  border-color: #6A4ED4;
-  color: #FFFFFF;
-}
-
-/* Row wrapper for compare pill + inline hint */
-.compare-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-/* Inline hint that appears on the selected card */
-.compare-inline-hint {
-  font-size: 12.5px;
-  font-weight: 600;
-  color: #7B5CE7;
-  background: #F0EEFF;
-  border: 1px dashed #C4B5FD;
-  border-radius: 999px;
-  padding: 4px 12px;
-  animation: hint-pop 0.3s ease;
-  white-space: nowrap;
-}
-
-@keyframes hint-pop {
-  from { opacity: 0; transform: scale(0.88); }
-  to   { opacity: 1; transform: scale(1); }
+@keyframes pulse-blink {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.55; }
+  100% { opacity: 1; }
 }
 
 .change-preference-btn {
@@ -315,17 +156,13 @@
   width: 220px;
   margin: 18px 0 0;
   padding: 11px 20px;
-
   background: #FFFFFF;
   color: #1A1A2E;
-
   border: 1.5px solid #C4B5FD;
   border-radius: 999px;
-
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-
   transition: background 0.2s ease, color 0.2s ease,
               border-color 0.2s ease, transform 0.2s ease,
               box-shadow 0.2s ease;
@@ -343,29 +180,24 @@
   transform: translateY(0);
 }
 
-/* ← Back to Home button */
 .back-home-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   margin: 18px 0 8px;
   padding: 10px 22px 10px 16px;
-
   background: #FFFFFF;
   color: #1A1A2E;
-
   border: 1.5px solid #C4B5FD;
   border-radius: 999px;
-
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   letter-spacing: 0.1px;
-
+  box-shadow: 0 2px 8px rgba(123,92,231,0.10);
   transition: background 0.2s ease, color 0.2s ease,
               border-color 0.2s ease, transform 0.2s ease,
               box-shadow 0.2s ease;
-  box-shadow: 0 2px 8px rgba(123,92,231,0.10);
 }
 
 .back-home-btn:hover {
@@ -396,46 +228,66 @@
   font-weight: 700;
 }
 
-/* ── Compare hint banner ── */
-.compare-hint {
+.results-page {
+  padding: 0 20px;
+}
+
+.results-header {
+  margin-bottom: 10px;
+}
+
+.best-section h2,
+.others-section h3 {
+  margin-bottom: 4px;
+}
+
+.cars-grid {
   display: flex;
-  align-items: center;
-  gap: 10px;
-
-  max-width: 900px;
-  margin: 12px auto 4px;
-  padding: 10px 18px;
-
-  background: #F0EEFF;
-  border: 1.5px solid #C4B5FD;
-  border-radius: 999px;
-
-  font-size: 13.5px;
-  font-weight: 600;
-  color: #5B3FC8;
-
-  animation: hint-fade-in 0.4s ease;
+  flex-direction: column;
 }
 
-@keyframes hint-fade-in {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+.empty-state,
+.error-box {
+  padding: 24px 32px;
+  border-radius: 28px;
+  background: #FFFFFF;
+  border: 1px solid #E8E4F5;
+  box-shadow: 0 4px 24px rgba(123,92,231,0.08), 0 1px 4px rgba(0,0,0,0.04);
+  text-align: center;
 }
 
-.compare-hint-icon {
-  font-size: 16px;
-  flex-shrink: 0;
+.error-box {
+  background: #FEF2F2;
+  color: #DC2626;
+  border: 1px solid #FECACA;
+  margin-bottom: 20px;
 }
 
-/* ── Disabled compare pill ── */
-.compare-disabled::before {
-  opacity: 0.38;
-  cursor: not-allowed;
-  border-color: #D1D5DB !important;
-  color: #9CA3AF !important;
-  background: #F9FAFB !important;
+.loading-state {
+  background: #FFFFFF;
+  border: 1px solid #E8E4F5;
+  border-radius: 28px;
+  text-align: center;
+  padding: 60px;
+  box-shadow: 0 4px 24px rgba(123,92,231,0.08), 0 1px 4px rgba(0,0,0,0.04);
 }
 
-.compare-disabled {
-  cursor: not-allowed;
+.loader {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 6px solid #E5E5E5;
+  border-top: 6px solid #111111;
+  animation: spin 1s linear infinite;
+  margin: auto auto 20px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 900px) {
+  .car-details {
+    grid-template-columns: 1fr;
+  }
 }

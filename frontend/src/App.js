@@ -2,33 +2,13 @@ import Hero from "./components/Hero";
 import { useState, useEffect } from "react";
 import RecommendationPage from "./components/RecommendationPage";
 import ResultsPage from "./components/ResultsPage";
-import CompareModal from "./components/CompareModal";
 import ExploreModal from "./components/ExploreModal";
 
 import "./App.css";
 
-const BACKEND_URL = "http://localhost:8000/recommend";
-
-const fuelOptions = [
-  "Petrol",
-  "Diesel",
-  "CNG",
-  "Electric",
-];
-
-const transmissionOptions = [
-  "Manual",
-  "Automatic",
-];
-
-const bodyOptions = [
-  "SUV",
-  "Sedan",
-  "Hatchback",
-  "MPV",
-  "Van",
-  "Pickup",
-];
+const fuelOptions = ["Petrol", "Diesel", "CNG", "Electric"];
+const transmissionOptions = ["Manual", "Automatic"];
+const bodyOptions = ["SUV", "Sedan", "Hatchback", "MPV", "Van", "Pickup"];
 
 function App() {
   const [preferences, setPreferences] = useState({
@@ -46,8 +26,6 @@ function App() {
   const [searched, setSearched] = useState(false);
   const [error, setError] = useState("");
   const [currentView, setCurrentView] = useState("home");
-  const [compareList, setCompareList] = useState([]);
-  const [showCompare, setShowCompare] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
   const [showExplore, setShowExplore] = useState(false);
 
@@ -55,7 +33,7 @@ function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentView]);
 
-  // Make the browser ← back button navigate back to home
+  // pressing the browser back button returns to the home view
   useEffect(() => {
     function handlePopState() {
       setCurrentView("home");
@@ -66,10 +44,7 @@ function App() {
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setPreferences((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setPreferences((prev) => ({ ...prev, [name]: value }));
   }
 
   function resetForm() {
@@ -87,31 +62,6 @@ function App() {
     setSearched(false);
   }
 
-  function toggleCompare(car) {
-    setCompareList((prev) => {
-      const alreadySelected = prev.find(
-        (c) => c.brand === car.brand && c.model === car.model
-      );
-
-      if (alreadySelected) {
-        return prev.filter(
-          (c) => !(c.brand === car.brand && c.model === car.model)
-        );
-      }
-
-      if (prev.length >= 2) {
-        alert("You can only compare 2 cars at a time. Remove one first.");
-        return prev;
-      }
-
-      return [...prev, car];
-    });
-  }
-
-  function clearCompare() {
-    setCompareList([]);
-  }
-
   function openExploreModal(car) {
     setSelectedCar(car);
     setShowExplore(true);
@@ -125,11 +75,9 @@ function App() {
     setSearched(true);
 
     try {
-      const response = await fetch(BACKEND_URL, {
+      const response = await fetch("/recommend", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           budget: Number(preferences.budget),
           fuel_type: preferences.fuel_type,
@@ -141,23 +89,17 @@ function App() {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error();
-      }
+      if (!response.ok) throw new Error();
 
       const data = await response.json();
       setRecommendations(data.recommendations || []);
-      // Push a history entry so the browser's ← button can come back
-      window.history.pushState({ view: "results" }, "", window.location.href);
-      setCurrentView("results");
-
     } catch {
       setRecommendations([]);
-      setError(
-        "Unable to connect with backend. Please ensure FastAPI server is running."
-      );
+      setError("Unable to connect with backend. Please ensure FastAPI server is running.");
     } finally {
       setLoading(false);
+      window.history.pushState({ view: "results" }, "", window.location.href);
+      setCurrentView("results");
     }
   }
 
@@ -167,11 +109,9 @@ function App() {
   return (
     <div className="page">
       {showExplore && (
-        <ExploreModal
-          car={selectedCar}
-          onClose={() => setShowExplore(false)}
-        />
+        <ExploreModal car={selectedCar} onClose={() => setShowExplore(false)} />
       )}
+
       <nav className="navbar">
         <span className="navbar-logo">Smart Car Recommendation System</span>
       </nav>
@@ -180,15 +120,12 @@ function App() {
         {currentView === "home" && (
           <>
             <Hero />
-
             <section id="recommendation-form">
               <RecommendationPage
                 preferences={preferences}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
                 loading={loading}
-                compareList={compareList}
-                setShowCompare={setShowCompare}
                 resetForm={resetForm}
                 fuelTypeChoices={fuelOptions}
                 transmissionChoices={transmissionOptions}
@@ -206,10 +143,7 @@ function App() {
             searched={searched}
             error={error}
             recommendations={recommendations}
-            compareList={compareList}
-            toggleCompare={toggleCompare}
             openExploreModal={openExploreModal}
-            setShowCompare={setShowCompare}
             setCurrentView={setCurrentView}
           />
         )}
@@ -217,18 +151,7 @@ function App() {
         <footer className="footer">
           <p>DriveMatch AI • Smart Vehicle Recommendation System</p>
         </footer>
-
-        {showCompare && (
-          <CompareModal
-            cars={compareList}
-            onClose={() => {
-              setShowCompare(false);
-              clearCompare();
-            }}
-          />
-        )}
       </>
-
     </div>
   );
 }
