@@ -194,27 +194,20 @@ docker compose down -v
 
 Frontend
 
-```
 http://localhost:3000
-```
 
 Backend
 
-```
 http://localhost:8000
-```
 
 Swagger Documentation
 
-```
 http://localhost:8000/docs
-```
 
 ReDoc Documentation
 
-```
 http://localhost:8000/redoc
-```
+
 
 ---
 
@@ -356,11 +349,14 @@ These communicate over a Docker network managed by Docker Compose.
 
 # Dataset Source
 
-The Indian Cars dataset is based on publicly available specifications from Kaggle.
+The Indian Cars dataset is based on the publicly available specifications of Indian Cars on Kaggle:
+* https://www.kaggle.com/datasets/abineshsaravanan/indian-cars-dataset
 
 ---
 
 # Screenshots
+
+*(Add screenshots of your application here inside a `Screenshots` folder)*
 
 ![Form Screenshot](Screenshots/1.png)
 ![Results Screenshot](Screenshots/2.png)
@@ -382,13 +378,7 @@ docker compose up --build
 
 ## Port already in use
 
-Change ports inside:
-
-```
-docker-compose.yml
-```
-
-or stop the application currently using that port.
+Change ports inside `docker-compose.yml` or stop the application currently using that port.
 
 ---
 
