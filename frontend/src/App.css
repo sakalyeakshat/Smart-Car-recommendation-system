@@ -37,10 +37,23 @@ body {
   margin-bottom: 4px;
 }
 
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-logo-img {
+  height: 32px;
+  width: auto;
+  color: #000000;
+  display: block;
+}
+
 .navbar-logo {
   font-size: 26px;
   font-weight: 800;
-  color: #6B7280;
+  color: #2C2C2C;
   letter-spacing: -0.3px;
 }
 

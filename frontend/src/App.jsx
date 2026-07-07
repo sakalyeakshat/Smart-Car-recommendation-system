@@ -21,7 +21,7 @@ const defaultPrefs = {
 
 /**
  * Main application component managing preferences, recommendations, and current view state.
- * @returns {JSX.Element} The rendered application layout.
+ * The rendered application layout.
  */
 function App() {
   const [preferences, setPreferences] = useState(defaultPrefs);
@@ -73,7 +73,7 @@ function App() {
 
   /**
    * Opens the explore modal for a specific car.
-   * @param {Object} car - Selected car object.
+   * - Selected car object.
    */
   function openExploreModal(car) {
     setSelectedCar(car);
@@ -82,7 +82,7 @@ function App() {
 
   /**
    * Handle form submission, fetch recommendations from API, and switch views.
-   * @param {React.FormEvent} e - Form submission event.
+   *  e - Form submission event.
    */
   async function handleSubmit(e) {
     e.preventDefault();
@@ -132,7 +132,16 @@ function App() {
       )}
 
       <nav className="navbar">
-        <span className="navbar-logo">Smart Car Recommendation System</span>
+        <div className="navbar-brand">
+          <svg className="navbar-logo-img" viewBox="0 0 100 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 12 25 c 0 -3.3 2.7 -6 6 -6 s 6 2.7 6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M 72 25 c 0 -3.3 2.7 -6 6 -6 s 6 2.7 6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M 5 25 h 7 M 30 25 h 42 M 84 25 h 11" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M 6 25 Q 12 18 20 18 Q 30 18 42 13 Q 56 9 70 13 Q 84 17 91 21 Q 94 23 94 25" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+            <path d="M 33 17.5 Q 46 14 58 14 Q 70 14 78 17.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+          <span className="navbar-logo">Smart Car Recommendation System</span>
+        </div>
       </nav>
 
       <>

@@ -2,16 +2,6 @@ import "../styles/RecommendationForm.css";
 
 /**
  * Component representing the preference selection form.
- * @param {Object} props - Component props.
- * @param {Object} props.preferences - The user preference state object.
- * @param {Function} props.handleChange - Callback handler for form input changes.
- * @param {Function} props.handleSubmit - Callback handler for form submission.
- * @param {boolean} props.loading - Indicates API submission loading state.
- * @param {Array<string>} props.fuelTypeChoices - Array of fuel types options.
- * @param {Array<string>} props.transmissionChoices - Array of transmission options.
- * @param {Array<string>} props.bodyTypeChoices - Array of body type options.
- * @param {Function} props.resetForm - Callback to reset form preferences.
- * @returns {JSX.Element} The form structure.
  */
 function RecommendationForm({
   preferences,

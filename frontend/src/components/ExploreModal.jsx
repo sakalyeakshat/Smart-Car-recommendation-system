@@ -2,10 +2,10 @@ import "../styles/ExploreModal.css";
 
 /**
  * Component representing the detailed exploration modal for a car.
- * @param {Object} props - Component props.
- * @param {Object} props.car - The car details object.
- * @param {Function} props.onClose - Callback function triggered when modal is closed.
- * @returns {JSX.Element|null} The modal overlay markup or null.
+ *  - Component props.
+ *  - The car details object.
+ *  - Callback function triggered when modal is closed.
+ *  - The modal overlay markup or null.
  */
 function ExploreModal({ car, onClose }) {
   if (!car) return null;

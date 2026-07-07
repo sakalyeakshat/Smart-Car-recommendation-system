@@ -2,16 +2,16 @@ import "../styles/ResultPage.css";
 
 /**
  * Component representing the results layout displaying matched cars.
- * @param {Object} props - Component props.
- * @param {Object} props.bestCar - The top recommended car object.
- * @param {Array<Object>} props.remainingCars - List of other recommended car options.
- * @param {boolean} props.loading - Indicates if calculations/API requests are running.
- * @param {boolean} props.searched - Indicates if a search operation has occurred.
- * @param {string} props.error - Current error message string, if any.
- * @param {Array<Object>} props.recommendations - List of all recommendation results.
- * @param {Function} props.openExploreModal - Callback triggered to explore a specific car.
- * @param {Function} props.setCurrentView - State setter function for page navigation.
- * @returns {JSX.Element} The results container markup.
+ *  - Component props.
+ *  - The top recommended car object.
+ *  - List of other recommended car options.
+ *  - Indicates if calculations/API requests are running.
+ *  - Indicates if a search operation has occurred.
+ *  - Current error message string, if any.
+ *  - List of all recommendation results.
+ *  - Callback triggered to explore a specific car.
+ *  - State setter function for page navigation.
+ *   The results container markup.
  */
 function ResultsPage({
   bestCar,
@@ -96,11 +96,11 @@ function ResultsPage({
 }
 /**
  * Component representing an individual car card.
- * @param {Object} props - Component props.
- * @param {Object} props.car - The details of the vehicle.
- * @param {boolean} props.featured - Flag to apply top recommendation styling.
- * @param {Function} props.onExplore - Callback handler to view details.
- * @returns {JSX.Element} The car card component layout.
+ *  - Component props.
+ * - The details of the vehicle.
+ *  - Flag to apply top recommendation styling.
+ *  - Callback handler to view details.
+ *   The car card component layout.
  */
 function CarCard({ car, featured, onExplore }) {
   return (
