@@ -49,6 +49,7 @@ The Software generates multiple, dynamically scored vehicle recommendations, and
 * Personalized car recommendations with explanation badges
 * Brand diversity filtering to ensure a variety of choices
 * "Explore More" details listing key strengths and trade-offs
+* Comprehensive technical documentation via Python docstrings and project README
 * FastAPI backend (Python-based REST API)
 * React frontend (modern JavaScript framework with zero jQuery)
 * MySQL database

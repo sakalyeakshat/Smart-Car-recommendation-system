@@ -1,3 +1,7 @@
+"""
+Main FastAPI application entry point.
+Sets up the API application, CORS middleware, and includes all routers.
+"""
 import sys
 from pathlib import Path
 
@@ -25,11 +29,17 @@ app.add_middleware(
 
 @app.get("/")
 def home():
+    """
+    Root endpoint to verify the backend is responsive.
+    """
     return {"message": "Backend is running!"}
 
 
 @app.get("/health")
 def health():
+    """
+    Health check endpoint for Docker container status monitoring.
+    """
     return {"status": "OK", "healthy": True}
 
 

@@ -9,7 +9,10 @@ THRESHOLD = 0.7
 MILEAGE_PLACEHOLDER = 19.6
 
 def get_budget_score(user_budget, min_price, max_price):
-    # return 1 if it's perfectly in budget, otherwise penalize it a bit
+    """
+    Calculates a budget compatibility score.
+    Returns 1.0 if perfectly in budget, otherwise penalizes proportionally based on the gap.
+    """
     if pd.isna(min_price) or pd.isna(max_price):
         return 0
     if min_price <= user_budget <= max_price:
@@ -21,7 +24,10 @@ def get_budget_score(user_budget, min_price, max_price):
     return max(0, 1 - penalty)
 
 def check_user_prefs(user_pref, car_pref_full):
-    # see if car matches what the user wants for fuel/transmission
+    """
+    Evaluates string-based preferences like fuel or transmission.
+    Awards full points for exact matches and partial points for secondary options.
+    """
     if pd.isna(car_pref_full) or pd.isna(user_pref):
         return 0.0
         
@@ -42,11 +48,20 @@ def check_user_prefs(user_pref, car_pref_full):
     return 0.75
 
 def get_body_score(user_body, car_body):
+    """
+    Evaluates body type compatibility.
+    Returns 1.0 for an exact match, 0.0 otherwise.
+    """
     if pd.isna(car_body) or pd.isna(user_body):
         return 0
     return 1.0 if user_body.lower() == str(car_body).lower() else 0.0
 
 def get_mileage_score(user_min_mileage, car_avg_mileage):
+    """
+    Calculates the mileage score based on the user's minimum requirement.
+    Returns 1.0 if the car's mileage meets or exceeds the requirement,
+    and a proportional score if it falls short.
+    """
     if pd.isna(car_avg_mileage):
         return 0.5
     if abs(car_avg_mileage - MILEAGE_PLACEHOLDER) < 0.01:
@@ -59,6 +74,11 @@ def get_mileage_score(user_min_mileage, car_avg_mileage):
     return max(0, car_avg_mileage / max(user_min_mileage, 1))
 
 def get_seating_score(user_seats, min_seats, max_seats):
+    """
+    Evaluates the seating capacity score.
+    Returns 1.0 if the user's requirement falls within the car's seating capacity,
+    0.75 if the car has more seats than required, and 0.0 if it has fewer.
+    """
     if pd.isna(min_seats) or pd.isna(max_seats):
         return 0
     if min_seats <= user_seats <= max_seats:
@@ -68,6 +88,11 @@ def get_seating_score(user_seats, min_seats, max_seats):
     return 0.75 # seats more than needed but that's okay
 
 def get_safety_score(user_safety, car_safety):
+    """
+    Calculates the safety rating score based on the user's minimum requirement.
+    Returns 1.0 if the car meets or exceeds the required safety rating,
+    and a proportional score if it falls short.
+    """
     if pd.isna(car_safety):
         return 0.5
     if car_safety >= user_safety:
@@ -75,7 +100,10 @@ def get_safety_score(user_safety, car_safety):
     return max(0, car_safety / max(user_safety, 1))
 
 def make_reasons_list(prefs, car, scores):
-    # build those little tags explaining why it matched
+    """
+    Generates dynamic tags explaining why a specific vehicle was matched to the user
+    based on parameter scores that passed the threshold.
+    """
     reasons = []
     if scores['budget'] >= THRESHOLD:
         reasons.append("Fits Your Budget")
@@ -94,7 +122,10 @@ def make_reasons_list(prefs, car, scores):
     return reasons
 
 def mix_brands(ranked_df, top_n):
-    # prevent getting 5 marutis or something, pick top from distinct brands
+    """
+    Enforces brand diversity in recommendations to prevent all top matches
+    originating from a single manufacturer.
+    """
     seen_brands = set()
     primary = []
     overflow = []
@@ -117,7 +148,10 @@ def mix_brands(ranked_df, top_n):
     return pd.DataFrame(primary)
 
 def run_matching_engine(prefs, df, top_n=5):
-    # main recommendation logic
+    """
+    Core recommendation logic that applies weighted scoring against user preferences.
+    Filters hard constraints first, then evaluates matching scores for all parameters.
+    """
     cars = df.copy()
     
     # filter out cars way too expensive or too small immediately
@@ -126,7 +160,8 @@ def run_matching_engine(prefs, df, top_n=5):
     
     filtered_cars = cars[
         (cars['Price_Min_Lakh'] <= budget_ceiling) &
-        (cars['Seating_Max'] >= u_seats)
+        (cars['Seating_Max'] >= u_seats) &
+        (cars['Mileage_Avg_kmpl'] >= prefs['min_mileage'])
     ]
     
     if filtered_cars.empty:
@@ -215,7 +250,15 @@ def run_matching_engine(prefs, df, top_n=5):
     return mix_brands(ranked, top_n)
 
 class RecommendationService:
+    """
+    Service class handling recommendation business logic and data access.
+    Manages database initialization and exposes methods to retrieve car recommendations.
+    """
     def __init__(self):
+        """
+        Initializes the service by ensuring the database is seeded with initial data
+        and loading the cars dataset into memory.
+        """
         # setup db if not seeded yet
         if self._needs_seeding():
             print("seeding database from csv...")
@@ -224,6 +267,10 @@ class RecommendationService:
         self.cars_df = pd.read_sql("SELECT * FROM cars", engine)
 
     def _needs_seeding(self):
+        """
+        Checks if the cars database table exists and contains records.
+        Returns True if the database is empty and needs to be seeded from the CSV.
+        """
         inspector = inspect(engine)
         if not inspector.has_table("cars"):
             return True
@@ -233,10 +280,16 @@ class RecommendationService:
         return count == 0
 
     def _seed_database_from_csv(self):
+        """
+        Reads the initial car dataset from a CSV file and populates the database table.
+        """
         csv_path = Path("/app") / "datasets" / "cars_in.csv"
         seed_df = pd.read_csv(csv_path)
         seed_df.to_sql(name="cars", con=engine, if_exists="replace", index=False)
 
     def recommend_cars(self, user_input):
+        """
+        Public endpoint to trigger the matching engine and return formatted dictionaries.
+        """
         results = run_matching_engine(prefs=user_input, df=self.cars_df, top_n=5)
         return results.to_dict(orient="records")

@@ -1,3 +1,8 @@
+"""
+Configuration settings for the DriveMatch AI backend.
+Contains weight definitions for the scoring algorithm and other constants.
+"""
+
 # Weights for each preference used in the scoring algorithm.
 # Budget is the most important factor, mileage and seating the least.
 SCORE_WEIGHTS = {

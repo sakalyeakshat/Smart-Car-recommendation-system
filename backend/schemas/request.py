@@ -7,5 +7,5 @@ class RecommendationRequest(BaseModel):
     transmission: str
     body_type: str
     seating: int = Field(..., ge=2)
-    min_mileage: float = Field(..., ge=0)
+    min_mileage: float = Field(..., ge=0, le=30)
     min_safety: float = Field(..., ge=0, le=5)

@@ -1,3 +1,7 @@
+"""
+Database connection and session management module.
+Initializes the SQLAlchemy engine using environment variables.
+"""
 import os
 from sqlalchemy import create_engine
 
