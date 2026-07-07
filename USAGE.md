@@ -1,6 +1,6 @@
 Usage Guide
 
-This quick guide walks you through how to use the DriveMatch AI interface to find vehicle recommendations tailored exactly to your profile.
+This guide explains how to use the DriveMatch AI UI to find personalized vehicle recommendations tailored to your exact profile.
 
 How to use the App
 
@@ -19,9 +19,9 @@ Submit: Click the "Get Recommendations" button to query the matching engine.
 
 Reading the Results
 
-The matching engine will kick back the top 5 best-fitting vehicles based on our weighted scoring algorithm.
+The system will return the top 5 best-fitting vehicles based on the weighted scoring algorithm.
 
-* Match Percentage: This is an overall score out of 100%. It's calculated based on how well the car fits your exact requirements, and it even awards partial credit for secondary matches or close approximations.
+* Match Percentage: This is a mathematical score out of 100%. It is calculated based on how closely the car fits your exact requirements, with partial credit awarded for secondary matches or close approximations.
 * Match Reasons: This explicitly lists exactly why this car was recommended to you, highlighting the parameters that perfectly aligned with your input.
 * Explore More: Clicking this button on any recommendation card opens a detailed modal showing the specific strengths and trade-offs of that vehicle compared to your original preferences.
 
@@ -33,7 +33,7 @@ Let's assume you submit the following profile:
 * Transmission: Automatic
 * Body Type: SUV
 
-Expected Output: The algorithm will likely pull up a vehicle like the Hyundai Creta as a top match.
+Expected Output: The algorithm will likely return a vehicle like the Hyundai Creta as a top match.
 
-* You'd score high points here because the car fits perfectly within that 12.0 Lakh budget.
+* You receive high points because the car fits perfectly within the 12.0 Lakh budget constraint.
 * The UI will list "Fuel: Petrol" and "SUV Body Style" under the Match Reasons, informing you exactly why this specific model is a great fit for your daily needs.

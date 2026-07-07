@@ -2,9 +2,9 @@ DriveMatch AI
 
 Project Overview
 
-DriveMatch AI is basically a smart car recommendation engine I built to give personalized vehicle suggestions based on what a user actually wants.
+DriveMatch AI is a Smart Car Recommendation System that generates personalized vehicle recommendations based on a user's profile and preferences.
 
-Users provide simple information such as:
+Users provide information such as:
 
 * Budget (in Lakhs)
 * Fuel Type Preference (Petrol, Diesel, CNG, Electric)
@@ -20,15 +20,15 @@ Based on these inputs, the application recommends an optimized vehicle selection
 
 Why This Project?
 
-I chose to build this because buying a car can be a pretty overwhelming decision that involves way too many trade-offs (e.g., budget vs. safety, mileage vs. performance). A recommendation engine solves this real-world problem by acting like an unbiased digital advisor. 
+This project was chosen because car purchasing is often an overwhelming decision involving multiple trade-offs (e.g., budget vs. safety, mileage vs. performance). A Recommendation System solves this real-world problem by acting as an unbiased digital advisor. 
 
-What makes this system special is that it doesn't just blindly filter rows in a database. It actually uses a weighted scoring algorithm to find the closest matches, even if a car isn't a 100% perfect fit for every single parameter. It also enforces brand diversity so users aren't flooded with recommendations from just one single manufacturer, and it provides dynamic Key Strengths and Trade-offs to help users make truly informed decisions.
+What makes this system special is that it doesn't just blindly filter data. It uses a weighted scoring algorithm to find the closest matches even if a car isn't a 100% perfect fit for every single parameter. It also enforces brand diversity so users aren't flooded with recommendations from just one manufacturer, and provides dynamic Key Strengths and Trade-offs to help users make informed decisions.
 
 ---
 
 What Makes This Project Special
 
-Unlike traditional car sites that just apply basic, rigid filters to a database, DriveMatch AI generates personalized vehicle recommendations based on multiple user-specific parameters that actually have a real impact on choosing the right car for your lifestyle.
+Unlike traditional car search platforms that just apply rigid filters to a database, DriveMatch AI generates personalized vehicle recommendations based on multiple user-specific parameters that actually have significance in determining the most appropriate car for your lifestyle.
 
 DriveMatch AI considers:
 
@@ -179,7 +179,7 @@ Please refer to USAGE.md for full instructions on how to use the application and
 
 Validation
 
-The backend makes sure to validate all incoming requests via Pydantic.
+The backend validates all incoming requests using Pydantic.
 Examples include:
 * Missing fields
 * Invalid values
@@ -210,7 +210,7 @@ These communicate over a Docker network managed by Docker Compose.
 
 Dataset Source
 
-The core dataset is taken from Kaggle, but I preprocessed it, structured it, and generated quite a bit of extra data for it.
+The dataset is taken from Kaggle, preprocessed, structured, and more data has been added.
 
 Original dataset:
 https://www.kaggle.com/datasets/shiivvvaam/indian-cars-under-20-lakhs
