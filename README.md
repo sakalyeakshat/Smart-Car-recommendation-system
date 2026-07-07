@@ -1,17 +1,10 @@
-# 🚗 DriveMatch AI
+DriveMatch AI
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
-![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green.svg)
-![React](https://img.shields.io/badge/React-Frontend-61DAFB.svg)
-![MySQL](https://img.shields.io/badge/MySQL-Database-orange.svg)
-![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED.svg)
----
+Project Overview
 
-# 📖 Project Overview
+DriveMatch AI is basically a smart car recommendation engine I built to give personalized vehicle suggestions based on what a user actually wants.
 
-DriveMatch AI is a **Smart Car Recommendation System** that generates personalized vehicle recommendations based on a user's profile and preferences.
-
-Users provide information such as:
+Users provide simple information such as:
 
 * Budget (in Lakhs)
 * Fuel Type Preference (Petrol, Diesel, CNG, Electric)
@@ -25,15 +18,33 @@ Based on these inputs, the application recommends an optimized vehicle selection
 
 ---
 
-# 💡 Why This Project?
+Why This Project?
 
-This project was chosen because car purchasing is often an overwhelming decision involving multiple trade-offs (e.g., budget vs. safety, mileage vs. performance). A **Recommendation System** solves this real-world problem by acting as an unbiased digital advisor. 
+I chose to build this because buying a car can be a pretty overwhelming decision that involves way too many trade-offs (e.g., budget vs. safety, mileage vs. performance). A recommendation engine solves this real-world problem by acting like an unbiased digital advisor. 
 
-What makes this system special is that it doesn't just blindly filter data. It uses a **weighted scoring algorithm** to find the closest matches even if a car isn't a 100% perfect fit for every single parameter. It also enforces **brand diversity** so users aren't flooded with recommendations from just one manufacturer, and provides dynamic **Key Strengths and Trade-offs** to help users make informed decisions.
+What makes this system special is that it doesn't just blindly filter rows in a database. It actually uses a weighted scoring algorithm to find the closest matches, even if a car isn't a 100% perfect fit for every single parameter. It also enforces brand diversity so users aren't flooded with recommendations from just one single manufacturer, and it provides dynamic Key Strengths and Trade-offs to help users make truly informed decisions.
 
 ---
 
-# ✨ Features
+What Makes This Project Special
+
+Unlike traditional car sites that just apply basic, rigid filters to a database, DriveMatch AI generates personalized vehicle recommendations based on multiple user-specific parameters that actually have a real impact on choosing the right car for your lifestyle.
+
+DriveMatch AI considers:
+
+* Budget Constraints
+* Fuel Type Preferences
+* Transmission Types
+* Seating Capacity
+* Minimum Safety Ratings (NCAP)
+* Body Type Styles
+* Minimum Mileage (kmpl)
+
+The Software generates multiple, dynamically scored vehicle recommendations, and the user can select and explore the specific strengths and trade-offs of any of them.
+
+---
+
+Features
 
 * Personalized car recommendations with explanation badges
 * Brand diversity filtering to ensure a variety of choices
@@ -49,10 +60,9 @@ What makes this system special is that it doesn't just blindly filter data. It u
 
 ---
 
-# 🛠 Technology Stack
+Technology Stack
 
-## Backend
-
+Backend
 * Python
 * FastAPI
 * SQLAlchemy
@@ -61,24 +71,21 @@ What makes this system special is that it doesn't just blindly filter data. It u
 * PyMySQL
 * Pandas
 
-## Frontend
-
+Frontend
 * React
 * Axios
 * CSS
 
-## Database
-
+Database
 * MySQL
 
-## DevOps
-
+DevOps
 * Docker
 * Docker Compose
 
 ---
 
-# 🏗 Project Architecture
+Project Architecture
 
 ```text
                     User
@@ -99,222 +106,81 @@ What makes this system special is that it doesn't just blindly filter data. It u
 
 ---
 
-# 📂 Project Structure
+Project Structure
 
 ```text
 Smart-Car-recommendation-system/
-│   ├── recommendation.py              # Combined recommendation & explore endpoints
+├── backend/
 │   ├── schemas/
 │   │   ├── request.py                 # Pydantic input models
-│   │   ├── response.py                # Pydantic response models
-│   │   └── explore.py                 # Pydantic explore models
+│   │   └── response.py                # Pydantic response models
+│   ├── datasets/
+│   │   ├── raw/
+│   │   │   └── cars_in.csv            # Source Indian Cars dataset
+│   │   └── explore_and_clean.ipynb    # Jupyter Notebook for cleaning steps
+│   ├── recommendation.py              # Recommendation endpoints
 │   ├── services.py                    # Seeding, DB queries & weighted scoring logic
 │   ├── config.py                      # Weight coefficients and configurations
 │   ├── main.py                        # FastAPI entrypoint & CORS setup
-│   ├── database/
-│   │   └── database.py                    # Database connection setup
-│   ├── datasets/
-│   │   ├── raw/
-│   │   │   └── cars_in.csv                # Source Indian Cars dataset
-│   │   └── explore_and_clean.ipynb        # Jupyter Notebook for cleaning steps
-│   ├── dockerfile                         # Backend container config
-│   ├── requirements.txt                   # Backend dependencies
-│   └── start.sh                           # Startup shell script waiting for MySQL
+│   ├── database.py                    # Database connection setup
+│   ├── dockerfile                     # Backend container config
+│   ├── requirements.txt               # Backend dependencies
+│   └── start.sh                       # Startup shell script waiting for MySQL
 │
 ├── frontend/
 │   ├── public/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── ExploreModal.jsx           # Strengths/trade-offs detail modal
-│   │   │   ├── RecommendationForm.jsx     # Input questionnaire form
-│   │   │   ├── ResultsPage.jsx            # Display recommended cars grid
-│   │   ├── styles/                        # Custom stylesheet components
-│   │   ├── App.css                        # Global styling definitions
-│   │   ├── App.jsx                        # React main router & view controller
+│   │   │   ├── ExploreModal.jsx       # Strengths/trade-offs detail modal
+│   │   │   ├── RecommendationForm.jsx # Input questionnaire form
+│   │   │   └── ResultsPage.jsx        # Display recommended cars grid
+│   │   ├── styles/                    # Custom stylesheet components
+│   │   ├── App.css                    # Global styling definitions
+│   │   ├── App.jsx                    # React main router & view controller
 │   │   ├── index.css
 │   │   └── index.js
-│   ├── dockerfile                         # Frontend container config
-│   └── package.json                       # Node dependencies & run scripts
+│   ├── dockerfile                     # Frontend container config
+│   └── package.json                   # Node dependencies & run scripts
 │
 ├── mysql/
-│   └── init.sql                           # Database initialization schema
+│   └── init.sql                       # Database initialization schema
 │
-├── docker-compose.yml                     # Orchestration configuration
-│
-└── README.md                              # Project Documentation
+├── docker-compose.yml                 # Orchestration configuration
+├── INSTALL.md                         # Installation & Setup Guide
+├── USAGE.md                           # Application Usage Guide
+└── README.md                          # Project Documentation
 ```
 
 ---
 
-# ⚙️ Installation
+Installation & Setup
 
-## Prerequisites
-
-Install the following software before running the project:
-
-* Docker
+Please refer to INSTALL.md for full setup and teardown instructions.
 
 ---
 
-# Clone the Repository
-
-```bash
-git clone https://github.com/sakalyeakshat/Smart-Car-recommendation-system.git
-
-cd Smart-Car-recommendation-system
-```
-
----
-
-# Run Using Docker (Recommended)
-
-Build and start all containers:
-
-```bash
-docker compose up
-```
-
-Stop containers:
-
-```bash
-docker compose down
-```
-
-Remove volumes:
-
-```bash
-docker compose down -v
-```
-
----
-
-# Application URLs
-
-Frontend
-
-http://localhost:3000
-
-Backend
-
-http://localhost:8000
-
-Swagger Documentation
-
-http://localhost:8000/docs
-
-ReDoc Documentation
-
-http://localhost:8000/redoc
-
-
----
-
-# Running Without Docker
-
-## Backend
-
-Create virtual environment
-
-```bash
-python -m venv venv
-```
-
-Activate virtual environment
-
-Windows
-
-```bash
-venv\Scripts\activate
-```
-
-Linux/macOS
-
-```bash
-source venv/bin/activate
-```
-
-Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-Run FastAPI
-
-```bash
-uvicorn app.main:app --reload
-```
-
----
-
-## Frontend
-
-Install dependencies
-
-```bash
-npm install
-```
-
-Run development server
-
-```bash
-npm start
-```
-
----
-
-# Database Setup
+Database Setup
 
 The application uses MySQL.
-
 If using Docker, the database is automatically created during startup.
 
 The initialization script creates:
-
 * Database
 * Required tables
 * Seeds initial car data from `cars_in.csv`
 
 ---
 
-# How the Recommendation Engine Works
+Usage Guide
 
-1. User enters car preferences.
-2. Frontend validates the form.
-3. Data is sent to the FastAPI backend.
-4. Backend validates the request using Pydantic.
-5. Recommendation engine queries the MySQL database.
-6. Cars are filtered and scored based on budget and seating constraints.
-7. Matching vehicles are evaluated using a weighted multi-criteria scoring algorithm.
-8. A brand diversity pass ensures recommendations span different manufacturers.
-9. Personalized car recommendation list is generated.
-10. Results are returned as JSON.
-11. Frontend displays the recommended cars.
+Please refer to USAGE.md for full instructions on how to use the application and understand the recommendation results.
 
 ---
 
-# User Inputs
+Validation
 
-The recommendation engine considers factors such as:
-
-* Budget (in Lakhs)
-* Fuel Type
-* Transmission Type
-* Seating Capacity
-* Safety Rating
-* Body Type
-* Minimum Mileage
-
-These inputs help generate recommendations that are more relevant than generic car listings.
-
----
-
-# Validation
-
-The backend validates all incoming requests using Pydantic.
-
+The backend makes sure to validate all incoming requests via Pydantic.
 Examples include:
-
 * Missing fields
 * Invalid values
 * Incorrect data types
@@ -324,88 +190,71 @@ Appropriate HTTP status codes are returned when validation fails.
 
 ---
 
-# Docker Containers
+Docker Containers
 
 The application consists of three independent containers:
 
-## Frontend
-
+Frontend
 * React
 
-## Backend
-
+Backend
 * FastAPI
 * Recommendation Engine
 
-## Database
-
+Database
 * MySQL
 
 These communicate over a Docker network managed by Docker Compose.
 
 ---
 
-# Dataset Source
+Dataset Source
 
-The dataset is taken from Kaggle, preprocessed, structured, and more data has been added.
+The core dataset is taken from Kaggle, but I preprocessed it, structured it, and generated quite a bit of extra data for it.
 
 Original dataset:
-* https://www.kaggle.com/datasets/shiivvvaam/indian-cars-under-20-lakhs
+https://www.kaggle.com/datasets/shiivvvaam/indian-cars-under-20-lakhs
 
 ---
 
-# Screenshots
+Screenshots
 
-*(Add screenshots of your application here inside a `Screenshots` folder)*
-
-![Form Screenshot](Screenshots/1.png)
-![Results Screenshot](Screenshots/2.png)
-![Results Screenshot](Screenshots/3.png)
+![Home Page](Screenshots/HomePage.png)
+![Form Screenshot](Screenshots/Form.png)
+![Recommendation Cards](Screenshots/RecommendationCards.png)
+![Explore More](Screenshots/ExploreMore.png)
 
 ---
 
-# Troubleshooting
+Troubleshooting
 
-## Docker won't start
-
+Docker won't start
 ```bash
 docker compose down
-
 docker compose up --build
 ```
 
----
-
-## Port already in use
-
+Port already in use
 Change ports inside `docker-compose.yml` or stop the application currently using that port.
 
----
-
-## Database connection error
-
+Database connection error
 Ensure:
-
 * MySQL container is running
 * Environment variables are correct
 * Docker network is created successfully
 
 ---
 
-# Author
+Author
 
-**sakalyeakshat**
-
-GitHub
-
-https://github.com/sakalyeakshat
+sakalyeakshat
+GitHub: https://github.com/sakalyeakshat
 
 ---
 
-# Acknowledgements
+Acknowledgements
 
 Open-source technologies used:
-
 * FastAPI
 * React
 * Docker
