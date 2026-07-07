@@ -15,7 +15,7 @@ Select your Parameters: Use the form fields to define your specific constraints:
 * Body Type: Choose Hatchback, Sedan, SUV, or MUV.
 * Minimum Mileage: Input your desired fuel efficiency (kmpl).
 
-Submit: Click the "Get Recommendations" button to query the matching engine.
+Submit: Click the "Find Best Matches" button to query the matching engine.
 
 ## Reading the Results
 
