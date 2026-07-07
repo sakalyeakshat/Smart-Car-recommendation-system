@@ -1,5 +1,18 @@
 import "../styles/ResultPage.css";
 
+/**
+ * Component representing the results layout displaying matched cars.
+ * @param {Object} props - Component props.
+ * @param {Object} props.bestCar - The top recommended car object.
+ * @param {Array<Object>} props.remainingCars - List of other recommended car options.
+ * @param {boolean} props.loading - Indicates if calculations/API requests are running.
+ * @param {boolean} props.searched - Indicates if a search operation has occurred.
+ * @param {string} props.error - Current error message string, if any.
+ * @param {Array<Object>} props.recommendations - List of all recommendation results.
+ * @param {Function} props.openExploreModal - Callback triggered to explore a specific car.
+ * @param {Function} props.setCurrentView - State setter function for page navigation.
+ * @returns {JSX.Element} The results container markup.
+ */
 function ResultsPage({
   bestCar,
   remainingCars,
@@ -81,6 +94,14 @@ function ResultsPage({
     </div>
   );
 }
+/**
+ * Component representing an individual car card.
+ * @param {Object} props - Component props.
+ * @param {Object} props.car - The details of the vehicle.
+ * @param {boolean} props.featured - Flag to apply top recommendation styling.
+ * @param {Function} props.onExplore - Callback handler to view details.
+ * @returns {JSX.Element} The car card component layout.
+ */
 function CarCard({ car, featured, onExplore }) {
   return (
     <div className={featured ? "car-card featured-card" : "car-card"}>

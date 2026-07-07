@@ -41,7 +41,7 @@ def check_user_prefs(user_pref, car_pref_full):
     for p in car_lower.split('&'):
         parts.append(p.strip())
         
-    # give partial credit if it's a secondary option
+    """give partial credit if it's a secondary option"""
     if len(parts) > 0 and parts[0] == user_lower:
         return 1.0
         
@@ -84,8 +84,10 @@ def get_seating_score(user_seats, min_seats, max_seats):
     if min_seats <= user_seats <= max_seats:
         return 1.0
     if max_seats < user_seats:
-        return 0.0 # too small
-    return 0.75 # seats more than needed but that's okay
+        """too small"""
+        return 0.0
+    """seats more than needed but that's okay"""
+    return 0.75
 
 def get_safety_score(user_safety, car_safety):
     """
@@ -154,7 +156,7 @@ def run_matching_engine(prefs, df, top_n=5):
     """
     cars = df.copy()
     
-    # filter out cars way too expensive or too small immediately
+    """filter out cars way too expensive or too small immediately"""
     budget_ceiling = prefs['budget'] * 1.3
     u_seats = prefs['seating']
     
@@ -183,12 +185,12 @@ def run_matching_engine(prefs, df, top_n=5):
             'safety': get_safety_score(prefs['min_safety'], car['Safety_Rating']),
         }
         
-        # calculate total score based on config weights
+        """calculate total score based on config weights"""
         total_score = 0
         for key in SCORE_WEIGHTS:
             total_score += scores[key] * SCORE_WEIGHTS[key]
         
-        # format engine spec safely
+        """format engine spec safely"""
         engine_min = car.get('Engine_Min_CC', 0)
         engine_max = car.get('Engine_Max_CC', 0)
         engine_cc = "N/A"
@@ -198,7 +200,7 @@ def run_matching_engine(prefs, df, top_n=5):
             else:
                 engine_cc = f"{int(engine_min)} CC - {int(engine_max)} CC"
         
-        # format mileage safely
+        """format mileage safely"""
         mil_min = car.get('Mileage_Min_kmpl', 0)
         mil_max = car.get('Mileage_Max_kmpl', 0)
         exact_mileage = "N/A"
@@ -208,7 +210,7 @@ def run_matching_engine(prefs, df, top_n=5):
             else:
                 exact_mileage = f"{mil_min} kmpl to {mil_max} kmpl"
         
-        # format safety details
+        """format safety details"""
         safety_rating_val = car.get('Safety_Rating', 0)
         ncap_body = car.get('NCAP_Body', '')
         
@@ -219,7 +221,7 @@ def run_matching_engine(prefs, df, top_n=5):
             if pd.notna(ncap_body) and ncap_body != "":
                 safety_details += f" ({ncap_body})"
         
-        # format seating safely
+        """format seating safely"""
         seat_max = car.get('Seating_Max', 0)
         seating_capacity = "N/A"
         if not pd.isna(seat_max):
@@ -245,7 +247,7 @@ def run_matching_engine(prefs, df, top_n=5):
             "fuel_tank_capacity": "N/A" if pd.isna(car.get("Fuel_Tank_Capacity_Liters")) else str(car.get("Fuel_Tank_Capacity_Liters")),
         })
         
-    # sort by highest match
+    """sort by highest match"""
     ranked = pd.DataFrame(results).sort_values(by="match_percent", ascending=False).reset_index(drop=True)
     return mix_brands(ranked, top_n)
 
@@ -259,7 +261,7 @@ class RecommendationService:
         Initializes the service by ensuring the database is seeded with initial data
         and loading the cars dataset into memory.
         """
-        # setup db if not seeded yet
+        """setup db if not seeded yet"""
         if self._needs_seeding():
             print("seeding database from csv...")
             self._seed_database_from_csv()

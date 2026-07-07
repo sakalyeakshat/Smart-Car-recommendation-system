@@ -19,6 +19,10 @@ const defaultPrefs = {
   min_safety: 3,
 };
 
+/**
+ * Main application component managing preferences, recommendations, and current view state.
+ * @returns {JSX.Element} The rendered application layout.
+ */
 function App() {
   const [preferences, setPreferences] = useState(defaultPrefs);
 
@@ -30,11 +34,16 @@ function App() {
   const [selectedCar, setSelectedCar] = useState(null);
   const [showExplore, setShowExplore] = useState(false);
 
+  /**
+   * Scroll to top of the page when the view changes.
+   */
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentView]);
 
-  // if user clicks browser back button, just go back to home page
+  /**
+   * Listen for browser back button to navigate back to the home view.
+   */
   useEffect(() => {
     function handlePopState() {
       setCurrentView("home");
@@ -43,11 +52,18 @@ function App() {
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
+  /**
+   * Update preference values dynamically on input change.
+   * @param {React.ChangeEvent<HTMLInputElement|HTMLSelectElement>} e - Change event object.
+   */
   function handleChange(e) {
     const { name, value } = e.target;
     setPreferences((prev) => ({ ...prev, [name]: value }));
   }
 
+  /**
+   * Reset the preference form and results state.
+   */
   function resetForm() {
     setPreferences(defaultPrefs);
     setRecommendations([]);
@@ -55,11 +71,19 @@ function App() {
     setSearched(false);
   }
 
+  /**
+   * Opens the explore modal for a specific car.
+   * @param {Object} car - Selected car object.
+   */
   function openExploreModal(car) {
     setSelectedCar(car);
     setShowExplore(true);
   }
 
+  /**
+   * Handle form submission, fetch recommendations from API, and switch views.
+   * @param {React.FormEvent} e - Form submission event.
+   */
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -92,7 +116,7 @@ function App() {
     } finally {
       setLoading(false);
       
-      // update URL so back button works properly
+      /** update URL so back button works properly */
       window.history.pushState({ view: "results" }, "", window.location.href);
       setCurrentView("results");
     }
