@@ -1,6 +1,5 @@
-import Hero from "./components/Hero";
 import { useState, useEffect } from "react";
-import RecommendationPage from "./components/RecommendationPage";
+import RecommendationForm from "./components/RecommendationForm";
 import ResultsPage from "./components/ResultsPage";
 import ExploreModal from "./components/ExploreModal";
 
@@ -10,16 +9,18 @@ const fuelOptions = ["Petrol", "Diesel", "CNG", "Electric"];
 const transmissionOptions = ["Manual", "Automatic"];
 const bodyOptions = ["SUV", "Sedan", "Hatchback", "MPV", "Van", "Pickup"];
 
+const defaultPrefs = {
+  budget: "",
+  fuel_type: "",
+  transmission: "",
+  body_type: "",
+  seating: 5,
+  min_mileage: "",
+  min_safety: 3,
+};
+
 function App() {
-  const [preferences, setPreferences] = useState({
-    budget: "",
-    fuel_type: "",
-    transmission: "",
-    body_type: "",
-    seating: 5,
-    min_mileage: "",
-    min_safety: 3,
-  });
+  const [preferences, setPreferences] = useState(defaultPrefs);
 
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -33,7 +34,7 @@ function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentView]);
 
-  // pressing the browser back button returns to the home view
+  // if user clicks browser back button, just go back to home page
   useEffect(() => {
     function handlePopState() {
       setCurrentView("home");
@@ -48,15 +49,7 @@ function App() {
   }
 
   function resetForm() {
-    setPreferences({
-      budget: "",
-      fuel_type: "",
-      transmission: "",
-      body_type: "",
-      seating: 5,
-      min_mileage: "",
-      min_safety: 3,
-    });
+    setPreferences(defaultPrefs);
     setRecommendations([]);
     setError("");
     setSearched(false);
@@ -98,6 +91,8 @@ function App() {
       setError("Unable to connect with backend. Please ensure FastAPI server is running.");
     } finally {
       setLoading(false);
+      
+      // update URL so back button works properly
       window.history.pushState({ view: "results" }, "", window.location.href);
       setCurrentView("results");
     }
@@ -119,9 +114,8 @@ function App() {
       <>
         {currentView === "home" && (
           <>
-            <Hero />
             <section id="recommendation-form">
-              <RecommendationPage
+              <RecommendationForm
                 preferences={preferences}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}

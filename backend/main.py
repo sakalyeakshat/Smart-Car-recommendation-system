@@ -6,13 +6,12 @@ sys.path.append(str(BASE_DIR))
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers.recommendation import router as recommendation_router
-from app.routers.explore import router as explore_router
+from recommendation import router as api_router
 
 app = FastAPI(
     title="DriveMatch AI API",
     version="1.0.0",
-    description="Smart Car Recommendation System"
+    description="Smart Car Recommendation System backend"
 )
 
 app.add_middleware(
@@ -26,13 +25,12 @@ app.add_middleware(
 
 @app.get("/")
 def home():
-    return {"message": "Backend running successfully"}
+    return {"message": "Backend is running!"}
 
 
 @app.get("/health")
 def health():
-    return {"status": "OK"}
+    return {"status": "OK", "healthy": True}
 
 
-app.include_router(recommendation_router, tags=["Recommendation"])
-app.include_router(explore_router, tags=["Explore"])
+app.include_router(api_router, tags=["Recommendation & Explore"])

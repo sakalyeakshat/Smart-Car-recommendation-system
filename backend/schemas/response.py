@@ -13,6 +13,14 @@ class CarRecommendation(BaseModel):
     safety_rating: float
     match_percent: float
     match_reasons: List[str]
+    engine_cc: str
+    exact_mileage: str
+    safety_details: str
+    seating_capacity: str
+    ground_clearance: str
+    boot_space: str
+    drive_type: str
+    fuel_tank_capacity: str
 
 
 class RecommendationResponse(BaseModel):

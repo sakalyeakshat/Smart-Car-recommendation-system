@@ -25,15 +25,24 @@ Based on these inputs, the application recommends an optimized vehicle selection
 
 ---
 
+# 💡 Why This Project?
+
+This project was chosen because car purchasing is often an overwhelming decision involving multiple trade-offs (e.g., budget vs. safety, mileage vs. performance). A **Recommendation System** solves this real-world problem by acting as an unbiased digital advisor. 
+
+What makes this system special is that it doesn't just blindly filter data. It uses a **weighted scoring algorithm** to find the closest matches even if a car isn't a 100% perfect fit for every single parameter. It also enforces **brand diversity** so users aren't flooded with recommendations from just one manufacturer, and provides dynamic **Key Strengths and Trade-offs** to help users make informed decisions.
+
+---
+
 # ✨ Features
 
 * Personalized car recommendations with explanation badges
 * Brand diversity filtering to ensure a variety of choices
 * "Explore More" details listing key strengths and trade-offs
-* FastAPI backend
-* React frontend
+* FastAPI backend (Python-based REST API)
+* React frontend (modern JavaScript framework with zero jQuery)
 * MySQL database
-* Dockerized architecture
+* Containerized architecture (Frontend, Backend, and Database running in individual containers)
+* Custom Docker bridge network connecting the containers
 * Docker Compose support
 * Responsive user interface
 * Input validation using Pydantic
@@ -94,22 +103,14 @@ Based on these inputs, the application recommends an optimized vehicle selection
 
 ```text
 Smart-Car-recommendation-system/
-│
-├── backend/
-│   ├── app/
-│   │   ├── recommendation/
-│   │   │   └── recommend.py               # Weighted scoring and brand diversity logic
-│   │   ├── routers/
-│   │   │   ├── recommendation.py          # /recommend endpoint
-│   │   │   └── explore.py                 # /explore endpoint
-│   │   ├── schemas/
-│   │   │   ├── request.py                 # Pydantic input models
-│   │   │   ├── response.py                # Pydantic response models
-│   │   │   └── explore.py                 # Pydantic explore models
-│   │   ├── services/
-│   │   │   └── recommendation_service.py  # Seeding & DB queries
-│   │   ├── config.py                      # Weight coefficients and configurations
-│   │   └── main.py                        # FastAPI entrypoint & CORS setup
+│   ├── recommendation.py              # Combined recommendation & explore endpoints
+│   ├── schemas/
+│   │   ├── request.py                 # Pydantic input models
+│   │   ├── response.py                # Pydantic response models
+│   │   └── explore.py                 # Pydantic explore models
+│   ├── services.py                    # Seeding, DB queries & weighted scoring logic
+│   ├── config.py                      # Weight coefficients and configurations
+│   ├── main.py                        # FastAPI entrypoint & CORS setup
 │   ├── database/
 │   │   └── database.py                    # Database connection setup
 │   ├── datasets/
@@ -124,15 +125,12 @@ Smart-Car-recommendation-system/
 │   ├── public/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── CarCard.jsx                # Render single recommended car
 │   │   │   ├── ExploreModal.jsx           # Strengths/trade-offs detail modal
-│   │   │   ├── Hero.jsx                   # Hero landing element
-│   │   │   ├── RecommendationPage.jsx     # Input questionnaire form
+│   │   │   ├── RecommendationForm.jsx     # Input questionnaire form
 │   │   │   ├── ResultsPage.jsx            # Display recommended cars grid
-│   │   │   └── Services.jsx               # Feature highlights section
 │   │   ├── styles/                        # Custom stylesheet components
 │   │   ├── App.css                        # Global styling definitions
-│   │   ├── App.js                         # React main router & view controller
+│   │   ├── App.jsx                        # React main router & view controller
 │   │   ├── index.css
 │   │   └── index.js
 │   ├── dockerfile                         # Frontend container config

@@ -1,6 +1,6 @@
-import "../styles/RecommendationPage.css";
+import "../styles/RecommendationForm.css";
 
-function RecommendationPage({
+function RecommendationForm({
   preferences,
   handleChange,
   handleSubmit,
@@ -12,6 +12,19 @@ function RecommendationPage({
 }) {
   return (
     <>
+      <header className="hero">
+        <div className="hero-content">
+          <h1>
+            Find Your Perfect Car
+            <br />
+            Instantly
+          </h1>
+          <p>
+            Get matched with cars that fit your budget, your lifestyle, and your priorities.
+          </p>
+        </div>
+      </header>
+
       <div className="layout" id="home">
 
         <form className="preference-form" onSubmit={handleSubmit}>
@@ -143,4 +156,4 @@ function RecommendationPage({
   );
 }
 
-export default RecommendationPage;
+export default RecommendationForm;
