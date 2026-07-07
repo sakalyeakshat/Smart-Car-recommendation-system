@@ -1,8 +1,8 @@
-Usage Guide
+# Usage Guide
 
 This guide explains how to use the DriveMatch AI UI to find personalized vehicle recommendations tailored to your exact profile.
 
-How to use the App
+## How to use the App
 
 Open the Application: Make sure the Docker containers are running, then navigate to http://localhost:3000 in your web browser.
 
@@ -17,7 +17,7 @@ Select your Parameters: Use the form fields to define your specific constraints:
 
 Submit: Click the "Get Recommendations" button to query the matching engine.
 
-Reading the Results
+## Reading the Results
 
 The system will return the top 5 best-fitting vehicles based on the weighted scoring algorithm.
 
@@ -25,7 +25,7 @@ The system will return the top 5 best-fitting vehicles based on the weighted sco
 * Match Reasons: This explicitly lists exactly why this car was recommended to you, highlighting the parameters that perfectly aligned with your input.
 * Explore More: Clicking this button on any recommendation card opens a detailed modal showing the specific strengths and trade-offs of that vehicle compared to your original preferences.
 
-Worked Example
+## Worked Example
 
 Let's assume you submit the following profile:
 * Budget: 12.0 Lakhs

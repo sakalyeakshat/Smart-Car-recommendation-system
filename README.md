@@ -1,6 +1,6 @@
-DriveMatch AI
+# DriveMatch AI
 
-Project Overview
+# 1. Project Overview
 
 DriveMatch AI is a Smart Car Recommendation System that generates personalized vehicle recommendations based on a user's profile and preferences.
 
@@ -18,7 +18,7 @@ Based on these inputs, the application recommends an optimized vehicle selection
 
 ---
 
-Why This Project?
+# 2. Why This Project?
 
 This project was chosen because car purchasing is often an overwhelming decision involving multiple trade-offs (e.g., budget vs. safety, mileage vs. performance). A Recommendation System solves this real-world problem by acting as an unbiased digital advisor. 
 
@@ -26,7 +26,7 @@ What makes this system special is that it doesn't just blindly filter data. It u
 
 ---
 
-What Makes This Project Special
+# 3. What Makes This Project Special
 
 Unlike traditional car search platforms that just apply rigid filters to a database, DriveMatch AI generates personalized vehicle recommendations based on multiple user-specific parameters that actually have significance in determining the most appropriate car for your lifestyle.
 
@@ -44,7 +44,7 @@ The Software generates multiple, dynamically scored vehicle recommendations, and
 
 ---
 
-Features
+# 4. Features
 
 * Personalized car recommendations with explanation badges
 * Brand diversity filtering to ensure a variety of choices
@@ -60,9 +60,9 @@ Features
 
 ---
 
-Technology Stack
+# 5. Technology Stack
 
-Backend
+## Backend
 * Python
 * FastAPI
 * SQLAlchemy
@@ -71,21 +71,21 @@ Backend
 * PyMySQL
 * Pandas
 
-Frontend
+## Frontend
 * React
 * Axios
 * CSS
 
-Database
+## Database
 * MySQL
 
-DevOps
+## DevOps
 * Docker
 * Docker Compose
 
 ---
 
-Project Architecture
+# 6. Project Architecture
 
 ```text
                     User
@@ -106,7 +106,7 @@ Project Architecture
 
 ---
 
-Project Structure
+# 7. Project Structure
 
 ```text
 Smart-Car-recommendation-system/
@@ -153,13 +153,13 @@ Smart-Car-recommendation-system/
 
 ---
 
-Installation & Setup
+# 8. Installation & Setup
 
 Please refer to INSTALL.md for full setup and teardown instructions.
 
 ---
 
-Database Setup
+# 9. Database Setup
 
 The application uses MySQL.
 If using Docker, the database is automatically created during startup.
@@ -171,13 +171,13 @@ The initialization script creates:
 
 ---
 
-Usage Guide
+# 10. Usage Guide
 
 Please refer to USAGE.md for full instructions on how to use the application and understand the recommendation results.
 
 ---
 
-Validation
+# 11. Validation
 
 The backend validates all incoming requests using Pydantic.
 Examples include:
@@ -190,25 +190,25 @@ Appropriate HTTP status codes are returned when validation fails.
 
 ---
 
-Docker Containers
+# 12. Docker Containers
 
 The application consists of three independent containers:
 
-Frontend
+## Frontend
 * React
 
-Backend
+## Backend
 * FastAPI
 * Recommendation Engine
 
-Database
+## Database
 * MySQL
 
 These communicate over a Docker network managed by Docker Compose.
 
 ---
 
-Dataset Source
+# 13. Dataset Source
 
 The dataset is taken from Kaggle, preprocessed, structured, and more data has been added.
 
@@ -217,7 +217,7 @@ https://www.kaggle.com/datasets/shiivvvaam/indian-cars-under-20-lakhs
 
 ---
 
-Screenshots
+# 14. Screenshots
 
 ![Home Page](Screenshots/HomePage.png)
 ![Form Screenshot](Screenshots/Form.png)
@@ -226,18 +226,18 @@ Screenshots
 
 ---
 
-Troubleshooting
+# 15. Troubleshooting
 
-Docker won't start
+## Docker won't start
 ```bash
 docker compose down
 docker compose up --build
 ```
 
-Port already in use
+## Port already in use
 Change ports inside `docker-compose.yml` or stop the application currently using that port.
 
-Database connection error
+## Database connection error
 Ensure:
 * MySQL container is running
 * Environment variables are correct
@@ -245,14 +245,14 @@ Ensure:
 
 ---
 
-Author
+# 16. Author
 
 sakalyeakshat
 GitHub: https://github.com/sakalyeakshat
 
 ---
 
-Acknowledgements
+# 17. Acknowledgements
 
 Open-source technologies used:
 * FastAPI
