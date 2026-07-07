@@ -40,18 +40,3 @@ docker-compose up --build
 
 ## Environment Variables
 Note: You do not need to manually create any .env files. All necessary development environment variables (like database credentials and ports) are safely handled and injected directly via the docker-compose.yml file.
-
-## Running Without Docker (Optional)
-If you prefer not to use Docker, you can run the services manually:
-
-Backend:
-1. `cd backend`
-2. `python -m venv venv`
-3. `venv\Scripts\activate` (Windows) or `source venv/bin/activate` (Mac/Linux)
-4. `pip install -r requirements.txt`
-5. `uvicorn main:app --reload`
-
-Frontend:
-1. `cd frontend`
-2. `npm install`
-3. `npm start`

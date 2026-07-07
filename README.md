@@ -115,9 +115,7 @@ Smart-Car-recommendation-system/
 │   │   ├── request.py                 # Pydantic input models
 │   │   └── response.py                # Pydantic response models
 │   ├── datasets/
-│   │   ├── raw/
-│   │   │   └── cars_in.csv            # Source Indian Cars dataset
-│   │   └── explore_and_clean.ipynb    # Jupyter Notebook for cleaning steps
+│   │   └── cars_in.csv                # Source Indian Cars dataset
 │   ├── recommendation.py              # Recommendation endpoints
 │   ├── services.py                    # Seeding, DB queries & weighted scoring logic
 │   ├── config.py                      # Weight coefficients and configurations
