@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import RecommendationForm from "./components/RecommendationForm";
 import ResultsPage from "./components/ResultsPage";
 import ExploreModal from "./components/ExploreModal";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 import "./App.css";
 
@@ -131,18 +133,7 @@ function App() {
         <ExploreModal car={selectedCar} onClose={() => setShowExplore(false)} />
       )}
 
-      <nav className="navbar">
-        <div className="navbar-brand">
-          <svg className="navbar-logo-img" viewBox="0 0 100 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 12 25 c 0 -3.3 2.7 -6 6 -6 s 6 2.7 6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M 72 25 c 0 -3.3 2.7 -6 6 -6 s 6 2.7 6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M 5 25 h 7 M 30 25 h 42 M 84 25 h 11" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-            <path d="M 6 25 Q 12 18 20 18 Q 30 18 42 13 Q 56 9 70 13 Q 84 17 91 21 Q 94 23 94 25" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-            <path d="M 33 17.5 Q 46 14 58 14 Q 70 14 78 17.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-          <span className="navbar-logo">Smart Car Recommendation System</span>
-        </div>
-      </nav>
+      <Navbar />
 
       <>
         {currentView === "home" && (
@@ -175,9 +166,7 @@ function App() {
           />
         )}
 
-        <footer className="footer">
-          <p>DriveMatch AI • Smart Vehicle Recommendation System</p>
-        </footer>
+        <Footer />
       </>
     </div>
   );

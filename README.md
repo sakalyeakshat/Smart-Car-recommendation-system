@@ -85,25 +85,38 @@ Smart-Car-recommendation-system/
 │   ├── requirements.txt
 │   ├── main.py
 │   ├── database.py
-│   ├── services.py
-│   ├── engine.py
 │   ├── config.py
-│   ├── recommendation.py
 │   ├── start.sh
 │   ├── datasets/
 │   │   └── cars_in.csv
+│   ├── recommender/
+│   │   ├── __init__.py
+│   │   ├── engine.py
+│   │   └── services.py
+│   ├── routers/
+│   │   ├── __init__.py
+│   │   └── recommend.py
 │   └── schemas/
 │       ├── request.py
 │       └── response.py
 └── frontend/
     ├── dockerfile
     ├── package.json
+    ├── public/
+    │   ├── favicon.png
+    │   ├── index.html
+    │   ├── manifest.json
+    │   └── logo.png
     └── src/
         ├── components/
         │   ├── ExploreModal.jsx
         │   ├── RecommendationForm.jsx
-        │   └── ResultsPage.jsx
+        │   ├── ResultsPage.jsx
+        │   ├── Navbar.jsx
+        │   └── Footer.jsx
         ├── styles/
+        │   ├── Navbar.css
+        │   └── Footer.css
         ├── App.css
         ├── App.jsx
         ├── index.css
@@ -194,14 +207,12 @@ In short, enter your vehicle preferences (budget, fuel, transmission, seating, s
 | GET | `/health` | Check backend/Docker container health |
 
 ## Dataset Preparation
-This project uses the Indian Cars under 20 Lakhs dataset available on Kaggle. The dataset contains comprehensive vehicle entries along with details like title, brand, price ranges, fuel types, transmissions, mileage ranges, safety NCAP ratings, and dimensions.
-
-Before database seeding, missing values are handled to prevent crashes, and fields like engine size and fuel types are cleaned and normalized so they fit the structured MySQL schema. Seeding is triggered automatically by the FastAPI backend on startup if the database is empty.
+The initial dataset was taken from Kaggle, then preprocessed, cleaned, and manually enriched with missing details (such as ground clearance, boot space, drive type, fuel tank, and NCAP body specifications) to make it robust, complete, and fully structured. Missing values were handled to prevent application crashes, and columns like engine sizes and fuel types were normalized so they fit the structured MySQL database schema. 
 
 ## Dataset Source
-Dataset used: Indian Cars under 20 Lakhs
-
-Source: https://www.kaggle.com/datasets/shiivvvaam/indian-cars-under-20-lakhs
+* **Kaggle Source**: [Indian Cars under 20 Lakhs](https://www.kaggle.com/datasets/shiivvvaam/indian-cars-under-20-lakhs)
+* **Status**: Cleaned missing values, normalized engine size columns, and manually enriched missing specs (like boot space and ground clearance) for complete matching.
+* **Logo Source**: Car logo icons (`favicon.png` and `logo.png`) obtained from [Icons8](https://icons8.com/icons/set/favicon-car--static).
 
 ## Installation Files
 The entire project can be started without any manual configuration.
@@ -210,7 +221,7 @@ The entire project can be started without any manual configuration.
 * The frontend `dockerfile` builds and serves the React application.
 * The database seeding is handled natively by the backend service.
 
-See INSTALL.md for the full setup walkthrough.
+See [INSTALL.md](INSTALL.md) for the full setup walkthrough.
 
 ## Docker Architecture
 The project consists of three independent containers connected through a custom Docker network.
@@ -232,7 +243,7 @@ Docker Compose creates the network automatically and allows the three containers
 ![Recommendation Cards](Screenshots/RecommendationCards.png)
 
 ### Explore More
-![Explore More](Screenshots/Explore.jpg)
+![Explore More](Screenshots/Explore.png)
 
 ## Troubleshooting
 
@@ -252,7 +263,15 @@ Confirm the following:
 * The database credentials in `docker-compose.yml` match what the backend expects.
 * The backend only starts after MySQL has passed its health check.
 
-More detailed troubleshooting steps are in INSTALL.md.
+More detailed troubleshooting steps are in [INSTALL.md](INSTALL.md).
+
+## AI Usage Declaration
+To be fully transparent, I used Claude/AI coding tools to help speed up some of the repetitive tasks in this project:
+* **Debugging Docker line-ending conflicts**: Restructuring the wait loops and handling container line-ending issues on Windows host file mounts.
+* **Data Preprocessing & Enrichment**: Helping automate formatting scripts to clean missing values and clean columns inside `cars_in.csv` (normalizing string entries, formatting range values, and adding dummy entries where specifications were incomplete).
+* **Proofreading**: Checking grammar and layout structure of the technical documentation.
+
+Everything else—the database schema design, the weighted matching scoring engine logic, the React frontend components, and the Docker infrastructure—was built by me. I can confidently explain and justify every single line of code in this project during the reviews!
 
 ## Author
 * **sakalyeakshat**
@@ -262,5 +281,3 @@ More detailed troubleshooting steps are in INSTALL.md.
 This project was developed as part of a technical recruitment assessment.
 
 Open source technologies used: FastAPI, React, Docker, MySQL, SQLAlchemy, Pydantic, Pandas.
-
-Thanks to Kaggle and the dataset author for making the dataset publicly available.

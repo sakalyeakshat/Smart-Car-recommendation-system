@@ -10,7 +10,7 @@ sys.path.append(str(BASE_DIR))
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from recommendation import router as api_router
+from routers.recommend import router as api_router
 
 app = FastAPI(
     title="DriveMatch AI API",

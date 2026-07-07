@@ -7,7 +7,7 @@ from pathlib import Path
 from sqlalchemy import inspect, text
 
 from database import engine as db_engine
-from engine import run_matching_engine
+from recommender.engine import run_matching_engine
 
 class RecommendationService:
     """

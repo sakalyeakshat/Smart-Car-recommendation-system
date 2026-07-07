@@ -156,9 +156,9 @@
   width: 220px;
   margin: 18px 0 0;
   padding: 11px 20px;
-  background: #FFFFFF;
-  color: #1A1A2E;
-  border: 1.5px solid #C4B5FD;
+  background: #E5E7EB;
+  color: #374151;
+  border: 1.5px solid #D1D5DB;
   border-radius: 999px;
   font-size: 15px;
   font-weight: 700;
@@ -169,11 +169,11 @@
 }
 
 .change-preference-btn:hover {
-  background: #F0EEFF;
-  color: #7B5CE7;
-  border-color: #7B5CE7;
+  background: #4B5563;
+  color: #FFFFFF;
+  border-color: #4B5563;
   transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(123,92,231,0.18);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
 .change-preference-btn:active {
