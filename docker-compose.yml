@@ -33,7 +33,7 @@ services:
 
     container_name: fastapi-backend
 
-    command: ./start.sh --reload
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
     ports:
       - "8000:8000"

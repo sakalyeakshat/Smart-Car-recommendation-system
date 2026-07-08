@@ -9,27 +9,17 @@ THRESHOLD = 0.7
 MILEAGE_PLACEHOLDER = 19.6
 
 def get_budget_score(user_budget, min_price, max_price):
-    """
-    Calculates a budget compatibility score.
-    Returns 1.0 if perfectly in budget, otherwise penalizes proportionally based on the gap.
-    """
     if pd.isna(min_price) or pd.isna(max_price):
         return 0
     if min_price <= user_budget <= max_price:
         return 1.0
         
-    """Calculate the absolute gap between user budget and the car's price boundaries"""
     gap = min(abs(user_budget - min_price), abs(user_budget - max_price))
-    """Apply a penalty proportional to the user budget to get a normalized score"""
     penalty = gap / max(user_budget, 1)
     
     return max(0, 1 - penalty)
 
 def check_user_prefs(user_pref, car_pref_full):
-    """
-    Evaluates string-based preferences like fuel or transmission.
-    Awards full points for exact matches and partial points for secondary options.
-    """
     if pd.isna(car_pref_full) or pd.isna(user_pref):
         return 0.0
         
@@ -43,27 +33,17 @@ def check_user_prefs(user_pref, car_pref_full):
     for p in car_lower.split('&'):
         parts.append(p.strip())
         
-    """If the user preference matches the primary fuel/transmission type, award 1.0. Otherwise, award 0.75 for secondary options"""
     if len(parts) > 0 and parts[0] == user_lower:
         return 1.0
         
     return 0.75
 
 def get_body_score(user_body, car_body):
-    """
-    Evaluates body type compatibility.
-    Returns 1.0 for an exact match, 0.0 otherwise.
-    """
     if pd.isna(car_body) or pd.isna(user_body):
         return 0
     return 1.0 if user_body.lower() == str(car_body).lower() else 0.0
 
 def get_mileage_score(user_min_mileage, car_avg_mileage):
-    """
-    Calculates the mileage score based on the user's minimum requirement.
-    Returns 1.0 if the car's mileage meets or exceeds the requirement,
-    and a proportional score if it falls short.
-    """
     if pd.isna(car_avg_mileage):
         return 0.5
     if abs(car_avg_mileage - MILEAGE_PLACEHOLDER) < 0.01:
@@ -76,27 +56,16 @@ def get_mileage_score(user_min_mileage, car_avg_mileage):
     return max(0, car_avg_mileage / max(user_min_mileage, 1))
 
 def get_seating_score(user_seats, min_seats, max_seats):
-    """
-    Evaluates the seating capacity score.
-    Returns 1.0 if the user's requirement falls within the car's seating capacity,
-    0.75 if the car has more seats than required, and 0.0 if it has fewer.
-    """
     if pd.isna(min_seats) or pd.isna(max_seats):
         return 0
     if min_seats <= user_seats <= max_seats:
         return 1.0
     if max_seats < user_seats:
-        """too small"""
         return 0.0
-    """seats more than needed but that's okay"""
+    
     return 0.75
 
 def get_safety_score(user_safety, car_safety):
-    """
-    Calculates the safety rating score based on the user's minimum requirement.
-    Returns 1.0 if the car meets or exceeds the required safety rating,
-    and a proportional score if it falls short.
-    """
     if pd.isna(car_safety):
         return 0.5
     if car_safety >= user_safety:
@@ -104,10 +73,6 @@ def get_safety_score(user_safety, car_safety):
     return max(0, car_safety / max(user_safety, 1))
 
 def make_reasons_list(prefs, car, scores):
-    """
-    Generates dynamic tags explaining why a specific vehicle was matched to the user
-    based on parameter scores that passed the threshold.
-    """
     reasons = []
     if scores['budget'] >= THRESHOLD:
         reasons.append("Fits Your Budget")
@@ -126,16 +91,11 @@ def make_reasons_list(prefs, car, scores):
     return reasons
 
 def mix_brands(ranked_df, top_n):
-    """
-    Enforces brand diversity in recommendations to prevent all top matches
-    originating from a single manufacturer.
-    """
     seen_brands = set()
     primary = []
     overflow = []
     
     for _, row in ranked_df.iterrows():
-        """If the unique brand hasn't been added to primary list, add it; otherwise push to overflow list"""
         brand = row['brand']
         if brand not in seen_brands:
             seen_brands.add(brand)
@@ -143,11 +103,9 @@ def mix_brands(ranked_df, top_n):
         else:
             overflow.append(row)
             
-        """Stop once we reach our top_n target count"""
         if len(primary) == top_n:
             break
             
-    """If we have fewer than top_n unique brands, fill the remaining slots from the overflow list"""
     if len(primary) < top_n:
         needed = top_n - len(primary)
         primary.extend(overflow[:needed])
@@ -155,13 +113,8 @@ def mix_brands(ranked_df, top_n):
     return pd.DataFrame(primary)
 
 def run_matching_engine(prefs, df, top_n=5):
-    """
-    Core recommendation logic that applies weighted scoring against user preferences.
-    Filters hard constraints first, then evaluates matching scores for all parameters.
-    """
     cars = df.copy()
     
-    """filter out cars way too expensive or too small immediately"""
     budget_ceiling = prefs['budget'] * 1.3
     u_seats = prefs['seating']
     
@@ -190,12 +143,10 @@ def run_matching_engine(prefs, df, top_n=5):
             'safety': get_safety_score(prefs['min_safety'], car['Safety_Rating']),
         }
         
-        """calculate total score based on config weights"""
         total_score = 0
         for key in SCORE_WEIGHTS:
             total_score += scores[key] * SCORE_WEIGHTS[key]
         
-        """format engine spec safely"""
         engine_min = car.get('Engine_Min_CC', 0)
         engine_max = car.get('Engine_Max_CC', 0)
         engine_cc = "N/A"
@@ -205,7 +156,6 @@ def run_matching_engine(prefs, df, top_n=5):
             else:
                 engine_cc = f"{int(engine_min)} CC - {int(engine_max)} CC"
         
-        """format mileage safely"""
         mil_min = car.get('Mileage_Min_kmpl', 0)
         mil_max = car.get('Mileage_Max_kmpl', 0)
         exact_mileage = "N/A"
@@ -215,7 +165,6 @@ def run_matching_engine(prefs, df, top_n=5):
             else:
                 exact_mileage = f"{mil_min} kmpl to {mil_max} kmpl"
         
-        """format safety details"""
         safety_rating_val = car.get('Safety_Rating', 0)
         ncap_body = car.get('NCAP_Body', '')
         
@@ -226,7 +175,6 @@ def run_matching_engine(prefs, df, top_n=5):
             if pd.notna(ncap_body) and ncap_body != "":
                 safety_details += f" ({ncap_body})"
         
-        """format seating safely"""
         seat_max = car.get('Seating_Max', 0)
         seating_capacity = "N/A"
         if not pd.isna(seat_max):
@@ -252,6 +200,5 @@ def run_matching_engine(prefs, df, top_n=5):
             "fuel_tank_capacity": "N/A" if pd.isna(car.get("Fuel_Tank_Capacity_Liters")) else str(car.get("Fuel_Tank_Capacity_Liters")),
         })
         
-    """sort by highest match"""
     ranked = pd.DataFrame(results).sort_values(by="match_percent", ascending=False).reset_index(drop=True)
     return mix_brands(ranked, top_n)

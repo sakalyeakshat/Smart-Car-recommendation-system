@@ -1,1 +1,3 @@
-# routers package initialization
+"""
+Routers package containing API request handlers and endpoint definitions.
+"""

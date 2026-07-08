@@ -24,7 +24,7 @@ I wanted to build something that doesn't just blindly filter data. This applicat
 This project allowed me to build a practical recommendation system while applying concepts from full-stack development, database management and Docker containerization. It also provided an opportunity to integrate multiple technologies into a complete production-like application.
 
 ## What Makes This Project Special
-Unlike traditional car-buying search tools that perform rigid matching, the Smart Car Recommendation System dynamically scores vehicle compatibility across multiple parameters that actually matter to buyers.
+Unlike traditional car-buying search tools that perform rigid matching, this system dynamically scores vehicle compatibility across multiple parameters that actually matter to buyers.
 
 The system evaluates:
 * Budget proximity and price boundaries
@@ -40,10 +40,50 @@ The software generates multiple recommendations sorted by match percentage, and 
 ## Documentation
 Detailed documentation has been split into separate files for easier navigation:
 
-* [Installation Guide](file:///d:/Project/Smart-Car-recommendation-system/INSTALL.md)
-* [Usage Guide](file:///d:/Project/Smart-Car-recommendation-system/USAGE.md)
-* [Architecture](file:///d:/Project/Smart-Car-recommendation-system/ARCHITECTURE.md)
-* [API Documentation](file:///d:/Project/Smart-Car-recommendation-system/API_DOCUMENT.md)
+* [Installation Guide](INSTALL.md)
+* [Usage Guide](USAGE.md)
+* [API Documentation](API_DOCUMENT.md)
+
+## System Architecture
+
+The application follows a containerized three-tier architecture (Frontend, Backend, Database) connected through a custom Docker bridge network.
+
+```text
+                     User
+                       │
+                       ▼
+                 React Frontend
+                       │
+             HTTP REST API Requests
+                       │
+                       ▼
+                FastAPI Backend
+                       │
+              Request Validation
+                  (Pydantic)
+                       │
+                       ▼
+         Weighted Recommendation Engine
+                       │
+             SQLAlchemy + Pandas
+                       │
+                       ▼
+                MySQL Database
+```
+
+### Component Overview
+* **Frontend (React)**: Collects user preferences through questionnaire inputs, sends API calls using Axios, and visualizes the recommendations.
+* **Backend (FastAPI)**: Validates incoming payloads using Pydantic, queries database tables, runs the weighted matching algorithm, and caches the active database dataset into an in-memory Pandas DataFrame on startup for rapid retrieval.
+* **Database (MySQL)**: Standardizes car records and specs. Automatically initialized and seeded via `db/init.sql` and the backend service.
+
+### Recommendation Logic
+1. **Pre-Filtering (Hard Constraints)**: Instantly prunes cars that exceed 130% of the user's budget, have fewer seats than requested, or fall short of the minimum mileage.
+2. **Weighted Scoring**: Evaluates and scores similarity (0.0 to 1.0) on remaining cars. Attributes are weighted based on buyer priorities: Budget (30%), Fuel Type (20%), Transmission (15%), Safety (15%), Body Style (10%), Seating (5%), and Mileage (5%).
+3. **Brand Diversity**: Prevents a single manufacturer from dominating recommendations by ensuring the top recommendations represent up to 5 unique brands.
+4. **Explanation Badges**: Appends reason tags (e.g. "Fits Your Budget", "5 Star Safety Rated") for attributes scoring $\ge 0.7$.
+
+### Data Flow
+User Form Submission $\to$ React Axios POST $\to$ FastAPI Endpoints $\to$ Pydantic Validation $\to$ Recommendation Engine (Filters, Similarity, Weights, Brand Diversity) $\to$ JSON Response $\to$ React Recommendation Card Display.
 
 ## Features
 * Personalized car recommendations with explanation badges
@@ -107,7 +147,6 @@ Smart-Car-recommendation-system/
 │   ├── database.py
 │   ├── dockerfile
 │   ├── requirements.txt
-│   ├── start.sh
 │   └── main.py
 │
 ├── frontend/
@@ -133,8 +172,7 @@ Smart-Car-recommendation-system/
 ├── README.md
 ├── INSTALL.md
 ├── USAGE.md
-├── Architecture.md
-├── apidocument.md
+├── API_DOCUMENT.md
 └── LICENSE
 ```
 
@@ -142,38 +180,6 @@ Smart-Car-recommendation-system/
 * **Frontend**: http://localhost:3000
 * **Backend API**: http://localhost:8000
 * **Swagger Documentation**: http://localhost:8000/docs
-
-## Recommendation Modes
-The recommendation engine evaluates options dynamically instead of returning a single fixed choice.
-
-### Pre-filtering
-Filters out hard constraints immediately (minimum seating bounds, minimum mileage bounds, and cars costing over 130% of user budget).
-
-### Weighted Scoring
-Assigns scores between 0 and 1 for each attribute, applying a 30% weight to budget, 20% to fuel type, 15% to transmission, 15% to safety, 10% to body type, and 5% each to seating and mileage.
-
-### Brand Diversity Mix
-Prevents single manufacturers from occupying the whole recommendation panel. It yields exactly five recommendations featuring up to five distinct car brands.
-
-## How the Recommendation Engine Works
-1. User submits car preferences via the React form.
-2. FastAPI validates incoming data using Pydantic models.
-3. Recommendation service loads the car dataset from the MySQL database (or cached Pandas DataFrame).
-4. Hard constraints are applied (exceeding budget limits, insufficient seating, or low mileage are excluded).
-5. Similarity scores are calculated for each category (budget proximity, fuel type, gearbox match, safety rating, etc.).
-6. Weighted compatibility percentages are calculated.
-7. Brand diversity check rearranges the results to represent multiple manufacturers.
-8. Explanation tags are compiled for attributes scoring above 0.7.
-9. Recommendations are returned as a JSON response.
-10. React renders the ranked cards and explanation badges.
-
-## Docker Architecture
-The project consists of three independent containers:
-* **Frontend**: React application container
-* **Backend**: FastAPI API and Recommendation Engine container
-* **Database**: MySQL database container
-
-Docker Compose automatically creates the bridge network (`app_network`) and allows seamless communication between the containers.
 
 ## Dataset Source
 * **Kaggle Source**: [Indian Cars under 20 Lakhs](https://www.kaggle.com/datasets/shiivvvaam/indian-cars-under-20-lakhs)
@@ -208,7 +214,7 @@ Docker Compose automatically creates the bridge network (`app_network`) and allo
 ## Acknowledgements
 Open-source technologies used: FastAPI, React, Docker, MySQL, SQLAlchemy, Pydantic, Pandas, Axios. Special thanks to Kaggle for the raw dataset and Icons8 for graphics.
 
-## Declaration
+## AI Declaration
 To be fully transparent, I have used Claude/AI coding tools to help speed up some of the repetitive tasks in this project:
 * **Debugging Windows line-ending conflicts**: Restructuring the wait loops and handling container carriage-return issues on Windows host volume mounts.
 * **Data Preprocessing & Enrichment**: Helping automate formatting scripts to clean missing values and normalize CC ranges in `cars_in.csv`.
@@ -216,22 +222,3 @@ To be fully transparent, I have used Claude/AI coding tools to help speed up som
 
 Aside from that, the rules of recommendation, the dataset enrichment, the React components, and the Docker network structures were built by me.
 
-## Troubleshooting
-
-### Docker will not start
-```bash
-docker compose down
-docker compose up --build
-```
-
-### Port already in use
-Change the affected port inside `docker-compose.yml`, or stop whatever else is using that port.
-
-### Database connection error
-Confirm the following:
-* The MySQL container is running.
-* The Docker network was created successfully.
-* The database credentials in `docker-compose.yml` match what the backend expects.
-* The backend only starts after MySQL has passed its health check.
-
-More detailed troubleshooting steps are in [INSTALL.md](file:///d:/Project/Smart-Car-recommendation-system/INSTALL.md).

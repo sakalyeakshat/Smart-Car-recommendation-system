@@ -1,7 +1,8 @@
+"""
+Pydantic schemas for recommendation response formatting.
+"""
 from typing import List
-
 from pydantic import BaseModel
-
 
 class CarRecommendation(BaseModel):
     brand: str

@@ -1,3 +1,6 @@
+"""
+Pydantic schemas for recommendation request validation.
+"""
 from pydantic import BaseModel, Field
 
 
