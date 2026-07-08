@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers.recommend import router as api_router
 
 app = FastAPI(
-    title="DriveMatch AI API",
+    title="Smart Car Recommendation System API",
     version="1.0.0",
     description="Smart Car Recommendation System backend"
 )

@@ -1,5 +1,5 @@
 """
-Configuration settings for the DriveMatch AI backend.
+Configuration settings for the Smart Car Recommendation System backend.
 Contains weight definitions for the scoring algorithm and other constants.
 """
 

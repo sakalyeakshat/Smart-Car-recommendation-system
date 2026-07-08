@@ -38,5 +38,75 @@ docker compose down -v
 docker compose up --build
 ```
 
+## Running Without Docker (Alternative)
+
+If you prefer to run the application locally without Docker, you will need **Python (3.13+)**, **Node.js (20+)**, and a running **MySQL** server on your machine.
+
+### 1. Database Setup
+1. Ensure your local MySQL server is running.
+2. Log in to your MySQL terminal and create the database:
+   ```sql
+   CREATE DATABASE smart_car_recommendation_system;
+   ```
+
+### 2. Backend Setup
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Create and activate a virtual environment:
+   ```bash
+   # Windows
+   python -m venv venv
+   venv\Scripts\activate
+
+   # macOS/Linux
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Set your database environment variables (if different from defaults):
+   * `DB_USER` (Default: `root`)
+   * `DB_PASSWORD` (Default: `root`)
+   * `DB_HOST` (Default: `localhost`)
+   * `DB_PORT` (Default: `3306`)
+   * `DB_NAME` (Default: `smart_car_recommendation_system`)
+5. Start the FastAPI server:
+   ```bash
+   uvicorn main:app --reload
+   ```
+
+### 3. Frontend Setup
+1. Navigate to the frontend directory:
+   ```bash
+   cd ../frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install --legacy-peer-deps
+   ```
+3. Start the development server:
+   ```bash
+   npm start
+   ```
+   The React application will be available at http://localhost:3000.
+
+## Troubleshooting
+
+### Docker fails to start
+Rebuild the containers:
+```bash
+docker compose down
+docker compose up --build
+```
+
+### Port already in use
+If one of the required ports is occupied:
+* Edit the port mappings in `docker-compose.yml`.
+* Restart the application after saving the changes.
+
 ## Environment Variables
-Note: You do not need to manually create any .env files. All necessary development environment variables (like database credentials and ports) are safely handled and injected directly via the docker-compose.yml file.
+Note: When running with Docker, you do not need to manually create any .env files. All necessary development environment variables (like database credentials and ports) are safely handled and injected directly via the docker-compose.yml file. If running without Docker, you can set these variables in your shell environment.

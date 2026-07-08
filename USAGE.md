@@ -1,6 +1,6 @@
 # Usage Guide
 
-This guide explains how to use the DriveMatch AI UI to find personalized vehicle recommendations tailored to your exact profile.
+This guide explains how to use the Smart Car Recommendation System UI to find personalized vehicle recommendations tailored to your exact profile.
 
 ## How to use the App
 

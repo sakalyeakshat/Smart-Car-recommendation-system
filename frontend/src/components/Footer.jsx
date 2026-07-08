@@ -7,7 +7,7 @@ import "../styles/Footer.css";
 function Footer() {
   return (
     <footer className="footer">
-      <p>DriveMatch AI • Smart Vehicle Recommendation System</p>
+      <p>Smart Car Recommendation System</p>
     </footer>
   );
 }
