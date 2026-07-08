@@ -208,28 +208,20 @@ The recommendation engine evaluates candidate vehicles in four sequential stages
 
 ```mermaid
 graph TD
-    classDef input fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0369a1;
-    classDef process fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#b45309;
-    classDef filter fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#b91c1c;
-    classDef score fill:#ecfdf5,stroke:#059669,stroke-width:2px,color:#047857;
-    classDef diversity fill:#f5f3ff,stroke:#7c3aed,stroke-width:2px,color:#6d28d9;
-    classDef badges fill:#f0fdf4,stroke:#16a34a,stroke-width:2px,color:#15803d;
-    classDef output fill:#fdf2f8,stroke:#db2777,stroke-width:2px,color:#be185d;
-
-    A["User Inputs (Form Preferences)"]:::input --> B["Input Validation (Pydantic)"]:::process
-    B --> C["Which attributes are evaluated?"]:::process
+    A["User Inputs (Form Preferences)"] --> B["Input Validation (Pydantic)"]
+    B --> C["Which attributes are evaluated?"]
     
-    C --> D["Hard Rules (Seats, Mileage, 130% Budget Ceiling)"]:::filter
-    C --> E["Exact Constraints (Gearbox Type, Fuel Options, Body Style)"]:::score
-    C --> F["Safety Levels (Global/Euro NCAP Stars Check)"]:::score
+    C --> D["Hard Rules (Seats, Mileage, 130% Budget Ceiling)"]
+    C --> E["Exact Constraints (Gearbox Type, Fuel Options, Body Style)"]
+    C --> F["Safety Levels (Global/Euro NCAP Stars Check)"]
     
-    D --> G["Weighted Similarity Engine (Calculate final scores: 0.0 to 1.0)"]:::score
+    D --> G["Weighted Similarity Engine (Calculate final scores: 0.0 to 1.0)"]
     E --> G
     F --> G
     
-    G --> H["Brand Diversity Rule (Max 5 Unique Brands)"]:::diversity
-    H --> I["Explanation Badges Generation (Scores >= 0.7)"]:::badges
-    I --> J["Ranked Recommendations Output (JSON Payload)"]:::output
+    G --> H["Brand Diversity Rule (Max 5 Unique Brands)"]
+    H --> I["Explanation Badges Generation (Scores >= 0.7)"]
+    I --> J["Ranked Recommendations Output (JSON Payload)"]
 ```
 
 ### Pre-Filtering (Hard Constraints)
@@ -255,26 +247,20 @@ The end-to-end request and response cycle flows through the system components as
 
 ```mermaid
 graph TD
-    classDef input fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0369a1;
-    classDef process fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#b45309;
-    classDef filter fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#b91c1c;
-    classDef score fill:#ecfdf5,stroke:#059669,stroke-width:2px,color:#047857;
-    classDef output fill:#fdf2f8,stroke:#db2777,stroke-width:2px,color:#be185d;
-
-    A["User Submits Form Preferences"]:::input --> B["Vite/React Frontend (Axios POST)"]:::process
-    B --> C["FastAPI Request Validation (Pydantic)"]:::process
+    A["User Submits Form Preferences"] --> B["Vite/React Frontend (Axios POST)"]
+    B --> C["FastAPI Request Validation (Pydantic)"]
     
-    C --> D["Database Seeding Check (Seeding database if empty)"]:::filter
-    C --> E["In-Memory Dataset Processing (Pandas data mapping)"]:::score
-    C --> F["MySQL Queries Execution (SQLAlchemy connection)"]:::score
+    C --> D["Database Seeding Check (Seeding database if empty)"]
+    C --> E["In-Memory Dataset Processing (Pandas data mapping)"]
+    C --> F["MySQL Queries Execution (SQLAlchemy connection)"]
     
-    D --> G["Matching & Ranking Computation (Engine scoring)"]:::score
+    D --> G["Matching & Ranking Computation (Engine scoring)"]
     E --> G
     F --> G
     
-    G --> H["API JSON Response Output"]:::output
-    H --> I["React UI State Update"]:::input
-    I --> J["Dynamic Car Cards Grid & Modal Display"]:::output
+    G --> H["API JSON Response Output"]
+    H --> I["React UI State Update"]
+    I --> J["Dynamic Car Cards Grid & Modal Display"]
 ```
 
 ---
@@ -291,7 +277,7 @@ Full request and response schemas are detailed in **[documents/API_DOCUMENT.md](
 ---
 
 ## Dataset Processing
-This project uses the Indian Cars under 20 Lakhs dataset from Kaggle. The raw data is cleaned of null values, engine capacity string ranges are normalized to numbers, and essential parameters (ground clearance, boot space, drive type, fuel tank size) are enriched.
+This project uses the Indian Cars dataset from Kaggle. The raw data is cleaned of null values, engine capacity string ranges are normalized to numbers, and essential parameters (ground clearance, boot space, drive type, fuel tank size) are enriched, alongside manual additions of premium/higher budget vehicle models.
 
 A full breakdown of every preprocessing step is in **[documents/dataset.md](documents/dataset.md)**.
 
