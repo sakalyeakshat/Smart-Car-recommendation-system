@@ -45,7 +45,7 @@ class RecommendationService:
         return count == 0
 
     def _seed_database_from_csv(self):
-        csv_path = Path("/app") / "datasets" / "cars_in.csv"
+        csv_path = Path(__file__).resolve().parents[1] / "datasets" / "cars_in.csv"
         seed_df = pd.read_csv(csv_path)
         seed_df.to_sql(name="cars", con=db_engine, if_exists="replace", index=False)
 

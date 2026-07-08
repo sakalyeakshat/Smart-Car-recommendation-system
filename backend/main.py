@@ -12,11 +12,21 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers.recommend import router as api_router
 
+import logging
+
 app = FastAPI(
     title="Smart Car Recommendation System API",
     version="1.0.0",
     description="Smart Car Recommendation System backend"
 )
+
+@app.on_event("startup")
+def startup_event():
+    class HMRFilter(logging.Filter):
+        def filter(self, record: logging.LogRecord) -> bool:
+            return ".hot-update.json" not in record.getMessage()
+    
+    logging.getLogger("uvicorn.access").addFilter(HMRFilter())
 
 app.add_middleware(
     CORSMiddleware,
