@@ -20,13 +20,19 @@ app = FastAPI(
     description="Smart Car Recommendation System backend"
 )
 
+
 @app.on_event("startup")
 def startup_event():
+    """
+    FastAPI startup event handler.
+    Configures a logging filter to suppress Webpack HMR request logs from polluting the console.
+    """
     class HMRFilter(logging.Filter):
         def filter(self, record: logging.LogRecord) -> bool:
             return ".hot-update.json" not in record.getMessage()
     
     logging.getLogger("uvicorn.access").addFilter(HMRFilter())
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -39,11 +45,17 @@ app.add_middleware(
 
 @app.get("/")
 def home():
+    """
+    Root endpoint for service verification. Returns API welcome message.
+    """
     return {"message": "Backend is running!"}
 
 
 @app.get("/health")
 def health():
+    """
+    Health check endpoint to verify container status and connectivity.
+    """
     return {"status": "OK", "healthy": True}
 
 

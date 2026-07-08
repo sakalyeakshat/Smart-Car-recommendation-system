@@ -8,11 +8,12 @@ from config import SCORE_WEIGHTS
 THRESHOLD = 0.7
 MILEAGE_PLACEHOLDER = 19.6
 
-"""
-Calculates a proximity score based on target budget vs car price limits.
-Returns 1.0 if budget is within range, otherwise computes a linear penalty gap.
-"""
+
 def get_budget_score(user_budget, min_price, max_price):
+    """
+    Calculates a proximity score based on target budget vs car price limits.
+    Returns 1.0 if budget is within range, otherwise computes a linear penalty gap.
+    """
     if pd.isna(min_price) or pd.isna(max_price):
         return 0
     if min_price <= user_budget <= max_price:
@@ -23,11 +24,12 @@ def get_budget_score(user_budget, min_price, max_price):
     
     return max(0, 1 - penalty)
 
-"""
-Checks categorical preferences like transmission or fuel type.
-Performs case-insensitive substring checks against database fields.
-"""
+
 def check_user_prefs(user_pref, car_pref_full):
+    """
+    Checks categorical preferences like transmission or fuel type.
+    Performs case-insensitive substring checks against database fields.
+    """
     if pd.isna(car_pref_full) or pd.isna(user_pref):
         return 0.0
         
@@ -46,12 +48,20 @@ def check_user_prefs(user_pref, car_pref_full):
         
     return 0.75
 
+
 def get_body_score(user_body, car_body):
+    """
+    Calculates a body type match score (1.0 for an exact match, 0.0 otherwise).
+    """
     if pd.isna(car_body) or pd.isna(user_body):
         return 0
     return 1.0 if user_body.lower() == str(car_body).lower() else 0.0
 
+
 def get_mileage_score(user_min_mileage, car_avg_mileage):
+    """
+    Calculates a compatibility score based on the user's minimum mileage request.
+    """
     if pd.isna(car_avg_mileage):
         return 0.5
     if abs(car_avg_mileage - MILEAGE_PLACEHOLDER) < 0.01:
@@ -63,7 +73,11 @@ def get_mileage_score(user_min_mileage, car_avg_mileage):
         
     return max(0, car_avg_mileage / max(user_min_mileage, 1))
 
+
 def get_seating_score(user_seats, min_seats, max_seats):
+    """
+    Calculates a seating capacity compatibility score.
+    """
     if pd.isna(min_seats) or pd.isna(max_seats):
         return 0
     if min_seats <= user_seats <= max_seats:
@@ -73,14 +87,20 @@ def get_seating_score(user_seats, min_seats, max_seats):
     
     return 0.75
 
+
 def get_safety_score(user_safety, car_safety):
+    
     if pd.isna(car_safety):
         return 0.5
     if car_safety >= user_safety:
         return 1.0
     return max(0, car_safety / max(user_safety, 1))
 
+
 def make_reasons_list(prefs, car, scores):
+    """
+    Constructs a list of descriptive explanation reasons for high-scoring properties (>= 0.7).
+    """
     reasons = []
     if scores['budget'] >= THRESHOLD:
         reasons.append("Fits Your Budget")
@@ -98,11 +118,12 @@ def make_reasons_list(prefs, car, scores):
         reasons.append("Good Mileage")
     return reasons
 
-"""
-Enforces brand diversity in recommendations.
-Ensures that the top N matches represent unique manufacturers.
-"""
+
 def mix_brands(ranked_df, top_n):
+    """
+    Enforces brand diversity in recommendations.
+    Ensures that the top N matches represent unique manufacturers.
+    """
     seen_brands = set()
     primary = []
     overflow = []
@@ -124,11 +145,9 @@ def mix_brands(ranked_df, top_n):
         
     return pd.DataFrame(primary)
 
-"""
-Core scoring engine.
-Runs hard filtering followed by weighted scoring and brand mixing.
-"""
+
 def run_matching_engine(prefs, df, top_n=5):
+    
     cars = df.copy()
     
     budget_ceiling = prefs['budget'] * 1.3

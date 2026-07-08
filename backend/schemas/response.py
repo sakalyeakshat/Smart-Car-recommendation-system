@@ -4,7 +4,12 @@ Pydantic schemas for recommendation response formatting.
 from typing import List
 from pydantic import BaseModel
 
+
 class CarRecommendation(BaseModel):
+    """
+    Pydantic schema representing a single car recommendation result,
+    including vehicle name, match percentage, reasons list, and enriched specs.
+    """
     brand: str
     model: str
     body_type: str
