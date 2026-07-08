@@ -19,6 +19,10 @@ class RecommendationService:
             
         self.cars_df = pd.read_sql("SELECT * FROM cars", db_engine)
 
+    """
+    Retries connecting to the database server in a loop.
+    Prevents the backend from crashing during database initialization.
+    """
     def _wait_for_db(self):
         import time
         from sqlalchemy import text
@@ -35,6 +39,9 @@ class RecommendationService:
         print("ERROR: Database connection timed out. Exiting.")
         raise RuntimeError("Database connection timed out")
 
+    """
+    Checks if the database requires seeding by verifying table existence and row counts.
+    """
     def _needs_seeding(self):
         inspector = inspect(db_engine)
         if not inspector.has_table("cars"):
@@ -44,11 +51,17 @@ class RecommendationService:
             count = conn.execute(text("SELECT COUNT(*) FROM cars")).scalar()
         return count == 0
 
+    """
+    Reads the cleaned cars dataset from CSV and seeds the MySQL database.
+    """
     def _seed_database_from_csv(self):
         csv_path = Path(__file__).resolve().parents[1] / "datasets" / "cars_in.csv"
         seed_df = pd.read_csv(csv_path)
         seed_df.to_sql(name="cars", con=db_engine, if_exists="replace", index=False)
 
+    """
+    Handles recommendation requests by fetching seeded dataset and invoking matching engine.
+    """
     def recommend_cars(self, user_input):
         results = run_matching_engine(prefs=user_input, df=self.cars_df, top_n=5)
         return results.to_dict(orient="records")

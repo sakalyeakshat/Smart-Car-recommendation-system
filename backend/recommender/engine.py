@@ -8,6 +8,10 @@ from config import SCORE_WEIGHTS
 THRESHOLD = 0.7
 MILEAGE_PLACEHOLDER = 19.6
 
+"""
+Calculates a proximity score based on target budget vs car price limits.
+Returns 1.0 if budget is within range, otherwise computes a linear penalty gap.
+"""
 def get_budget_score(user_budget, min_price, max_price):
     if pd.isna(min_price) or pd.isna(max_price):
         return 0
@@ -19,6 +23,10 @@ def get_budget_score(user_budget, min_price, max_price):
     
     return max(0, 1 - penalty)
 
+"""
+Checks categorical preferences like transmission or fuel type.
+Performs case-insensitive substring checks against database fields.
+"""
 def check_user_prefs(user_pref, car_pref_full):
     if pd.isna(car_pref_full) or pd.isna(user_pref):
         return 0.0
@@ -90,6 +98,10 @@ def make_reasons_list(prefs, car, scores):
         reasons.append("Good Mileage")
     return reasons
 
+"""
+Enforces brand diversity in recommendations.
+Ensures that the top N matches represent unique manufacturers.
+"""
 def mix_brands(ranked_df, top_n):
     seen_brands = set()
     primary = []
@@ -112,6 +124,10 @@ def mix_brands(ranked_df, top_n):
         
     return pd.DataFrame(primary)
 
+"""
+Core scoring engine.
+Runs hard filtering followed by weighted scoring and brand mixing.
+"""
 def run_matching_engine(prefs, df, top_n=5):
     cars = df.copy()
     
