@@ -107,7 +107,6 @@ def get_body_score(user_body, car_body, tfidf):
     return tfidf.cosine_similarity(user_body, car_body)
 
 
-
 def get_mileage_score(user_min_mileage, car_avg_mileage):
     """
     Calculates a compatibility score based on the user's minimum mileage request.
@@ -139,7 +138,6 @@ def get_seating_score(user_seats, min_seats, max_seats):
 
 
 def get_safety_score(user_safety, car_safety):
-    
     if pd.isna(car_safety):
         return 0.5
     if car_safety >= user_safety:
@@ -197,7 +195,6 @@ def mix_brands(ranked_df, top_n):
 
 
 def run_matching_engine(prefs, df, top_n=5):
-    
     cars = df.copy()
     
     budget_ceiling = prefs['budget'] * 1.3
@@ -216,7 +213,7 @@ def run_matching_engine(prefs, df, top_n=5):
             "match_percent", "match_reasons"
         ])
         
-    # Build text corpus for TF-IDF from all cars in the database to fit vocabulary and IDFs
+    # Build specs corpus
     corpus = []
     for _, row in df.iterrows():
         fuel = str(row.get('Fuel_Type_Full', ''))

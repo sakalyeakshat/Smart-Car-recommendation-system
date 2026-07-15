@@ -328,9 +328,10 @@ See **[INSTALL.md](INSTALL.md)** for the full walkthrough.
 ---
 
 ## AI Tools Declaration
-To be fully transparent, I have used Claude/AI coding tools to help speed up repetitive tasks in this project:
-* **Debugging Windows line-ending conflicts**: Restructuring the wait loops and handling container carriage-return issues on Windows host volume mounts.
-* **Data Preprocessing & Enrichment**: Helping automate formatting scripts to clean missing values and normalize CC ranges in `cars_in.csv`.
-* **Proofreading**: Checking grammar and formatting structure of the technical docs and comments.
+To be fully transparent, I have used Claude, Gemini, and ChatGPT to help speed up repetitive tasks and design components in this project:
+* **Recommendation Algorithm & Scoring**: Designing and implementing the TF-IDF Vector representation and Cosine Similarity scoring model for textual specifications (Gemini).
+* **Debugging Windows line-ending conflicts**: Restructuring connection wait loops and container compatibility settings on Windows host volume mounts (Claude).
+* **Data Preprocessing & Enrichment**: Automating data cleaning and formatting scripts for normalizing engine CC ranges in `cars_in.csv` (Claude & ChatGPT).
+* **Proofreading & Documentation**: Structuring developer documentation, proofreading grammar, and drafting technical diagrams (Gemini & ChatGPT).
 
 Aside from that, the recommendation engine rules, the dataset enrichment, the React components, and the Docker network structures were built by me.
