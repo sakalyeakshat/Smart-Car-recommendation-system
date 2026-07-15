@@ -32,12 +32,12 @@ The system is built using React for the frontend, FastAPI for the backend, and M
 ## Features
 * Dynamic preference form specifying budget, fuel, gearbox, seats, mileage, and safety.
 * Hard constraints pre-filtering (removes cars exceeding 130% budget, having fewer seats, or less mileage).
-* Weighted multi-criteria similarity scoring engine.
+* TF-IDF and Cosine Similarity driven similarity scoring engine for text specifications (fuel type, transmission, body style).
 * Brand diversity control (ensures suggestions represent up to 5 unique brands).
 * Dynamic explanation badges for positive attributes scoring $\ge 0.7$.
 * Detailed specification explorer modal displaying manual dataset enrichments.
 * Fully containerized environment using Docker.
-* Modern, responsive, dark-themed user interface.
+* Modern, responsive, light-themed user interface.
 
 ---
 
@@ -204,7 +204,7 @@ In short, input your desired budget and preferences (fuel type, transmission, se
 ---
 
 ## Recommendation Engine Stages
-The recommendation engine evaluates candidate vehicles in four sequential stages to determine the best matches:
+The recommendation engine evaluates candidate vehicles in sequential stages to determine the best matches:
 
 ```mermaid
 graph TD
@@ -212,7 +212,7 @@ graph TD
     B --> C["Which attributes are evaluated?"]
     
     C --> D["Hard Rules (Seats, Mileage, 130% Budget Ceiling)"]
-    C --> E["Exact Constraints (Gearbox Type, Fuel Options, Body Style)"]
+    C --> E["Text Specs Similarity (TF-IDF & Cosine Similarity for Fuel, Gearbox, Body)"]
     C --> F["Safety Levels (Global/Euro NCAP Stars Check)"]
     
     D --> G["Weighted Similarity Engine (Calculate final scores: 0.0 to 1.0)"]
@@ -230,12 +230,15 @@ Instantly prunes cars that exceed 130% of the user's budget, have fewer seats th
 ### Weighted Scoring
 Evaluates and scores similarity (0.0 to 1.0) on the remaining cars. Attributes are weighted based on realistic buyer priorities:
 * **Budget Proximity**: 30%
-* **Fuel Type Preference**: 20%
-* **Transmission Preference**: 15%
+* **Fuel Type Preference**: 20% (via TF-IDF and Cosine Similarity)
+* **Transmission Preference**: 15% (via TF-IDF and Cosine Similarity)
 * **NCAP Safety Rating**: 15%
-* **Body Style Preference**: 10%
+* **Body Style Preference**: 10% (via TF-IDF and Cosine Similarity)
 * **Seating Capacity**: 5%
 * **Fuel Efficiency / Mileage**: 5%
+
+> [!NOTE]
+> For the textual specifications (**Fuel Type**, **Transmission**, and **Body Style**), similarity is computed dynamically using **TF-IDF vector representation and Cosine Similarity** against the car dataset specifications corpus. This allows for smooth partial matching (e.g., matching a "Petrol" preference against a "Petrol & CNG" car) rather than strict exact matches.
 
 ### Brand Diversity
 Prevents a single manufacturer (e.g. Maruti or Tata) from dominating recommendations by ensuring the top results represent up to 5 unique brands.

@@ -3,10 +3,73 @@ Recommendation matching engine.
 Contains the core logic and helper scoring functions for vehicle suggestions.
 """
 import pandas as pd
+import math
+import re
 from config import SCORE_WEIGHTS
 
 THRESHOLD = 0.7
 MILEAGE_PLACEHOLDER = 19.6
+
+
+class SimpleTFIDF:
+    def __init__(self, corpus):
+        """
+        Initialize the TF-IDF model and fit it on the provided corpus (list of strings).
+        """
+        self.idf = {}
+        self.vocabulary = set()
+        self.doc_count = len(corpus)
+        
+        # Tokenize and build document frequencies
+        df_count = {}
+        for doc in corpus:
+            tokens = self._tokenize(doc)
+            unique_tokens = set(tokens)
+            for token in unique_tokens:
+                df_count[token] = df_count.get(token, 0) + 1
+                
+        # Calculate IDF for each token
+        for term, df in df_count.items():
+            # Standard smooth IDF formula
+            self.idf[term] = math.log((1 + self.doc_count) / (1 + df)) + 1
+            self.vocabulary.add(term)
+
+    def _tokenize(self, text):
+        if not isinstance(text, str):
+            return []
+        # Convert to lowercase and match alphanumeric words
+        return re.findall(r'\w+', text.lower())
+
+    def get_vector(self, text):
+        tokens = self._tokenize(text)
+        tf = {}
+        for token in tokens:
+            tf[token] = tf.get(token, 0) + 1
+            
+        tfidf_vec = {}
+        for term, count in tf.items():
+            if term in self.vocabulary:
+                tfidf_vec[term] = count * self.idf[term]
+        return tfidf_vec
+
+    def cosine_similarity(self, text_a, text_b):
+        if not text_a or not text_b:
+            return 0.0
+        vec_a = self.get_vector(str(text_a))
+        vec_b = self.get_vector(str(text_b))
+        
+        dot_product = 0.0
+        for term in vec_a:
+            if term in vec_b:
+                dot_product += vec_a[term] * vec_b[term]
+                
+        norm_a = math.sqrt(sum(val ** 2 for val in vec_a.values()))
+        norm_b = math.sqrt(sum(val ** 2 for val in vec_b.values()))
+        
+        if norm_a == 0.0 or norm_b == 0.0:
+            return 0.0
+            
+        return dot_product / (norm_a * norm_b)
 
 
 def get_budget_score(user_budget, min_price, max_price):
@@ -25,37 +88,24 @@ def get_budget_score(user_budget, min_price, max_price):
     return max(0, 1 - penalty)
 
 
-def check_user_prefs(user_pref, car_pref_full):
+def check_user_prefs(user_pref, car_pref_full, tfidf):
     """
     Checks categorical preferences like transmission or fuel type.
-    Performs case-insensitive substring checks against database fields.
+    Computes Cosine Similarity between user preferences and database fields using TF-IDF.
     """
     if pd.isna(car_pref_full) or pd.isna(user_pref):
         return 0.0
-        
-    car_lower = str(car_pref_full).lower()
-    user_lower = str(user_pref).lower()
-    
-    if user_lower not in car_lower:
-        return 0.0
-    
-    parts = []
-    for p in car_lower.split('&'):
-        parts.append(p.strip())
-        
-    if len(parts) > 0 and parts[0] == user_lower:
-        return 1.0
-        
-    return 0.75
+    return tfidf.cosine_similarity(user_pref, car_pref_full)
 
 
-def get_body_score(user_body, car_body):
+def get_body_score(user_body, car_body, tfidf):
     """
-    Calculates a body type match score (1.0 for an exact match, 0.0 otherwise).
+    Calculates a body type match score using TF-IDF Cosine Similarity.
     """
     if pd.isna(car_body) or pd.isna(user_body):
-        return 0
-    return 1.0 if user_body.lower() == str(car_body).lower() else 0.0
+        return 0.0
+    return tfidf.cosine_similarity(user_body, car_body)
+
 
 
 def get_mileage_score(user_min_mileage, car_avg_mileage):
@@ -166,13 +216,23 @@ def run_matching_engine(prefs, df, top_n=5):
             "match_percent", "match_reasons"
         ])
         
+    # Build text corpus for TF-IDF from all cars in the database to fit vocabulary and IDFs
+    corpus = []
+    for _, row in df.iterrows():
+        fuel = str(row.get('Fuel_Type_Full', ''))
+        trans = str(row.get('Transmission_Full', ''))
+        body = str(row.get('Body_Type', ''))
+        corpus.append(f"{fuel} {trans} {body}")
+        
+    tfidf = SimpleTFIDF(corpus)
+        
     results = []
     for _, car in filtered_cars.iterrows():
         scores = {
             'budget': get_budget_score(prefs['budget'], car['Price_Min_Lakh'], car['Price_Max_Lakh']),
-            'fuel_type': check_user_prefs(prefs['fuel_type'], car['Fuel_Type_Full']),
-            'transmission': check_user_prefs(prefs['transmission'], car['Transmission_Full']),
-            'body_type': get_body_score(prefs['body_type'], car['Body_Type']),
+            'fuel_type': check_user_prefs(prefs['fuel_type'], car['Fuel_Type_Full'], tfidf),
+            'transmission': check_user_prefs(prefs['transmission'], car['Transmission_Full'], tfidf),
+            'body_type': get_body_score(prefs['body_type'], car['Body_Type'], tfidf),
             'seating': get_seating_score(prefs['seating'], car['Seating_Min'], car['Seating_Max']),
             'mileage': get_mileage_score(prefs['min_mileage'], car['Mileage_Avg_kmpl']),
             'safety': get_safety_score(prefs['min_safety'], car['Safety_Rating']),

@@ -42,13 +42,17 @@ From an educational and engineering perspective, this project was selected becau
 
 This recommendation system sets itself apart from standard car listing websites through several intelligent, custom features:
 
-### A. Weighted Similarity Scoring Algorithm
-Instead of binary matching (where a car is immediately discarded if it fails to match a single preference), the engine scores cars dynamically on a scale of `0.0` to `1.0` across all attributes. The attributes are weighted based on realistic buyer priorities:
+### A. Weighted Similarity Scoring & TF-IDF Cosine Similarity
+Instead of binary matching (where a car is immediately discarded if it fails to match a single preference), the engine scores cars dynamically on a scale of `0.0` to `1.0` across all attributes. 
+
+For textual attributes (**Fuel Type**, **Transmission**, and **Body Style**), the system implements a **TF-IDF (Term Frequency-Inverse Document Frequency)** representation and computes **Cosine Similarity** between the user's selected preferences and the database spec profiles. This mathematical vector approach allows the engine to handle smooth partial matches (for instance, matching a "Petrol" preference against a hybrid "Petrol & CNG" car) and assign proportional scores rather than rigid binary checks.
+
+The final similarity score is calculated as a weighted sum based on realistic buyer priorities:
 * **Budget Proximity (30%)**
-* **Fuel Type Preference (20%)**
-* **Transmission Preference (15%)**
+* **Fuel Type Preference (20%)** (via TF-IDF and Cosine Similarity)
+* **Transmission Preference (15%)** (via TF-IDF and Cosine Similarity)
 * **NCAP Safety Rating (15%)**
-* **Body Style Preference (10%)**
+* **Body Style Preference (10%)** (via TF-IDF and Cosine Similarity)
 * **Passenger Capacity (5%)**
 * **Fuel Efficiency/Mileage (5%)**
 
