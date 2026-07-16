@@ -10,7 +10,6 @@ http://localhost:8089
 ## Interactive API Documentation
 FastAPI automatically generates interactive visual documentation for the API:
 * **Swagger UI**: [http://localhost:8089/docs](http://localhost:8089/docs) (Interactive testing & documentation)
-* **ReDoc**: [http://localhost:8089/redoc](http://localhost:8089/redoc) (Clean, structured documentation layout)
 
 ---
 

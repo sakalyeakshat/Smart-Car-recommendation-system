@@ -24,7 +24,6 @@ Once the terminal shows that both the backend and frontend servers are running, 
 * Frontend UI: http://localhost:3000
 * Backend API: http://localhost:8089
 * Swagger Docs: http://localhost:8089/docs
-* ReDoc Docs: http://localhost:8089/redoc
 
 ## Stopping & Resetting
 To gracefully stop the application: Press Ctrl + C in the terminal where Docker is running, or run:
