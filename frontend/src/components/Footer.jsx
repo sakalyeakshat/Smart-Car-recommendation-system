@@ -1,3 +1,9 @@
+/**
+ 
+ * Renders a persistent bottom-of-page `<footer>` element that displays
+ * the application name as copyright/attribution text.
+ 
+ */
 import "../styles/Footer.css";
 
 /**

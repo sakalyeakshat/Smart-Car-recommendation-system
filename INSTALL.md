@@ -22,9 +22,9 @@ docker compose up --build
 ## Access the Application
 Once the terminal shows that both the backend and frontend servers are running, open your web browser:
 * Frontend UI: http://localhost:3000
-* Backend API: http://localhost:8000
-* Swagger Docs: http://localhost:8000/docs
-* ReDoc Docs: http://localhost:8000/redoc
+* Backend API: http://localhost:8089
+* Swagger Docs: http://localhost:8089/docs
+* ReDoc Docs: http://localhost:8089/redoc
 
 ## Stopping & Resetting
 To gracefully stop the application: Press Ctrl + C in the terminal where Docker is running, or run:
@@ -96,6 +96,9 @@ If you prefer to run the application locally without Docker, you will need **Pyt
 
 ## Troubleshooting
 
+### Operating System Compatibility
+The application has been fully tested and verified to run seamlessly on both **Windows (Docker Desktop / WSL2)** and **macOS (Apple Silicon M-series & Intel)**.
+
 ### Docker fails to start
 Rebuild the containers:
 ```bash
@@ -103,10 +106,35 @@ docker compose down
 docker compose up --build
 ```
 
-### Port already in use
-If one of the required ports is occupied:
-* Edit the port mappings in `docker-compose.yml`.
-* Restart the application after saving the changes.
+### Port already in use (Port is already allocated)
+If Docker Compose fails with a message like `Bind for 0.0.0.0:<PORT> failed: port is already allocated` (typically for port 3000, 8089, or 3308):
+
+#### Step 1: Stop any lingering container runs
+```bash
+docker compose down
+```
+
+#### Step 2: Kill conflicting local background processes
+Identify and terminate the process holding the port on your host system:
+*   **On macOS / Linux:**
+    ```bash
+    # 1. Find the PID of the process using the port (e.g., for port 8089)
+    sudo lsof -i :8089
+    
+    # 2. Terminate the process using the PID found
+    kill -9 <PID>
+    ```
+*   **On Windows (PowerShell):**
+    ```powershell
+    # 1. Find the PID of the process using the port (e.g., for port 8089)
+    Get-NetTCPConnection -LocalPort 8089 | Select-Object OwningProcess
+    
+    # 2. Terminate the process
+    Stop-Process -Id <PID> -Force
+    ```
+
+#### Step 3: Change ports in compose configuration (Alternative)
+*   You can edit the external port mappings under `ports` in `docker-compose.yml` (e.g. changing `"8089:8000"` to `"8099:8000"`) and restart the container.
 
 ## Environment Variables
 Note: When running with Docker, you do not need to manually create any .env files. All necessary development environment variables (like database credentials and ports) are safely handled and injected directly via the docker-compose.yml file. If running without Docker, you can set these variables in your shell environment.

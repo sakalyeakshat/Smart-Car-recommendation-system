@@ -1,6 +1,4 @@
-"""
-Pydantic schemas for recommendation response formatting.
-"""
+"""Pydantic schemas for recommendation response formatting."""
 from typing import List
 from pydantic import BaseModel
 

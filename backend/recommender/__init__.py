@@ -1,3 +1,1 @@
-"""
-Recommender package containing matching logic, services, and weight config.
-"""
+"""Initialization file for the recommendation calculation package."""

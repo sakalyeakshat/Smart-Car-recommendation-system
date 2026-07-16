@@ -1,7 +1,4 @@
-"""
-Configuration settings for the Smart Car Recommendation System backend.
-Contains weight definitions for the scoring algorithm and other constants.
-"""
+"""Configuration settings and scoring weight constants for the matching engine."""
 
 """
 Weights for each preference used in the scoring algorithm.

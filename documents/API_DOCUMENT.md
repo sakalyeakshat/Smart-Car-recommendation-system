@@ -4,13 +4,13 @@ The backend service is built using **FastAPI** (Python) and runs inside a contai
 
 ## Base URL
 ```text
-http://localhost:8000
+http://localhost:8089
 ```
 
 ## Interactive API Documentation
 FastAPI automatically generates interactive visual documentation for the API:
-* **Swagger UI**: [http://localhost:8000/docs](http://localhost:8000/docs) (Interactive testing & documentation)
-* **ReDoc**: [http://localhost:8000/redoc](http://localhost:8000/redoc) (Clean, structured documentation layout)
+* **Swagger UI**: [http://localhost:8089/docs](http://localhost:8089/docs) (Interactive testing & documentation)
+* **ReDoc**: [http://localhost:8089/redoc](http://localhost:8089/redoc) (Clean, structured documentation layout)
 
 ---
 

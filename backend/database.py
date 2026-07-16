@@ -1,7 +1,4 @@
-"""
-Database connection and session management module.
-Initializes the SQLAlchemy engine using environment variables.
-"""
+"""Database connection and SQLAlchemy engine initialization settings."""
 import os
 from sqlalchemy import create_engine
 

@@ -1,3 +1,6 @@
+/**
+ *  Application entry point for the Smart Car Recommendation System React app.
+ */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';

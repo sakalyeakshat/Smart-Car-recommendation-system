@@ -1,4 +1,3 @@
-
 /* Hero Styles */
 .hero {
     min-height: clamp(40px, 6vh, 80px);
@@ -150,4 +149,60 @@
 
 .reset-button:active {
   transform: translateY(0);
+}
+
+/* Checkbox Fields Styles */
+.checkbox-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1.5px solid #E8E4F5;
+  border-radius: 14px;
+  background: #FAFAFF;
+}
+
+.checkbox-option-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1A1A2E;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-option-label input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #7B5CE7;
+}
+
+/* Inline Validation Errors Styling */
+.field-error-message {
+  color: #DC2626;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 5px;
+  display: block;
+  text-align: left;
+}
+
+.field-group.has-error input,
+.field-group.has-error select {
+  border-color: #DC2626 !important;
+  background: #FFF5F5 !important;
+}
+
+.field-group.has-error .checkbox-options-grid {
+  border-color: #DC2626 !important;
+  background: #FFF5F5 !important;
+}
+
+.field-group.has-error input:focus,
+.field-group.has-error select:focus {
+  border-color: #DC2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15) !important;
 }

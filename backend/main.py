@@ -1,7 +1,4 @@
-"""
-Main FastAPI application entry point.
-Sets up the API application, CORS middleware, and includes all routers.
-"""
+"""FastAPI application entry point that sets up CORS and registers the recommendation router."""
 import sys
 from pathlib import Path
 
@@ -23,10 +20,7 @@ app = FastAPI(
 
 @app.on_event("startup")
 def startup_event():
-    """
-    FastAPI startup event handler.
-    Configures a logging filter to suppress Webpack HMR request logs from polluting the console.
-    """
+    # Filter out Webpack HMR logs to clean up console output
     class HMRFilter(logging.Filter):
         def filter(self, record: logging.LogRecord) -> bool:
             return ".hot-update.json" not in record.getMessage()
@@ -45,17 +39,11 @@ app.add_middleware(
 
 @app.get("/")
 def home():
-    """
-    Root endpoint for service verification. Returns API welcome message.
-    """
     return {"message": "Backend is running!"}
 
 
 @app.get("/health")
 def health():
-    """
-    Health check endpoint to verify container status and connectivity.
-    """
     return {"status": "OK", "healthy": True}
 
 

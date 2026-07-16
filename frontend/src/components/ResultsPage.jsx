@@ -1,18 +1,26 @@
+/**
+ * @file ResultsPage.jsx
+ * @description Displays the car recommendation results returned by the backend API.
+ * This file contains two components:
+ *
+ * - `ResultsPage` — The main results view that shows:
+ *     • A "Change Preferences" button to navigate back to the form.
+ *     • An error box when the API call fails.
+ *     • A loading spinner while fetching results.
+ *     • An empty-state message when no cars match the criteria.
+ *     • The top-ranked car as a featured "Top Recommendation".
+ *     • A grid of additional suggested vehicles below.
+ *
+ * - `CarCard` — A reusable card component rendered for each car result.
+ *     Displays the car's brand, model, price, match percentage with a progress bar,
+ *     body type, fuel type, transmission, match reasons (bullet list), and
+ *     an "Explore More" button that opens the ExploreModal.
+ */
 import "../styles/ResultPage.css";
 
 /**
- * Component representing the results layout displaying matched cars.
- *  - Component props.
- *  - The top recommended car object.
- *  - List of other recommended car options.
- *  - Indicates if calculations/API requests are running.
- *  - Indicates if a search operation has occurred.
- *  - Current error message string, if any.
- *  - List of all recommendation results.
- *  - Callback triggered to explore a specific car.
- *  - State setter function for page navigation.
- *   The results container markup.
- */
+  Main results view showing best-match and other recommended cars.
+*/
 function ResultsPage({
   bestCar,
   remainingCars,
@@ -41,7 +49,6 @@ function ResultsPage({
           Change Preferences
         </button>
       </div>
-
 
       {error && (
         <div className="error-box">
@@ -94,13 +101,14 @@ function ResultsPage({
     </div>
   );
 }
+
 /**
- * Component representing an individual car card.
- *  - Component props.
- * - The details of the vehicle.
- *  - Flag to apply top recommendation styling.
- *  - Callback handler to view details.
- *   The car card component layout.
+ * Reusable card UI for a single car recommendation.
+ * @param {Object}  props           - Component props.
+ * @param {Object}  props.car       - Car data object (brand, model, price, specs, match info).
+ * @param {boolean} props.featured  - When true, applies the "featured-card" styling for the top pick.
+ * @param {Function} props.onExplore - Callback invoked with the car object when "Explore More" is clicked.
+ * @returns {JSX.Element} The rendered car card.
  */
 function CarCard({ car, featured, onExplore }) {
   return (
@@ -156,7 +164,5 @@ function CarCard({ car, featured, onExplore }) {
     </div>
   );
 }
-
-
 
 export default ResultsPage;

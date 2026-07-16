@@ -31,7 +31,7 @@ The system is built using React for the frontend, FastAPI for the backend, and M
 
 ## Features
 * Dynamic preference form specifying budget, fuel, gearbox, seats, mileage, and safety.
-* Hard constraints pre-filtering (removes cars exceeding 130% budget, having fewer seats, or less mileage).
+* Hard constraints pre-filtering (removes cars exceeding 130% budget or having fewer seats).
 * TF-IDF and Cosine Similarity driven similarity scoring engine for text specifications (fuel type, transmission, body style).
 * Brand diversity control (ensures suggestions represent up to 5 unique brands).
 * Dynamic explanation badges for positive attributes scoring $\ge 0.7$.
@@ -171,12 +171,15 @@ docker compose up --build
 ```
 Then open **[http://localhost:3000](http://localhost:3000)** in your browser.
 
+> [!NOTE]
+> The application has been fully verified to run seamlessly on both **Windows** and **macOS**. If you experience any port allocation errors (for ports 3000, 8089, or 3308), please refer to the **[Troubleshooting Guide in INSTALL.md](INSTALL.md#troubleshooting)** for step-by-step resolution steps.
+
 ---
 
 ## Application URLs
 * **Frontend UI**: [http://localhost:3000](http://localhost:3000)
-* **Backend API**: [http://localhost:8000](http://localhost:8000)
-* **Swagger Documentation**: [http://localhost:8000/docs](http://localhost:8000/docs)
+* **Backend API**: [http://localhost:8089](http://localhost:8089)
+* **Swagger Documentation**: [http://localhost:8089/docs](http://localhost:8089/docs)
 
 Full manual setup steps for running locally without Docker are detailed in **[INSTALL.md](INSTALL.md)**.
 
@@ -211,7 +214,7 @@ graph TD
     A["User Inputs (Form Preferences)"] --> B["Input Validation (Pydantic)"]
     B --> C["Which attributes are evaluated?"]
     
-    C --> D["Hard Rules (Seats, Mileage, 130% Budget Ceiling)"]
+    C --> D["Hard Rules (Seats, 130% Budget Ceiling)"]
     C --> E["Text Specs Similarity (TF-IDF & Cosine Similarity for Fuel, Gearbox, Body)"]
     C --> F["Safety Levels (Global/Euro NCAP Stars Check)"]
     
@@ -225,7 +228,7 @@ graph TD
 ```
 
 ### Pre-Filtering (Hard Constraints)
-Instantly prunes cars that exceed 130% of the user's budget, have fewer seats than requested, or fall short of the minimum mileage criteria.
+Instantly prunes cars that exceed 130% of the user's budget or have fewer seats than requested.
 
 ### Weighted Scoring
 Evaluates and scores similarity (0.0 to 1.0) on the remaining cars. Attributes are weighted based on realistic buyer priorities:
@@ -328,10 +331,12 @@ See **[INSTALL.md](INSTALL.md)** for the full walkthrough.
 ---
 
 ## AI Tools Declaration
-To be fully transparent, I have used Claude, Gemini, and ChatGPT to help speed up repetitive tasks and design components in this project:
+To be fully transparent, I have used Gemini, Claude, and ChatGPT to help speed up repetitive tasks and design components in this project:
 * **Recommendation Algorithm & Scoring**: Designing and implementing the TF-IDF Vector representation and Cosine Similarity scoring model for textual specifications (Gemini).
+* **Proofreading & Documentation**: Structuring developer documentation, proofreading grammar, and drafting technical diagrams (Gemini & ChatGPT).
 * **Debugging Windows line-ending conflicts**: Restructuring connection wait loops and container compatibility settings on Windows host volume mounts (Claude).
 * **Data Preprocessing & Enrichment**: Automating data cleaning and formatting scripts for normalizing engine CC ranges in `cars_in.csv` (Claude & ChatGPT).
-* **Proofreading & Documentation**: Structuring developer documentation, proofreading grammar, and drafting technical diagrams (Gemini & ChatGPT).
 
 Aside from that, the recommendation engine rules, the dataset enrichment, the React components, and the Docker network structures were built by me.
+
+

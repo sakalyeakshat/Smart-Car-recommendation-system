@@ -1,8 +1,20 @@
+/**
+ * @file RecommendationForm.jsx
+ * @description The main user-input form component for the Smart Car Recommendation System.
+ * It renders a hero banner and a structured preference form where users can specify:
+ * - Budget (in ₹ Lakh)
+ * - Fuel type (Petrol, Diesel, CNG, Electric — multi-select checkboxes)
+ * - Transmission type (Manual, Automatic — multi-select checkboxes)
+ * - Body type (SUV, Sedan, Hatchback, MPV, Van — dropdown)
+ * - Seating capacity
+ * - Minimum mileage in kmpl (shown only for non-electric fuel types)
+ * - Minimum range in km (shown only when Electric is selected)
+ * - Minimum safety rating (0–5)
+ * Inline validation errors are displayed per field. On submission the form calls
+ * the `handleSubmit` callback received from the parent App component.
+ */
 import "../styles/RecommendationForm.css";
 
-/**
- * Component representing the preference selection form.
- */
 function RecommendationForm({
   preferences,
   handleChange,
@@ -12,7 +24,11 @@ function RecommendationForm({
   transmissionChoices,
   bodyTypeChoices,
   resetForm,
+  validationErrors = {},
 }) {
+  const isElectricSelected = preferences.fuel_type.includes("Electric");
+  const hasNonElectricSelected = preferences.fuel_type.some(opt => opt !== "Electric");
+
   return (
     <>
       <header className="hero">
@@ -34,7 +50,7 @@ function RecommendationForm({
 
           <h2>Vehicle Preferences</h2>
 
-          <div className="field-group">
+          <div className={validationErrors.budget ? "field-group has-error" : "field-group"}>
             <label>Budget (₹ Lakh)</label>
             <input
               type="number"
@@ -47,39 +63,54 @@ function RecommendationForm({
               onChange={handleChange}
               required
             />
+            {validationErrors.budget && (
+              <span className="field-error-message">{validationErrors.budget}</span>
+            )}
           </div>
 
-          <div className="field-group">
+          <div className={validationErrors.fuel_type ? "field-group checkbox-field-group has-error" : "field-group checkbox-field-group"}>
             <label>Fuel Type</label>
-            <select
-              name="fuel_type"
-              value={preferences.fuel_type}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Fuel Type</option>
+            <div className="checkbox-options-grid">
               {fuelTypeChoices.map((opt) => (
-                <option key={opt} value={opt}>{opt}</option>
+                <label key={opt} className="checkbox-option-label">
+                  <input
+                    type="checkbox"
+                    name="fuel_type"
+                    value={opt}
+                    checked={preferences.fuel_type.includes(opt)}
+                    onChange={handleChange}
+                  />
+                  <span>{opt}</span>
+                </label>
               ))}
-            </select>
+            </div>
+            {validationErrors.fuel_type && (
+              <span className="field-error-message">{validationErrors.fuel_type}</span>
+            )}
           </div>
 
-          <div className="field-group">
+          <div className={validationErrors.transmission ? "field-group checkbox-field-group has-error" : "field-group checkbox-field-group"}>
             <label>Transmission</label>
-            <select
-              name="transmission"
-              value={preferences.transmission}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Transmission</option>
+            <div className="checkbox-options-grid">
               {transmissionChoices.map((opt) => (
-                <option key={opt} value={opt}>{opt}</option>
+                <label key={opt} className="checkbox-option-label">
+                  <input
+                    type="checkbox"
+                    name="transmission"
+                    value={opt}
+                    checked={preferences.transmission.includes(opt)}
+                    onChange={handleChange}
+                  />
+                  <span>{opt}</span>
+                </label>
               ))}
-            </select>
+            </div>
+            {validationErrors.transmission && (
+              <span className="field-error-message">{validationErrors.transmission}</span>
+            )}
           </div>
 
-          <div className="field-group">
+          <div className={validationErrors.body_type ? "field-group has-error" : "field-group"}>
             <label>Body Type</label>
             <select
               name="body_type"
@@ -92,9 +123,12 @@ function RecommendationForm({
                 <option key={opt} value={opt}>{opt}</option>
               ))}
             </select>
+            {validationErrors.body_type && (
+              <span className="field-error-message">{validationErrors.body_type}</span>
+            )}
           </div>
 
-          <div className="field-group">
+          <div className={validationErrors.seating ? "field-group has-error" : "field-group"}>
             <label>Seating Capacity</label>
             <input
               type="number"
@@ -103,25 +137,54 @@ function RecommendationForm({
               max="9"
               value={preferences.seating}
               onChange={handleChange}
-            />
-          </div>
-
-          <div className="field-group">
-            <label>Minimum Mileage</label>
-            <input
-              type="number"
-              name="min_mileage"
-              placeholder="Ex. 15"
-              min="5"
-              max="30"
-              step="0.5"
-              value={preferences.min_mileage}
-              onChange={handleChange}
               required
             />
+            {validationErrors.seating && (
+              <span className="field-error-message">{validationErrors.seating}</span>
+            )}
           </div>
 
-          <div className="field-group">
+          {(!isElectricSelected || hasNonElectricSelected) && (
+            <div className={validationErrors.min_mileage ? "field-group has-error" : "field-group"}>
+              <label>Minimum Mileage (kmpl)</label>
+              <input
+                type="number"
+                name="min_mileage"
+                placeholder="Ex. 15"
+                min="5"
+                max="30"
+                step="0.5"
+                value={preferences.min_mileage}
+                onChange={handleChange}
+                required
+              />
+              {validationErrors.min_mileage && (
+                <span className="field-error-message">{validationErrors.min_mileage}</span>
+              )}
+            </div>
+          )}
+
+          {isElectricSelected && (
+            <div className={validationErrors.min_range ? "field-group has-error" : "field-group"}>
+              <label>Minimum Range (km)</label>
+              <input
+                type="number"
+                name="min_range"
+                placeholder="Ex. 300"
+                min="100"
+                max="800"
+                step="10"
+                value={preferences.min_range}
+                onChange={handleChange}
+                required
+              />
+              {validationErrors.min_range && (
+                <span className="field-error-message">{validationErrors.min_range}</span>
+              )}
+            </div>
+          )}
+
+          <div className={validationErrors.min_safety ? "field-group has-error" : "field-group"}>
             <label>Minimum Safety Rating</label>
             <input
               type="number"
@@ -130,7 +193,11 @@ function RecommendationForm({
               max="5"
               value={preferences.min_safety}
               onChange={handleChange}
+              required
             />
+            {validationErrors.min_safety && (
+              <span className="field-error-message">{validationErrors.min_safety}</span>
+            )}
           </div>
 
           <div className="button-group">
@@ -152,7 +219,6 @@ function RecommendationForm({
           </div>
 
         </form>
-
 
       </div>
     </>
